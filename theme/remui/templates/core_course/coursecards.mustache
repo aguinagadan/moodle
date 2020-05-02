@@ -1,0 +1,129 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template block_myoverview/view-cards
+
+    This template renders the cards view for the myoverview block.
+
+    Example context (json):
+    {
+        "courses": [
+            {
+                "name": "Assignment due 1",
+                "viewurl": "https://moodlesite/course/view.php?id=2",
+                "courseimage": "https://moodlesite/pluginfile/123/course/overviewfiles/123.jpg",
+                "fullname": "course 3",
+                "hasprogress": true,
+                "progress": 10
+            }
+        ]
+    }
+}}
+
+<div class="card-deck dashboard-card-deck {{$classes}}{{/classes}} slick-slider" data-region="card-deck" role="list">
+{{#courses}}
+    <div class="card dashboard-card m-0 my-2 position-relative" role="listitem"
+        data-region="course-content"
+        data-course-id="{{{id}}}">
+        <div class="card-body p-0 mx-2">
+            <figure class="overlay overlay-hover rounded">
+                <div class="card-img dashboard-card-img" style='background-image: url("{{{courseimage}}}");background-size: cover;background-position: center;height: 110px;'>
+                    <span class="sr-only">{{#str}}aria:courseimage, core_course{{/str}}</span>
+                </div>
+                <div id="course-info-container-{{id}}-{{uniqid}}" class="card-body overlay-figure overlay-scale text-white font-weight-bold wdm-course-card-body" style="background-color: {{ color }};">
+                    <div class="d-flex mb-1 flex-wrap  font-size-13" style="letter-spacing: 0.4px;">
+                        {{$coursecategory}}{{/coursecategory}}
+                    </div>
+                    <div class="d-flex align-items-start" >
+                        <a href = "{{ viewurl }}"  class="text-white text-truncate">
+                            <span class="sr-only">
+                                {{#str}}aria:courseshortname, core_course{{/str}}
+                            </span>
+                            {{#showshortname}}
+                            <div class="text-muted muted w-100 mb-1 text-truncate">
+                                {{{shortname}}}
+                            </div>
+                            {{/showshortname}}
+                            {{> core_course/favouriteicon }}
+                            <span class="sr-only">
+                                {{#str}}aria:coursename, core_course{{/str}}
+                            </span>
+                            <span class="coursename">{{$coursename}}{{/coursename}}</span>
+                        </a>
+                    </div>
+                    <div class="wdm-course-card-progress">
+                        {{$progress}}{{/progress}}
+                    </div>
+                </div>
+                <figcaption onclick="location.href='{{ viewurl }}';" class="overlay-panel overlay-background overlay-fade d-flex align-items-center justify-content-center w-100" style="cursor: pointer;">
+                    <a href = "{{ viewurl }}" class="btn text-white font-weight-600 font-size-18 vertical-align-middle">{{#str}} viewcourse, theme_remui {{/str}}</a>
+                </figcaption>
+            </figure>
+            <div class="wdm-course-card-actions position-absolute">
+                {{$menu}}{{/menu}}
+            </div>
+        </div>
+    </div>
+{{/courses}}
+</div>
+{{#js}}
+require(['jquery', 'theme_remui/slick'], function($) {
+
+    $( document ).ready(function() {
+        var colors = ['#f39f45', '#f95e5f', '#2fb0bf', '#2fb786', '#526069', '#46657d'];
+        $('.block_myoverview .wdm-course-card-body').each(function(index, element) {
+            index >= colors.length ? index = index % colors.length : index = index;
+            $(element).css('background-color', colors[index]);
+        });
+        $('.block_myoverview .dashboard-card-deck').css("overflow", "unset");
+        $('.block_myoverview .dashboard-card-deck').not('.slick-initialized').each(function(index, element) {
+            $(element).slick({
+                dots: false,
+                arrows: true,
+                infinite: false,
+                rtl: ($("html").attr("dir") == "rtl") ? true : false,
+                opacity: 0,
+                speed: 500,
+                slidesToShow: 4,
+                slidesToScroll: 4,
+                responsive: [{
+                    breakpoint: 1024,
+                    settings: {
+                        slidesToShow: 3,
+                        slidesToScroll: 3
+                    }
+                    }, {
+                    breakpoint: 800,
+                    settings: {
+                        slidesToShow: 2,
+                        slidesToScroll: 2
+                    }
+                    }, {
+                    breakpoint: 480,
+                    settings: {
+                        slidesToShow: 1,
+                        slidesToScroll: 1
+                    }
+                    }
+                ]
+            });
+            $(window).trigger('resize');
+            $('.block_myoverview .slick-slider').slick('setPosition');
+        });
+    });
+});
+{{/js}}

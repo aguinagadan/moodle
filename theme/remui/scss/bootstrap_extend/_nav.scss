@@ -1,0 +1,8 @@
+.nav-tabs {
+    .nav-link.active, .nav-item.show .nav-link {
+        background-color: transparent !important;
+    }
+}
+.navbar-brand{
+    transition: all 500ms ease;
+}

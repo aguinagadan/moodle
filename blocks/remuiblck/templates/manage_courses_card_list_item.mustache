@@ -1,0 +1,37 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+<div class="card dashboard-card m-0 mb-20 position-relative" role="listitem" data-region="course-content" data-course-id="4" style="width: 100%; display: inline-block;">
+    <div class="card-body p-0 mx-10">
+        <figure class="overlay overlay-hover rounded">
+            <div class="card-img dashboard-card-img" style="background-image: url('{{courseimage}}');background-size: cover;background-position: center;height: 110px;">
+            </div>
+            <div id="course-info-container-4-13" class="card-body overlay-figure overlay-scale text-white font-weight-bold wdm-course-card-body" style="background-color: rgb(242, 166, 84);">
+                <div class="d-flex align-items-start">
+                    <a href="{{courseviewlink}}{{id}}" class="text-white text-truncate" tabindex="0">
+                        {{fullname}}
+                    </a>
+                </div>
+            </div>
+            <figcaption onclick="location.href='{{courseviewlink}}{{id}}';" class="overlay-panel overlay-background overlay-fade text-center vertical-align" style="cursor: pointer;">
+                <a href="{{courseviewlink}}{{id}}" class="btn text-white font-weight-600 font-size-18 vertical-align-middle" tabindex="0">{{#str}} viewcourse, block_remuiblck {{/str}}</a>
+            </figcaption>
+        </figure>
+        <div class="wdm-course-card-actions position-absolute">
+            {{> block_remuiblck/manage_courses_list_actions }}
+        </div>
+    </div>
+</div>

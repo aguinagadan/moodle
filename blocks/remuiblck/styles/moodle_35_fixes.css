@@ -1,0 +1,40 @@
+/* Fix manage courses card name padding */
+.block.block_remuiblck #manage_courses .dashboard-card .card-body {
+    flex: 1 1 auto;
+    padding: 1.429rem;
+}
+
+/* Fix manage courses card action dots position */
+.block.block_remuiblck #manage_courses .wdm-course-card-actions {
+    right: 15px;
+}
+
+/* Fix manage courses list action dots position*/
+.block.block_remuiblck #manage_courses .course-listitem .row-fluid {
+    display: flex;
+}
+
+/* Fix manage courses list action dots position*/
+.block.block_remuiblck #manage_courses .wdm-course-summary .summaryimage {
+    height: 7rem;
+    width: 7rem;
+    background-position: center;
+    background-size: cover;
+}
+
+/* Fix pulse animation */
+.bg-pulse-grey {
+    animation: bg-pulse-grey 2s infinite linear;
+}
+
+@keyframes bg-pulse-grey {
+    0% {
+        background-color: rgba(118, 131, 143, 0.2);
+    }
+    50% {
+        background-color: rgba(118, 131, 143, 0.05);
+    }
+    100% {
+        background-color: rgba(118, 131, 143, 0.2);
+    }
+}

@@ -1,0 +1,54 @@
+<section data-instance="{{id}}" data-sectionname="{{sectionname}}" {{{sectionpropertiesoutput}}}>
+    <div class=" m-auto px-sm-0 {{sectioncontaineroutput}}">
+        {{> local_remuihomepage/editmenu}}
+         <div class="row text-center justify-content-center">
+           <div class="  pb-50 px-50 pt-0">
+                <div>
+                    {{#title}}{{> local_remuihomepage/common_title}}{{/title}}
+
+                    {{#description}}
+                       {{> local_remuihomepage/common_title}}
+                    {{/description}}
+                </div>
+            </div>
+        </div>
+        {{#row}}
+            <div class="row text-center justify-content-center m-auto hidden-md-down">
+                {{#feature}}
+                    {{#name.text}}
+                        <div class="col-lg-3 py-10 {{textalign}}">
+                            <div>
+                                {{#icon}}
+                                    <p>
+                                        <i class="{{text}} font-size-40" aria-hidden="true" style="color:{{color}};"></i>
+                                    </p>
+                                {{/icon}}
+                                {{#name}}<h5 style="color: {{color}};"><strong>{{{text}}}</strong></h5>{{/name}}
+                                {{#description}}<p class="font-size-12" style="color: {{color}};">{{{text}}}</p>{{/description}}
+                            </div>
+                        </div>
+                    {{/name.text}}
+                {{/feature}}
+            </div>
+        {{/row}}
+        <div class="row text-center justify-content-center m-auto hidden-lg-up">
+            {{#row}}
+                {{#feature}}
+                    {{#name.text}}
+                        <div class="col-md-6 col-sm-6 py-10 {{textalign}}">
+                            <div>
+                                {{#icon}}
+                                    <p>
+                                        <i class="{{text}} font-size-40" aria-hidden="true" style="color:{{color}};"></i>
+                                    </p>
+                                {{/icon}}
+                                {{#name}}<h5 style="color: {{color}};"><strong>{{{text}}}</strong></h5>{{/name}}
+                                {{#description}}<p class="font-size-12" style="color: {{color}};">{{{text}}}</p>{{/description}}
+                            </div>
+                        </div>
+                    {{/name.text}}
+                {{/feature}}
+            {{/row}}
+        </div>
+    </div>
+</section>

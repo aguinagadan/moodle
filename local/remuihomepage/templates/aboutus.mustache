@@ -1,0 +1,71 @@
+<section data-instance="{{id}}" data-sectionname="{{sectionname}}" {{{sectionpropertiesoutput}}}>
+
+    {{> local_remuihomepage/editmenu}}
+
+    <div class="row m-0 text-center m-auto px-sm-0 {{sectioncontaineroutput}}">
+        {{#hastitledescription}}
+        <div class="{{#view}}col-lg-5 test{{/view}} {{^view}}col-lg-12{{/view}} pb-50 px-50 pt-0" style="background-image: url({{imageurl}});background-repeat: no-repeat; background-position: center;">
+            <div>
+                {{#title}}{{> local_remuihomepage/common_title}}{{/title}}
+
+                {{#description}}
+                   {{> local_remuihomepage/common_title}}
+                {{/description}}
+
+                {{#btnlabel}}
+                    <a href="{{btnlink}}"><button type="button" class="btn btn-primary mw-100" style="text-overflow: ellipsis;overflow: hidden;">{{{btnlabel}}}</button></a>
+                {{/btnlabel}}
+
+            </div>
+        </div>
+        {{/hastitledescription}}
+        <div class="
+        {{#view}}
+            {{#hastitledescription}} col-lg-7 {{/hastitledescription}}
+            {{^hastitledescription}} col-md-9 {{/hastitledescription}}
+            m-auto test
+        {{/view}}
+        {{^view}}col-lg-12 mt-10{{/view}}
+        ">
+            <div class="row col-lg-12 m-0">
+                {{#block}}
+                <div class="{{#view}}col-lg-6{{/view}} {{^view}}col-lg-3{{/view}} col-md-6 my-15">
+                    <div class="h-p100" 
+                        style="
+                        {{#shadowless}}
+                            {{#border}}
+                                {{#color}}box-shadow: 0 2px 5px {{color}}!important;{{/color}}
+                            {{/border}}
+                        {{/shadowless}}
+                        border-radius: {{cardradius}}px;
+                        "
+                        >
+                        <div
+                            {{#blockbackground}}
+                                {{#imageurl}}style="background-image: url({{imageurl}}); background-repeat:no-repeat;background-size: cover; border-radius: {{cardradius}}px;" {{/imageurl}}
+                                {{^imageurl}}style="background-color:white; border-radius: {{cardradius}}px;" {{/imageurl}}
+                            {{/blockbackground}}
+                        class="h-p100 aboutus-backimg">
+                            {{#icon}}
+                            <div class="text-center icon-holder">
+                                <button type="button" class="btn btn-default {{#shadowless}} btn-floating {{/shadowless}} border round"
+                                style="
+                                {{#color}} background-color: {{color}}; border-color:{{color}} !important; {{/color}}
+                                ">
+                                <i class="{{icon}}" aria-hidden="true"></i>
+                            </button>
+                            </div>
+                            {{/icon}}
+                            <div class="card-body">
+                                {{#title}}<h5 class="card-title" style="color:{{color}};">{{{text}}}</h5>{{/title}}
+                                {{#description}}<p class="card-desc" style="color:{{color}};">{{{text}}}</p>{{/description}}
+                                {{#btnlabel}}<a class="card-link" href="{{btnlink}}">{{> local_remuihomepage/common_title}}</a>{{/btnlabel}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{/block}}
+            </div>
+        </div>
+    </div>
+</section>

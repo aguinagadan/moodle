@@ -1,0 +1,53 @@
+{{#customstyles}}
+    <style type="text/css">
+        {{{customstyles}}}
+    </style>
+{{/customstyles}}
+{{#userisediting}}
+{{#deleted}}
+<div class="section-delete-overlay">
+    <div class="section-delete-message">
+        <h3 class="text-white">
+            {{#str}} sectiondelete, local_remuihomepage {{/str}}
+        </h3>
+        <button type="button" class="btn btn-warning confirm-delete-section mx-10" data-instance="{{id}}" >
+            {{#str}} confirm {{/str}}
+        </button>
+        <button type="button" class="btn btn-primary cancel-delete-section mx-10" data-instance="{{id}}" >
+            {{#str}} undo, local_remuihomepage {{/str}}
+            <span class="section-deletion-timer">30</span> sec
+        </button>
+    </div>
+</div>
+{{/deleted}}
+{{^deleted}}
+<div class="btn-group edit-menu bg-white" aria-label="Basic example" role="group">
+    <button type="button" class="btn btn-icon btn-default p-15 edit-section rounded-0 btn-outline border-0" data-instance="{{id}}" data-sectionname="{{sectionname}}" title="{{#str}}edit,local_remuihomepage{{/str}}">
+        <i class="icon fa fa-wrench" aria-hidden="true"></i>
+    </button>
+    <button type="button" class="btn btn-icon btn-default p-15 moveup-section rounded-0 btn-outline border-0" data-instance="{{id}}" data-sectionname="{{sectionname}}" title="{{#str}}moveup, local_remuihomepage{{/str}}">
+        <i class="icon fa fa-chevron-up" aria-hidden="true"></i>
+    </button>
+    <button type="button" class="btn btn-icon btn-default p-15 movedown-section rounded-0 btn-outline border-0" data-instance="{{id}}" data-sectionname="{{sectionname}}" title="{{#str}}movedown, local_remuihomepage{{/str}}">
+        <i class="icon fa fa-chevron-down" aria-hidden="true"></i>
+    </button>
+    <button type="button" class="btn btn-icon btn-default p-15 section-visibility rounded-0 btn-outline border-0" data-instance="{{id}}" data-sectionname="{{sectionname}}" data-visible="{{visible}}" title="{{#visible}}{{#str}}hide, local_remuihomepage{{/str}}{{/visible}} {{^visible}}{{#str}}show, local_remuihomepage{{/str}}{{/visible}}">
+        <i class="icon fa fa-eye{{^visible}}-slash{{/visible}}" aria-hidden="true"></i>
+    </button>
+    <button type="button" class="btn btn-icon btn-default p-15 delete-section rounded-0 btn-outline border-0" data-instance="{{id}}" data-sectionname="{{sectionname}}" title="{{#str}}delete, local_remuihomepage{{/str}}">
+        <i class="icon fa fa-trash" aria-hidden="true"></i>
+    </button>
+</div>
+{{/deleted}}
+<div class="section-loader-wrapper d-none" data-instance="{{id}}">
+    <div class="section-loader">
+        {{#loader}}
+            <img class="icon" src="{{loader}}"/>
+        {{/loader}}
+        {{^loader}}
+            {{#pix}} owl_loader, local_remuihomepage {{/pix}}
+        {{/loader}}
+    </div>
+</div>
+{{/userisediting}}
+

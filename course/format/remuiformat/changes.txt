@@ -1,0 +1,48 @@
+Version 1.0.5
+Fixes
+* Fixed : Getting an “Invalid course module ID” error when viewing the main course page in card format.
+* Fixed : JS issues when javascript caching is off in Moodle.
+* Fixed : mdb->get_record() found more than one record! at single section page in card format.
+* Fixed : Add hover effect on section title only if section is available in Card format.
+
+Features
+* Add the Section Completion indicator in List format.
+* Added Extra code for User Usage Tracking and its Analytics
+
+Version 1.0.4
+Fixes
+* Fixed issue when course layout resets on course restore.
+* Fixed multi-language support for section/topic summary in card format.
+* Fixed language support issue in activity count showed in the general section in card format. 
+* General section image changes when changed in the other duplicated course in List format.
+
+Tweaks
+* Added fixed SVG pattern to topic card if image is not added in topic summary.
+* Hide label 'Activities' if no activity exists in general section of card format.
+
+Version 1.0.3
+Fixes
+* Fixed Drag&Drop Upload Problem in List format.
+
+Features
+* Add a background image to the section in Card format.
+* Move activity to the specific section in Card format.
+* Course progress and the total number of different activity count details in the course added in Card format general section.
+* Showed limited activity depending on screen size in the general section in  Card format.
+* Resume to the last viewed activity functionality in the Card format general section.
+* Add new section after specific section in list format.
+
+Version 1.0.2
+Fixes
+* Switch list to card does not correctly update course layout field.
+
+Features
+* Save the sections collapsed/uncollapsed state in List format in local storage.
+* Show activity as a row or column in card format.
+* Add new section after specific section in card format.
+
+Version 1.0.1
+* Initial version released.
+
+Version 0.0.9
+* Beta version released.

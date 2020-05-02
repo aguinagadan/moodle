@@ -1,0 +1,107 @@
+<section data-instance="{{id}}" data-sectionname="{{sectionname}}" {{{sectionpropertiesoutput}}}>
+    {{> local_remuihomepage/editmenu}}
+    <div class="m-auto px-sm-0 text-center {{sectioncontaineroutput}} ">
+        <div>
+            <div class=" pb-0 px-50 pt-0">
+                <div>
+                    {{#title}}{{> local_remuihomepage/common_title}}{{/title}}
+                    
+                    {{#email.text}}
+                        {{#email}}
+                        <a href="mailto:{{email.text}}">
+                            <i class="fa fa-envelope"></i>
+                            {{> local_remuihomepage/common_title}}
+                        </a>
+                        {{/email}}
+                    {{/email.text}}
+
+                    {{#phone.text}}
+                        {{#phone}}
+                        <a href="tel:{{phone.text}}">
+                            <i class="fa fa-phone"></i>
+                            {{> local_remuihomepage/common_title}}
+                        </a>
+                        {{/phone}}
+                    {{/phone.text}}
+
+                    {{#description}}
+                       {{> local_remuihomepage/common_title}}
+                    {{/description}}
+                </div>
+            </div>
+            <div class="social-icons">
+                {{#quora}}
+                <a href="{{quora}}" style="text-decoration: none!important; ">
+                    <button type="button" class="btn btn-floating {{^shadowless}} shadow-none {{/shadowless}} btn-sm mx-5 mb-10 {{socialview}}" style="background-color: #a5250f;border-color: #a5250f;
+                        {{#shadowless}}box-shadow: 0px 2px 5px {{sectionproperties.shadowcolor}};{{/shadowless}}">
+                        <i class="fa fa-quora" aria-hidden="true"></i>
+                    </button>
+                </a>
+                {{/quora}}
+
+                {{#google}}
+                <a href="{{google}}" style="text-decoration: none!important; ">
+                    <button type="button" class="btn btn-floating {{^shadowless}} shadow-none {{/shadowless}} btn-sm mx-5 mb-10 {{socialview}}" style="background-color: #dd4b39;border-color: #dd4b39;
+                        {{#shadowless}}box-shadow: 0px 2px 5px {{sectionproperties.shadowcolor}};{{/shadowless}}">
+                        <i class="fa fa-google" aria-hidden="true"></i>
+                    </button>
+                </a>
+                {{/google}}
+
+                {{#twitter}}
+                <a href="{{twitter}}" style="text-decoration: none!important; ">
+                    <button type="button" class="btn btn-floating {{^shadowless}} shadow-none {{/shadowless}} btn-sm mx-5 mb-10 {{socialview}}" style="background-color: #21a1f3;border-color: #21a1f3;
+                        {{#shadowless}}box-shadow: 0px 2px 5px {{sectionproperties.shadowcolor}};{{/shadowless}}">
+                        <i class="fa fa-twitter" aria-hidden="true"></i>
+                    </button>
+                </a>
+                {{/twitter}}
+
+                {{#youtube}}
+                <a href="{{youtube}}" style="text-decoration: none!important; ">
+                    <button type="button" class="btn btn-floating {{^shadowless}} shadow-none {{/shadowless}} btn-sm mx-5 mb-10 {{socialview}}" style="background-color: #bb0000;border-color: #bb0000;
+                        {{#shadowless}}box-shadow: 0px 2px 5px {{sectionproperties.shadowcolor}};{{/shadowless}}">
+                        <i class="fa fa-youtube" aria-hidden="true"></i>
+                    </button>
+                </a>
+                {{/youtube}}
+
+                {{#facebook}}
+                <a href="{{facebook}}" style="text-decoration: none!important; ">
+                    <button type="button" class="btn btn-floating {{^shadowless}} shadow-none {{/shadowless}} btn-sm mx-5 mb-10 {{socialview}}" style="background-color: #4866aa;border-color: #4866aa;
+                        {{#shadowless}}box-shadow: 0px 2px 5px {{sectionproperties.shadowcolor}};{{/shadowless}}">
+                        <i class="fa fa-facebook" aria-hidden="true"></i>
+                    </button>
+                </a>
+                {{/facebook}}
+
+                {{#linkedin}}
+                <a href="{{linkedin}}" style="text-decoration: none!important; ">
+                    <button type="button" class="btn btn-floating {{^shadowless}} shadow-none {{/shadowless}} btn-sm mx-5 mb-10 {{socialview}}" style="background-color: #007bb5;border-color: #007bb5;
+                        {{#shadowless}}box-shadow: 0px 2px 5px {{sectionproperties.shadowcolor}};{{/shadowless}}">
+                        <i class="fa fa-linkedin" aria-hidden="true"></i>
+                    </button>
+                </a>
+                {{/linkedin}}
+
+                {{#pinterest}}
+                <a href="{{pinterest}}" style="text-decoration: none!important; ">
+                    <button type="button" class="btn btn-floating {{^shadowless}} shadow-none {{/shadowless}} btn-sm mx-5 mb-10 {{socialview}}" style="background-color: #cb2027;border-color: #cb2027;
+                        {{#shadowless}}box-shadow: 0px 2px 5px {{sectionproperties.shadowcolor}};{{/shadowless}}">
+                        <i class="fa fa-pinterest" aria-hidden="true"></i>
+                    </button>
+                </a>
+                {{/pinterest}}
+
+                {{#instagram}}
+                <a href="{{instagram}}" style="text-decoration: none!important; ">
+                    <button type="button" class="btn btn-floating {{^shadowless}} shadow-none {{/shadowless}} btn-sm mx-5 mb-10 {{socialview}}" style="background-color: #b32e86;border-color: #b32e86;
+                        {{#shadowless}}box-shadow: 0px 2px 5px {{sectionproperties.shadowcolor}};{{/shadowless}}">
+                        <i class="fa fa-instagram" aria-hidden="true"></i>
+                    </button>
+                </a>
+                {{/instagram}}
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,431 @@
+section.connectedSortable.blankheight
+{
+    height:190px;
+}
+section.connectedSortable.blankheight div.panel.hidden{
+    display: block;
+    background: #e0e0e0;
+    border: 2px dashed #c9c7c7;
+    margin-bottom: 10px;
+}
+/* Course Progress Block */
+div.dataTables_scrollHeadInner, div.dataTables_scrollHeadInner table.dataTable, div.dataTables_scrollBody table.dataTable{
+  width: 100% !important;
+}
+
+table.dataTable thead td, table.dataTable thead th, table.dataTable tfoot td, table.dataTable tfoot th{
+  border: none !important;
+}
+
+// #DataTables_Teacher_filter {
+//     position: absolute;
+//     top: -50px;
+//     right: 15px;
+// }
+
+#DataTables_Teacher tbody tr:nth-child(2n) {
+  background-color: #f3f7f9;
+}
+
+.dataTables_scrollFoot{
+  margin-top: 15px;
+}
+.dataTables_scrollHead{
+  margin-bottom: 15px;
+}
+.dataTables_wrapper.no-footer .dataTables_scrollBody{
+  border-bottom: none !important;
+}
+
+.dataTables_scroll{
+  margin-bottom: 40px;
+}
+
+div#courses-view-in-progress, div#courses-view-past, div#courses-view-future{
+  padding-bottom: 30px;
+}
+
+/*Text field on Dashboard styling*/
+@media only screen and (max-device-width: 375px) {
+  // #DataTables_Teacher_filter{
+  //   position:initial !important;
+  //   width:100% !important;
+  // }
+  // #DataTables_Teacher_filter label, #DataTables_Teacher_filter label input{
+  //   width:100% !important;
+  // }
+  .dataTables_wrapper .dataTables_filter input{
+    margin-left:0px !important;
+  }
+}
+
+.teacherdash{
+  h3{
+    font-family: Roboto,sans-serif;
+    font-size: 18px;
+  }
+}
+/* End Course Progress Block */
+
+/*Media Query to handle the teacher block on dashboard*/
+@media only screen and (min-width: 990px) and (max-width: 1180px){
+  body.site-menubar-unfold.pinaside{
+    div.student_progress_ele{
+      div.teacherdash, div.dashmenu{
+        width:100%!important;
+      }
+    }
+  }
+}
+
+body.site-menubar-unfold{
+  div.student_progress_ele{
+    @media only screen and (min-width: 750px) and (max-width: 990px){
+      div.teacherdash, div.dashmenu{
+        width:100%!important;
+      }
+    }
+    div.dashmenu{
+      a{
+        cursor:pointer;
+      }
+    }
+  }
+}
+
+
+
+#sortable1, #sortable2, #sortable3 {
+  /*border: 1px solid #eee;*/
+  /*min-height: 20px;*/
+  list-style-type: none;
+  margin: 0;
+  /*padding: 5px 0 0 0;*/
+}
+
+
+.sort-highlight {
+  background: #e0e0e0;
+  border: 2px dashed #c9c7c7;
+  margin-bottom: 10px;
+}
+.card.block_remuiblck{
+  margin-bottom: 0px;
+  background-color: rgba(0, 0, 0, 0);
+}
+
+@media only screen and (max-width: 600px) {
+   #new-course-stats{
+      margin-bottom: 60px;
+   }
+}
+
+/* Latest Members */
+#latest_members .users-list {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+#latest_members .users-list li {
+  float: left;
+  width: 25%;
+  padding: 10px;
+  text-align: center;
+}
+#latest_members .users-list li img {
+  max-width: 100%;
+  width: 75px;
+  height: auto;
+  border-radius: 50%;
+}
+#latest_members .users-list li .users-list-name {
+  overflow: hidden;
+  font-weight: 400;
+  color: #444;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: block;
+  text-decoration-line: none;
+}
+#latest_members .users-list li .users-list-date {
+  font-size: 12px;
+  color: #999;
+  display: block;
+}
+#latest_members .users-list .list-inline-item:not(:last-child) {
+  margin-right: inherit;
+}
+/* End Latest Members */
+
+/* Recent Forum */
+#recent_active_forum table.generaltable tbody td {
+  padding: 0 !important;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button{
+  padding: 0;
+  margin-left: 0px;
+}
+
+.sorting, .sorting_asc, .sorting_desc {
+  &::before, &::after{
+    bottom: unset !important;
+  }
+}
+.wdm-export-buttons {
+  position: relative;
+  float: left;
+}
+#userstats-table {
+  font-size: 12px;
+  font-weight: 500;
+  thead {
+    th.header {
+      height: 40px !important;
+    }
+  }
+  tbody {
+    td {
+      height: 45px !important;
+      label {
+        border: 1px solid;
+        border-radius: 5px;
+      }
+      .dropping-student-message {
+        cursor: pointer;
+      }
+    }
+  }
+}
+.block.block_remuiblck {
+  > .card-body {
+    padding: 0 !important;
+  }
+  /* Manage courses css begins */
+  section.connectedSortable > .panel > .panel-heading {
+    border-bottom: none;
+  }
+  .toaster {
+    position: fixed;
+    z-index: 1700;
+    pointer-events: none;
+    * {
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+    }
+    &.toast-top-right {
+      top: 12px;
+      right: 12px;
+    }
+    &.toast-top-center {
+      top: 80px;
+      right: 0;
+      width: 100%;
+      &>div {
+        margin-right: auto;
+        margin-left: auto;
+      }
+    }
+    &>div {
+      position: relative;
+      width: 300px;
+      padding: 15px 20px;
+      margin: 0 0 6px;
+      overflow: hidden;
+      color: white;
+      pointer-events: auto;
+      background-repeat: no-repeat;
+      background-position: 15px center;
+      border: 1px solid rgba(0,0,0,.1);
+      border-radius: .215rem;
+    }
+    .toast {
+      background-color: #e4eaee;
+      opacity: 0;
+      transition: opacity 200ms linear;
+      &.toast-error {
+        background-color: #ff666b;
+      }
+      &.show {
+        opacity: 0.95;
+      }
+    }
+    &>.toast-shadow {
+      -webkit-box-shadow: 0 1px 3px rgba(0,0,0,.23);
+      box-shadow: 0 1px 3px rgba(0,0,0,.23);
+      &:hover {
+        -webkit-box-shadow: 0 1px 6px rgba(0,0,0,.23);
+        box-shadow: 0 1px 6px rgba(0,0,0,.23);
+      }
+    }
+    &>:hover {
+      cursor: pointer;
+      opacity: 1;
+    }
+  }
+  #manage_courses {
+    [data-type="list"], [data-type="summary"] {
+      max-height: 400px;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+    .course-image {
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      height: 3rem;
+      border-radius: 5px;
+    }
+    .wdm-course-card-actions {
+      top: 7px;
+      .coursemenubtn {
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        background-color: rgba(0, 0, 0, 0.53) !important;
+        .icon {
+          color: white !important;
+        }
+      }
+    }
+    .wdm-course-summary {
+      position: relative;
+      .startdate, .summary {
+        color: #888888;
+      }
+    }
+    .list-group-item .icon {
+      margin-right: 0px;
+    }
+  }
+  .add-item-toggle {
+    cursor: pointer;
+  }
+  /* Manage courses css ends */
+  /* Schedule task css begins */
+  #scheduletask {
+    .no-tasks img {
+      width: 150px;
+      display: block;
+      margin: 0 auto;
+    }
+    #tasks {
+      min-height: 200px;
+      overflow-x: hidden;
+      overflow-y: auto;
+      .filters {
+        .input-search {
+          width: 100%;
+          position: relative;
+        }
+        .input-search-icon {
+          z-index: 1;
+          width: 20px;
+          left: 0;
+          position: absolute;
+          line-height: 2.3rem;
+          padding: 0 0.75rem;
+        }
+        [data-region="task-search-filter"] {
+          z-index: 2;
+          padding-left: 2.073rem;
+          top: 0;
+          transition: width 300ms ease, opacity 300ms ease;
+          cursor: pointer;
+          background-color: transparent;
+        }
+        @media screen and (min-width: 481px) {
+          [data-region="task-search-filter"] {
+            width: 0;
+            opacity: 0;
+            position: absolute;
+            &:focus {
+              cursor: text;
+              opacity: 1;
+              width: 100%;
+            }
+          }
+        }
+        @media screen and (max-width: 480px) {
+          [data-region="task-search-filter"] {
+            width: 100%;
+          }
+          .filter-options {
+            margin-bottom: 8px;
+          }
+        }
+      }
+      .list-group {
+        height: 300px;
+        overflow-y: auto;
+        .list-group-item {
+          [data-action="edit"] {
+            position: absolute;
+            right: 0;
+          }
+          .checkbox-custom {
+            input:checked + .item-title .panel-heading {
+              text-decoration: line-through;
+            }
+          }
+          .item-due-date span {
+            margin-left: 38px;
+          }
+          .item-members span {
+            cursor: inherit;
+          }
+        }
+      }
+    }
+    .panel-actions {
+      right: 20px;
+      @media screen and (max-width: 480px) {
+        position: absolute !important;
+        padding: 10px 0 0 0;
+      }
+    }
+  }
+  .block-processing {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.8);
+    z-index: 5;
+    text-align: center;
+    display: none;
+    &.show {
+      display: block;
+    }
+    .block-processing-icon {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      i {
+        font-size: 2rem;
+      }
+    }
+  }
+  /* Schedule task css ends */
+}
+// Hide panel action on mobile and align block action to top
+@media screen and (max-width: 480px) {
+  body.editing .block.block_remuiblck {
+    .panel-actions {
+      top: 0;
+      .panel-action {
+        display: none;
+      }
+    }
+  }
+}
+
+
+@media screen and (max-width: 767px) {
+  div.dataTables_wrapper div.dataTables_filter, div.dataTables_wrapper div.dataTables_info, div.dataTables_wrapper div.dataTables_length, div.dataTables_wrapper div.dataTables_paginate {
+      text-align: center !important;
+  }
+}

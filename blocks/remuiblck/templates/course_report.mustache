@@ -1,0 +1,68 @@
+<div class="nav-tabs-horizontal" data-plugin="tabs">
+    <ul class="nav nav-tabs nav-tabs-line" role="tablist">
+        <li class="nav-item" role="presentation">
+            <a class="nav-link active" data-toggle="tab" href="#coursestats" aria-controls="coursestats" role="tab" aria-selected="true">
+                {{#str}} coursestats, block_remuiblck {{/str}}
+            </a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" data-toggle="tab" id="wdm-userstats" href="#userstats" data-course-id="{{courseid}}" aria-controls="userstats" role="tab" aria-selected="false">
+                {{#str}} userstats, block_remuiblck {{/str}}
+            </a>
+        </li>
+    </ul>
+    <div class="tab-content pt-20">
+        <div class="tab-pane active" id="coursestats" role="tabpanel">
+            {{#enrolledstats}}
+                {{^nocompletion}}
+                <div class="row text-center my-25 coursestats-chart-container">
+                    <div class="col-9">
+                        <canvas id="coursestats-chart" data-enrolledusers="{{enrolledusers}}" data-studentcompleted="{{studentcompleted}}" data-inprogress="{{inprogress}}" data-yettostart="{{yettostart}}"></canvas>
+                    </div>
+                    <div class="col-3 coursestats-legends">
+                        <div class="row mb-1">
+                                <span class="coursestats-legend px-10 mr-2" style="background-color: {{enrolleduserscolor}}"></span>{{#str}}enrolledusers, block_remuiblck{{/str}}: {{enrolledusers}}
+                        </div>
+                        <div class="row mb-1">
+                                <span class="coursestats-legend px-10 mr-2" style="background-color: {{studentcompletedcolor}}"></span>{{#str}}studentcompleted, block_remuiblck{{/str}}: {{studentcompleted}}
+                        </div>
+                        <div class="row mb-1">
+                                <span class="coursestats-legend px-10 mr-2" style="background-color: {{inprogresscolor}}"></span>{{#str}}inprogress, block_remuiblck{{/str}}: {{inprogress}}
+                        </div>
+                        <div class="row mb-1">
+                                <span class="coursestats-legend px-10 mr-2" style="background-color: {{yettostartcolor}}"></span>{{#str}}yettostart, block_remuiblck{{/str}}: {{yettostart}}
+                        </div>
+                    </div>
+                </div>
+                {{/nocompletion}}
+                {{#nocompletion}}
+                <div class='d-block text-center h-100 m-auto'>
+                    <i class="d-block display-4 fa fa-users" aria-hidder="true"></i>
+                    {{#str}} nocoursecompletion, block_remuiblck {{/str}}
+                </div>
+                {{/nocompletion}}
+            {{/enrolledstats}}
+            {{^enrolledstats}}
+            <div class='d-block text-center h-100 m-auto'>
+                <i class="d-block display-4 fa fa-users" aria-hidder="true"></i>
+                {{#str}} nostudentsenrolled, block_remuiblck {{/str}}
+            </div>
+            {{/enrolledstats}}
+        </div>
+        <div class="tab-pane" id="userstats" role="tabpanel">
+            <div class="userstats-table-container">
+                <table class="flexible generaltable generalbox" data-course-id="{{courseid}}" id="userstats-table">
+                    <thead>
+                        <tr>
+                            <th class="header">{{#str}} name {{/str}}</th>
+                            <th class="header">{{#str}} email {{/str}}</th>
+                            <th class="header">{{#str}} enrolmentdate, block_remuiblck {{/str}}</th>
+                            <th class="header">{{#str}} lastaccess {{/str}}</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

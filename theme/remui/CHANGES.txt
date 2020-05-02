@@ -1,0 +1,39 @@
+Change Log:
+===========
+
+
+Version 3.8.2
+
+Fix - Dropdown and Popover Position in right to left mode (RTL)
+Fix - Frontpage available courses were rendering wrong in RemUI Homepage
+Fix - core_message_render_navbar_output function removed - exception
+Fix - Google Analytics Code Updated
+Fix - Tags comes as link On Edwiser RemUI's profile page
+Fix - Courses Stats on course page were showing wrong result
+
+Version 3.8.1
+
+Fix - Secure Layout was not styled properly in 3.7.6.
+Fix - Users should not see other users Profile if they do not have capability
+Fix - Homepage Padding issue, and Users were not able to delete the section
+Fix - Manage Courses Icons on Course card clicking issue
+Fix - Login Page background image not visible on safari browser.
+Fix - Padding issue in collapsible course format.
+Fix - Fav Nav Icon color for course star fixed.
+Tweak - Optimized Templates HTML and SCSS code
+Tweak - Multilang Support for Footer Content
+Tweak - Sidebar footer links, static username modified to dynamic admin username($CFG->admin).
+Tweak - Only Admin can see the Licensing Page
+Tweak - Styling improvement in Checkboxes, Radio buttons in Close type Question
+Tweak - Improved styling of list and summary view in course overview block, with additional Category selection
+Tweak - Optimized slick slider code
+Tweak - Collapsible responsive menu in site nav header bar
+Feature - Added Extra code for User Usage Tracking and its Analytics
+
+Version 3.8.0
+
+Edwiser RemUI now compatible with Moodle version 3.8
+Initial Release of Edwiser RemUI 3.8
+
+Tweak - Bootstrap updated to 4.3.1
+Tweak - Google Fonts link Added in Language files.

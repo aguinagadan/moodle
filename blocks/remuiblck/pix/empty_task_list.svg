@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="157 -1509 148 125" preserveAspectRatio="xMinYMid meet">
+    <defs>
+        <style>
+            .cls-1 {    clip-path: url(#clip-Activities);}.cls-2 {fill: #eee;}.cls-3 {fill: #c4c8cc;}.cls-4 {fill: #fff;}
+        </style>
+        <clipPath id="clip-Activities">
+            <rect x="157" y="-1509" width="148" height="125"></rect>
+        </clipPath>
+    </defs>
+    <g id="Activities" class="cls-1">
+        <g id="Group_42" data-name="Group 42" transform="translate(-268 -1985)">
+            <ellipse id="Ellipse_37" data-name="Ellipse 37" class="cls-2" cx="74" cy="14.785" rx="74" ry="14.785" transform="translate(425 571.43)"></ellipse>
+            <rect id="Rectangle_80" data-name="Rectangle 80" class="cls-3" width="94.182" height="112" transform="translate(451.909 476)"></rect>
+            <g id="Group_1" data-name="Group 1" transform="translate(457.043 485)">
+                <rect id="Rectangle_81" data-name="Rectangle 81" class="cls-4" width="5.625" height="5.625" transform="translate(0 0)"></rect>
+                <rect id="Rectangle_81" data-name="Rectangle 81" class="cls-4" width="44.456" height="5.625" transform="translate(10 0)"></rect>
+                <rect id="Rectangle_82" data-name="Rectangle 82" class="cls-4" width="33.342" height="5.625" transform="translate(10 10)"></rect>
+                <ellipse id="Ellipse_38" data-name="Ellipse 38" class="cls-4" cx="80" cy="10" rx="4" ry="4" transform="translate(0 2)"></ellipse>
+                <ellipse id="Ellipse_38" data-name="Ellipse 38" class="cls-4" cx="70" cy="10" rx="4" ry="4" transform="translate(0 2)"></ellipse>
+                <ellipse id="Ellipse_38" data-name="Ellipse 38" class="cls-4" cx="60" cy="10" rx="4" ry="4" transform="translate(0 2)"></ellipse>
+            </g>
+            <g id="Group_1" data-name="Group 2" transform="translate(457.043 510)">
+                <rect id="Rectangle_81" data-name="Rectangle 81" class="cls-4" width="5.625" height="5.625" transform="translate(0 0)"></rect>
+                <rect id="Rectangle_81" data-name="Rectangle 81" class="cls-4" width="44.456" height="5.625" transform="translate(10 0)"></rect>
+                <rect id="Rectangle_82" data-name="Rectangle 82" class="cls-4" width="33.342" height="5.625" transform="translate(10 10)"></rect>
+                <ellipse id="Ellipse_38" data-name="Ellipse 38" class="cls-4" cx="80" cy="10" rx="4" ry="4" transform="translate(0 2)"></ellipse>
+                <ellipse id="Ellipse_38" data-name="Ellipse 38" class="cls-4" cx="70" cy="10" rx="4" ry="4" transform="translate(0 2)"></ellipse>
+                <ellipse id="Ellipse_38" data-name="Ellipse 38" class="cls-4" cx="60" cy="10" rx="4" ry="4" transform="translate(0 2)"></ellipse>
+            </g>
+            <g id="Group_1" data-name="Group 3" transform="translate(457.043 535)">
+                <rect id="Rectangle_81" data-name="Rectangle 81" class="cls-4" width="5.625" height="5.625" transform="translate(0 0)"></rect>
+                <rect id="Rectangle_81" data-name="Rectangle 81" class="cls-4" width="44.456" height="5.625" transform="translate(10 0)"></rect>
+                <rect id="Rectangle_82" data-name="Rectangle 82" class="cls-4" width="33.342" height="5.625" transform="translate(10 10)"></rect>
+                <ellipse id="Ellipse_38" data-name="Ellipse 38" class="cls-4" cx="80" cy="10" rx="4" ry="4" transform="translate(0 2)"></ellipse>
+                <ellipse id="Ellipse_38" data-name="Ellipse 38" class="cls-4" cx="70" cy="10" rx="4" ry="4" transform="translate(0 2)"></ellipse>
+                <ellipse id="Ellipse_38" data-name="Ellipse 38" class="cls-4" cx="60" cy="10" rx="4" ry="4" transform="translate(0 2)"></ellipse>
+            </g>
+            <g id="Group_1" data-name="Group 3" transform="translate(457.043 560)">
+                <rect id="Rectangle_81" data-name="Rectangle 81" class="cls-4" width="5.625" height="5.625" transform="translate(0 0)"></rect>
+                <rect id="Rectangle_81" data-name="Rectangle 81" class="cls-4" width="44.456" height="5.625" transform="translate(10 0)"></rect>
+                <rect id="Rectangle_82" data-name="Rectangle 82" class="cls-4" width="33.342" height="5.625" transform="translate(10 10)"></rect>
+                <ellipse id="Ellipse_38" data-name="Ellipse 38" class="cls-4" cx="80" cy="10" rx="4" ry="4" transform="translate(0 2)"></ellipse>
+                <ellipse id="Ellipse_38" data-name="Ellipse 38" class="cls-4" cx="70" cy="10" rx="4" ry="4" transform="translate(0 2)"></ellipse>
+                <ellipse id="Ellipse_38" data-name="Ellipse 38" class="cls-4" cx="60" cy="10" rx="4" ry="4" transform="translate(0 2)"></ellipse>
+            </g>
+        </g>
+    </g>
+</svg>

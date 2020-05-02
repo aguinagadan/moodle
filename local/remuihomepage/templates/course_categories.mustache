@@ -1,0 +1,16 @@
+{{#categorylist}}
+<div class="category-item card card-background bg-primary {{#active}} active {{/active}}" data-id="{{categoryid}}"
+    {{#shadowless}}style="box-shadow: -1px 4px 6px -1px  {{sectionproperties.shadowcolor}};"{{/shadowless}}>
+    {{#ishidden}}
+    <div class="ribbon category-hidden" title="{{#str}}hiddencategory, local_remuihomepage{{/str}}">
+        <span class="ribbon-inner"><i class="fa fa-eye-slash" aria-hidden="true"></i></span>
+    </div>
+    {{/ishidden}}
+    <p class="card__owner ellipsis ellipsis-3" style="-webkit-box-orient: vertical;visibility: visible;" title="{{categoryname}}">{{categoryname}}</p>
+    <div class="card__info">
+    {{#parentname}}<p class="font-size-12 text-white">{{parentname}}</p>{{/parentname}}
+    {{#idnumber}}<p class="card__integral">{{#str}} idnumber, moodle {{/str}}  {{idnumber}}</p>{{/idnumber}}
+    <p class="font-size-12 text-white">{{#str}} courses, moodle {{/str}} {{coursecount}}</p>
+    </div>
+</div>
+{{/categorylist}}

@@ -1,0 +1,81 @@
+<style>
+.sections-loader-wrapper {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: white;
+    opacity: 0;
+    transition: opacity 300ms linear;
+    z-index: 1701;
+}
+.sections-loader-wrapper.show {
+    opacity: 1;
+}
+.section-loader-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: rgba(255,255,255,0.7);
+    z-index: 3;
+}
+.sections-loader-wrapper .sections-loader, .section-loader-wrapper .section-loader {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+.sections-loader-wrapper .sections-loader img, .section-loader-wrapper .section-loader img {
+    height: auto;
+    width:  140px;
+    max-width: 140px;
+}
+{{#transparentheader}}
+body#page-site-index.latest-frontpage.site-menubar-fold.animate-header .site-navbar .navbar-brand-logo i,
+body#page-site-index.latest-frontpage.site-menubar-fold.animate-header .site-navbar .nav-link,
+body#page-site-index.latest-frontpage.animate-header:not(.drawer-open-left) .fixed-top.navbar .navbar-brand-logo i,
+body#page-site-index.latest-frontpage.animate-header:not(.drawer-open-left) .fixed-top.navbar .nav-link,
+body#page-site-index.latest-frontpage.animate-header:not(.drawer-open-left) .fixed-top.navbar .icon {
+    color: {{headercolor}} !important;
+}
+body#page-site-index.latest-frontpage.site-menubar-fold.animate-header .site-navbar .navbar-container .hamburger .hamburger-bar,
+body#page-site-index.latest-frontpage.site-menubar-fold.animate-header .site-navbar .navbar-container .hamburger:after,
+body#page-site-index.latest-frontpage.site-menubar-fold.animate-header .site-navbar .navbar-container .hamburger:before {
+    background: {{headercolor}};
+}
+{{/transparentheader}}
+</style>
+<div class="sections-loader-wrapper show">
+    <div class="sections-loader">
+    {{#loader}}
+        <img class="icon" src="{{loader}}"/>
+    {{/loader}}
+    {{^loader}}
+        {{#pix}} owl_loader, local_remuihomepage {{/pix}}
+    {{/loader}}
+    </div>
+</div>
+{{{ output.course_content_header }}}
+    <div class="home-sections {{#userisediting}}editing{{/userisediting}}">
+    </div>
+
+    <section {{#hasdefaultsections}}class="default-sections panel invisible p-lg-50 p-md-30 p-20 m-b-0"{{/hasdefaultsections}}
+    {{^hasdefaultsections}}style="margin-top: -25px;"{{/hasdefaultsections}}>
+        {{{ output.main_content }}}
+    </section>
+
+{{{ output.course_content_footer }}}
+
+{{#userisediting}}
+    <div class="editing-alert">
+        <p class="m-0">{{#str}}editingison, local_remuihomepage{{/str}}</p>
+    </div>
+{{/userisediting}}
+{{#js}}
+require(['local_remuihomepage/frontpage'], function (FrontPage) {
+    FrontPage.init({{contextid}}, {{#userisediting}}1{{/userisediting}}{{userisediting}}{{^userisediting}}0{{/userisediting}});
+});
+{{/js}}

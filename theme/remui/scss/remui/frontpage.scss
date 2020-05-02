@@ -1,0 +1,179 @@
+body#page-site-index.old-frontpage {
+    #region-main-box, #region-main {
+        padding: 0;
+    }
+    .pagelayout-frontpage {
+        .page-content {
+            h2 {
+                padding-bottom: 10px;
+                font-size: 22px;
+                color: #444;
+                margin-bottom: 22px;
+            }
+        }
+    }
+
+    #CarouselCaptions {
+        .carousel-control-next, .carousel-control-prev {
+            width: 8%;
+            min-width: auto;
+        }
+        .carousel-inner{
+            .carousel-item{
+                max-height:500px;
+            }
+        }
+    }
+
+    .carousel-caption {
+        @include transform(translate(0, -50%));
+        position: absolute;
+        bottom: auto;
+        top: 50%;
+        left: 10%;
+        text-align: left;
+    }
+
+    .carousel-indicators {
+        li {
+            background-color: #ccd5db;
+        }
+        li.active {
+            background-color: #6d6f71;
+        }
+    }
+
+    // testimonial carousel
+    .testimonial_cr .carousel-item {
+        width: 100%;
+        @media (min-width: 992px) {
+            min-height: 470px;
+        }
+
+        @media (min-width: 768px) and (max-width: 991px) {
+            min-height: 425px;
+        }
+
+        @media (max-width: 767px) {
+            min-height: 375px;
+        }
+    }
+
+    .testimonial_cr {
+        .carousel-control-next-icon, .carousel-control-prev-icon {
+            color: #222;
+        }
+    }
+
+    @media (min-width: 768px) and (max-width: 991px) {
+        .site-menubar-unfold {
+            .aboutus-heading, .aboutus-testimonial {
+                width: 100%;
+                max-width: 100%;
+                flex: 0 0 100%;
+            }
+        }
+    }
+
+    .marketing-spots {
+        .spot {
+            border: 3px solid white;
+        }
+
+        .overlay-panel {
+            border: 1px solid #eee;
+        }
+
+        .iconsquare {
+            font-size: 4rem;
+        }
+
+        .iconbox {
+            @media (min-width: 480px) {
+                padding: 10% 0;
+            }
+        }
+    }
+
+    ul.slick-dots {
+        bottom: -25px;
+        @media (max-width: 767px) {
+            text-align: center;
+        }
+        li button {
+            &:before {
+                font-size: 1.2rem;
+                opacity: 1;
+                z-index: 1;
+            }
+        }
+
+        li.slick-active button:before {
+            opacity: 1;
+            color: #6d6f71;
+        }
+    }
+
+    .buttons {
+        padding-bottom: 15px;
+    }
+    .section{
+        .activity{
+            @media only screen and (max-width: 500px){
+                div.actions {
+                    position: initial!important;
+                    display: inline;
+                }
+                .activityinstance,.contentwithoutlink{
+                    padding-right: 0px!important;
+                }
+            }
+            @media only screen and (min-width: 500px){
+                div.actions {
+                    position: absolute;
+                    top: 0px;
+                    right: 30px;
+                }
+            }
+        }
+    }
+    /*Static Image css*/
+    .cover.rem-staticimage{
+        max-height:500px;
+        .cover-background {
+            padding:20% 0;
+        }
+    }
+
+    .rem-staticimage {
+        overflow: hidden !important;
+    } 
+
+    // Video CSS.
+    .wdm-home-video {
+        height: 300px !important;
+    }
+    @media (min-width: 992px) {
+        .wdm-home-video {
+            height: 500px !important;
+        }
+    }
+
+    @media (min-width: 768px) {
+        .wdm-home-video {
+            height: 400px !important;
+        }
+    }
+
+    #frontpage-category-names, #site-news-forum,
+    #frontpage-course-list, #frontpage-category-combo, #frontpage-available-course-list {
+        padding: 20px;
+        background: white;
+        border-radius: 5px;
+        box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.05);
+        h3 {
+            font-size: 1.25rem;
+        }
+    }
+
+}

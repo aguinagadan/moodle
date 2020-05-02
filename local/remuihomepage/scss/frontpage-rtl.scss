@@ -1,0 +1,30 @@
+html[dir="rtl"] {
+    body#page-site-index.latest-frontpage {
+        section {
+            &.section-testimonial {
+                .testimonials-container {
+                    .authors {
+                        .profiles {
+                            right: 50%;
+                            left: unset;
+                        }
+                    }
+                    .transit-vertical {
+                        transform: translatex(-100%);
+                        &.next {
+                            transform: translatex(-100%) !important;
+                        }
+                        &.previous {
+                            transform: translatex(100%) !important;
+                        }
+                    }
+                }
+            }
+        }
+        .btn-floating.slick-arrow {
+            .icon {
+                transform: scale(-1, 1);
+            }
+        }
+    }
+}

@@ -1,0 +1,41 @@
+Change Log:
+===========
+
+Version 1.0.3
+=============
+Fix - Homepage Padding Issue and Sections were not able to delete
+Fix - Added multi-lang support
+Fix - Category selection course listing issue
+Fix - Javascript error resolved when moodle caching is off.
+
+Version 1.0.2
+=============
+Compatible with RemUI 3.5, 3.6, 3.7, 3.8
+
+Tweak: Now screenshot functionality is not longer available.
+Fix - DB issue with draftconfig and configdata column
+Fix - DB issue related to default value of some column.
+Fix - Unable to use editing option of Slider section.
+
+Version 1.0.1
+=============
+
+Fix - Compatibility with Internet Explorer 11
+Fix - Styling issue with Courses section cards
+Fix - Improved migrator
+Fix - Fixed Slider section height issue in Mobile view
+Feature - Fetching courses using ajax instead on page load. Improve page load time for large number of courses.
+
+
+Version 1.0.0
+=============
+
+Initial version of Homepage builder plugin, this was inbuild feature in theme Edwiser RemUI before now it is independent plugin.
+
+Fix - Courses section custom loader icon.
+Fix - Html section filter checkbox value issue when unset.
+Fix - Improved migrator validator.
+Tweak - Loading Courses in courses section using ajax service.
+Tweak - Added migrator button on Home page settings form of RemUI settings.
+Feature - Multilang support for all sections.
+Feature - Custom css style setting in all frontpage sections.

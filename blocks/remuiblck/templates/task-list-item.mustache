@@ -1,0 +1,64 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template block_remuiblck/event-list-item
+
+    This template renders an task list item for the schedule task block.
+
+    Example context (json):
+    {}
+}}
+<li data-region="task-item" data-id="{{id}}" class="list-group-item flex-column align-items-start pl-0 pr-0 {{#due}}red-600{{/due}}">
+    <div class="checkbox-custom checkbox-success checkbox-lg">
+        <input type="checkbox" name="checkbox" {{#completed}}checked{{/completed}}>
+        <label class="item-title">
+            <div class="panel-heading" id="task-subject-{{id}}" role="tab">
+                <span data-toggle="collapse" href="#task-summary-{{id}}" aria-expanded="true" aria-controls="task-summary-{{id}}">
+                    {{subject}}
+                </span>
+                {{^visible}}<i class="fa fa-eye-slash ml-1"></i>{{/visible}}
+            </div>
+            <div class="panel-collapse collapse" id="task-summary-{{id}}" aria-labelledby="task-subject-{{id}}" role="tabpanel" style="">
+                <div class="panel-body p-0">
+                    {{summary}}
+                </div>
+            </div>
+        </label>
+        {{#createdby}}
+            <button data-action="edit" class="btn btn-sm btn-icon btn-default btn-outline btn-round">
+                <i class="icon fa fa-pencil m-0" aria-hidden="true"></i>
+            </button>
+        {{/createdby}}
+    </div>
+    <div class="w-full">
+        <div class="item-due-date float-left">
+            <span>{{timedue}}</span>
+        </div>
+        <div class="item-members float-right">
+            {{#assignedto}}
+                {{^count}}
+                    <img class="avatar avatar-sm" title="{{name}}" alt="{{name}}" src="{{profile}}">
+                {{/count}}
+                {{#count}}
+                    <span title="{{#str}} moreassignee, block_remuiblck, {{count}}{{/str}}" class="btn btn-sm btn-icon btn-default btn-outline btn-round">
+                        {{count}}+
+                    </span>
+                {{/count}}
+            {{/assignedto}}
+        </div>
+    </div>
+</li>

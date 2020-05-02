@@ -1,0 +1,367 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    Edwiser RemUI 
+    @package    theme_remui
+    @copyright  (c) 2018 WisdmLabs (https://wisdmlabs.com/)
+    @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ 
+}}
+{{!
+    @template theme_remui/mypublic
+
+    Admin time setting template.
+
+    Boost 2 column layout template.
+
+    Context variables required for this template:
+    * sitename - The name of the site
+    * output - The core renderer for the page
+    * bodyattributes - attributes for the body tag as a string of html attributes
+    * sidepreblocks - HTML for the blocks
+    * hasblocks - true if there are blocks on this page
+    * navdraweropen - true if the nav drawer should be open on page load
+    * regionmainsettingsmenu - HTML for the region main settings menu
+    * hasregionmainsettingsmenu - There is a region main settings menu on this page.
+
+    Example context (json):
+    {
+        "sitename": "Moodle",
+        "output": {
+            "doctype": "<!DOCTYPE html>",
+            "page_title": "Test page",
+            "favicon": "favicon.ico",
+            "main_content": "<h1>Headings make html validators happier</h1>"
+         },
+        "bodyattributes":"",
+        "sidepreblocks": "<h2>Blocks html goes here</h2>",
+        "hasblocks":true,
+        "navdraweropen":true,
+        "regionmainsettingsmenu": "",
+        "hasregionmainsettingsmenu": false
+    }
+}}
+{{> theme_remui/common_start }}
+    <div class="row m-0 p-0">
+        {{# user }}
+        <div class="col-lg-3">
+            <!-- Page Widget -->
+            <div class="card card-shadow text-center border-0">
+                <div class="card-block">
+                <a class="avatar avatar-lg" href="javascript:void(0)">
+                    <img class="w-100" src="{{ profilepicture }}" alt="{{ firstname }} {{ lastname }}">
+                </a>
+                <h4 class="profile-user">{{ firstname }} {{ lastname }}</h4>
+                {{# usercanmanage }}
+                {{^ notcurrentuser }}
+                <p class="profile-job">{{# str }} administrator, theme_remui {{/ str }}</p>
+                {{/ notcurrentuser }}
+                {{/ usercanmanage }}
+
+                <div id="user-description"><p>{{{ description }}}</p></div>
+
+                <div class="profile-social">
+                    <a class="icon fa fa-skype" target="_blank" href="{{ skype }}"></a>
+                    <a class="icon fa fa-yahoo" target="_blank" href="{{ yahoo }}"></a>
+                    <a class="icon fa fa-windows" target="_blank" href="{{ msn }}"></a>
+                </div>
+                {{# url }}
+                <a role="button" href="{{ url }}" target="_blank" class="btn btn-primary">{{# str }} webpage, theme_remui {{/ str }}</a>
+                {{/ url }}
+                </div>
+                <div class="card-footer">
+                <div class="row no-space">
+                    <div class="col">
+                    <strong class="profile-stat-count">{{ contactscount }}</strong>
+                    <span>{{# str }} contacts, theme_remui {{/ str }}</span>
+                    </div>
+                    <div class="col">
+                    <strong class="profile-stat-count">{{ forumpostcount }}</strong>
+                    <span>{{# str }} discussions, theme_remui {{/ str }}</span>
+                    </div>
+                    {{# blogpostcount }}
+                    <div class="col">
+                    <strong class="profile-stat-count">{{ blogpostcount }}</strong>
+                    <span>{{# str }} blogentries, theme_remui {{/ str }}</span>
+                    </div>
+                    {{/ blogpostcount }}
+                </div>
+                </div>
+            </div>
+            <!-- End Page Widget -->
+        </div>
+
+        <div class="col-lg-9">
+            <!-- Panel -->
+            <div class="panel">
+                <div class="panel-body nav-tabs-animate nav-tabs-horizontal overflow-hidden profile-tabs" data-plugin="tabs">
+                    <ul class="nav nav-tabs nav-tabs-line" role="tablist">
+                        {{# aboutme }}
+                        <li class="nav-item" role="presentation"><a class="active nav-link" data-toggle="tab" href="#aboutme" aria-controls="aboutme" role="tab">{{# notcurrentuser }} {{ firstname }}{{/ notcurrentuser}} {{^ notcurrentuser }}{{# str }} aboutme, theme_remui {{/ str }}{{/ notcurrentuser}}</a></li>
+                        {{/ aboutme }}
+                        <li class="nav-item" role="presentation"><a class="nav-link {{^ aboutme }}active{{/ aboutme }}" data-toggle="tab" href="#usercourses" aria-controls="usercourses" role="tab">{{# str }} courses, theme_remui {{/ str }}</a></li>
+                        {{#haseditpermission}}
+                        {{^ notcurrentuser }}
+                            <li class="nav-item" role="presentation"><a class="nav-link" data-toggle="tab" href="#editprofile" aria-controls="editprofile" role="tab">{{# str }} editprofile, theme_remui {{/ str }}</a></li>
+                        {{/ notcurrentuser }}
+                        {{/haseditpermission}}
+                        <li class="nav-item ml-auto" role="presentation"><a class="nav-link" data-toggle="tab" href="#userprefs" aria-controls="userprefs" role="tab"><i class="icon fa fa-cog"></i></a></li>
+                    </ul>
+
+                    <div class="tab-content">
+                        {{# aboutme }}
+                        <div class="tab-pane active animation-slide-left" id="aboutme" role="tabpanel">
+                            <ul class="list-group">
+                                {{# hasinterests }}
+                                <li class="list-group-item">
+                                    <div class="media">
+                                        <div class="media-body">
+                                            <h5 class="mt-0">{{# str }} interests, theme_remui {{/ str }}</h5>
+                                            <div class="profile-brief mt-10">
+                                                {{# interests }}
+                                                    <a href="{{{config.wwwroot}}}/tag/index.php?id={{id}}" class="badge badge-info">{{ rawname }}
+                                                    </a>
+                                                {{/ interests }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                {{/ hasinterests }}
+
+                                {{# instidept }}
+                                <li class="list-group-item">
+                                    <div class="media">
+                                        <div class="media-body">
+                                            <h5 class="mt-0">{{# str }} institution, theme_remui {{/ str }}</h5>
+                                            <div class="profile-brief mt-10">
+                                                {{ department }} {{ institution }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                {{/ instidept}}
+
+                                {{# location }}
+                                <li class="list-group-item">
+                                    <div class="media">
+                                        <div class="media-body">
+                                            <h5 class="mt-0">{{# str }} location, theme_remui {{/ str }}</h5>
+                                            <div class="profile-brief mt-10">
+                                                {{ address }} {{city}} {{ country }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                {{/ location}}
+
+                                {{# hasbadges }}
+                                <li class="list-group-item">
+                                    <div class="media">
+                                        <div class="media-body">
+                                            <h5 class="mt-0">{{# str }} badges, theme_remui {{/ str }}</h5>
+                                            <div class="profile-brief mt-10">
+                                                <ul class="blocks-7 mt-15">
+                                                    {{# badges}}
+                                                        <li>
+                                                            <img src="{{ imageurl }}" alt="{{ name }}" />
+                                                            <a href="{{ link }}" class="text-center d-block font-weight-400 mt-10 blue-grey-500 font-size-14 font-weight-100" data-toggle="tooltip" title="{{ desc }}" data-placement="bottom">{{ name }}</a>
+                                                        </li>
+                                                    {{/ badges}}
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                {{/ hasbadges}}
+                            </ul>
+                        </div>
+                        {{/ aboutme }}
+
+                        <div class="tab-pane  {{^ aboutme }}active show{{/ aboutme }} animation-slide-left" id="usercourses" role="tabpanel">
+                            <ul class="list-group">
+                                {{^ hascourses }}
+                                    <li class="list-group-item border-0">
+                                        <div class="media">
+                                            <div class="media-body">
+                                                {{# str }} notenrolledanycourse, theme_remui {{/ str }}
+                                            </div>
+                                        </div>
+                                    </li>
+                                {{/ hascourses }}
+                                {{# hascourses }}
+                                {{# courses }}
+
+                                <li id="course-{{ id }}" class="list-group-item">
+                                    <div class="media">
+                                        <div class="pr-20 hidden-sm-down">
+                                            <a class="avatar" href="{{ link }}">
+                                                <img class="img-fluid" src="{{{ courseimage }}}" alt="...">
+                                            </a>
+                                        </div>
+
+                                        <div class="media-body pr-10 pb-10">
+                                            <a href="{{ link }}"><h5 class="mt-0">{{{ fullname }}}</h5></a>
+                                            {{# startdate }}<small>{{# str }} start_date, theme_remui {{/ str }} {{#userdate}} {{startdate}}, %A, %d %B %Y {{/userdate}}</small>{{/ startdate }}
+
+                                            <div class="profile-brief mt-10 hidden-sm-down">
+                                                {{{ summary }}}
+                                            </div>
+                                        </div>
+                                        {{# enablecompletion }}
+                                            <div class="float-right remui-course-progress w-full pie-progress pie-progress-sm"
+                                                data-plugin="pieProgress"
+                                                data-barcolor="#11c26d"
+                                                data-size="100"
+                                                data-barsize="6"
+                                                data-goal="100"
+                                                aria-valuenow="{{ progress }}"
+                                                role="progressbar">
+                                                <div class="pie-progress-content">
+                                                <div class="pie-progress-number">{{#progress}}{{ progress }}{{/progress}}{{^progress}}0{{/progress}}&#37;</div>
+                                                <div class="pie-progress-label">{{# str }} complete, theme_remui {{/ str }}</div>
+                                                </div>
+                                            </div>
+                                            {{/ enablecompletion }}
+                                    </div>
+                                </li>
+                                {{/ courses }}
+                                {{/ hascourses }}
+                            </ul>
+                        </div>
+
+                        <div class="tab-pane animation-slide-left float-right" id="userprefs" role="tabpanel">
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    <div class="media">
+                                        <div class="media-body">
+  {{/ user }}
+                                            {{#hasregionmainsettingsmenu}}
+                                                <div id="region-main-settings-menu" class="hidden-print {{#hasblocks}}has-blocks{{/hasblocks}}">
+                                                    <div> {{{ output.region_main_settings_menu }}} </div>
+                                                </div>
+                                            {{/hasregionmainsettingsmenu}}
+                                            <section id="region-main" {{#hasblocks}}class="has-blocks"{{/hasblocks}}>
+                                                {{#hasregionmainsettingsmenu}}
+                                                    <div class="region_main_settings_menu_proxy"></div>
+                                                {{/hasregionmainsettingsmenu}}
+
+                                                {{{ output.course_content_header }}}
+                                                {{{ output.main_content }}}
+                                                {{{ output.course_content_footer }}}
+                                            </section>
+  {{# user }}
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- edit profile tab content -->
+                        {{#haseditpermission}}
+                        {{^ notcurrentuser }}
+                            <div class="tab-pane animation-slide-left" id="editprofile" role="tabpanel">
+                                <div class="panel-body">
+                                    <form class="form-horizontal fv-form fv-form-bootstrap4" id="exampleStandardForm" autocomplete="off" novalidate="novalidate">
+                                        <div class="form-group row">
+                                            <label class="col-md-3 form-control-label">{{# str }} firstname, moodle {{/ str }}</label>
+                                            <div class="col-md-9">
+                                                <input type="text" class="form-control" id='first_name' name="first_name" data-fv-field="first_name" value="{{ firstname }}" {{#field_lock_firstname}}disabled{{/field_lock_firstname}} >
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-md-3 form-control-label">{{# str }} surname, theme_remui {{/ str }}</label>
+                                            <div class="col-md-9">
+                                                <input type="text" class="form-control" id='surname' name="surname" data-fv-field="surname" value="{{ lastname }}" {{#field_lock_lastname}}disabled{{/field_lock_lastname}} >
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-md-3 form-control-label">{{# str }} email, moodle {{/ str }}</label>
+                                            <div class="col-md-9">
+                                                <input type="email" class="form-control" id='standard_email' name="standard_email" data-fv-field="standard_email" value="{{ email }}" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-md-3 form-control-label">{{# str }} city, moodle {{/ str }}</label>
+                                            <div class="col-md-9">
+                                                <input type="text" class="form-control" id='city' name="city" data-fv-field="city" value="{{#location}}{{city}} {{/location}}" {{#field_lock_city}}disabled{{/field_lock_city}}>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                                <label class="col-md-3 form-control-label">{{# str }} country, moodle {{/ str }}</label>
+                                                <div class="col-md-9">
+                                                <select class="form-control" id="country" name="country" required="" data-fv-field="country" {{#field_lock_country}}disabled{{/field_lock_country}}>
+                                                    {{# countries }}
+                                                    <option value="{{ keyName }}">{{ valName }}</option>
+                                                    {{/ countries }}
+                                                </select>
+                                                </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-md-3 form-control-label">{{# str }} description, moodle {{/ str }}</label>
+                                            <div class="col-md-9">
+                                            <textarea class="form-control" id='description' name="description" rows="3" data-fv-field="description">{{{description}}}</textarea>
+                                            </div>
+                                        </div>
+                                    <div class="text-right">
+                                        <button type="button" class="btn btn-primary" id="btn-save-changes">{{# str }} submit, moodle {{/ str }}</button>
+                                    </div>
+                                </form>
+                                    <!--<div class="alert alert-danger" id="error-message" style="display:none;margin-top:10px"></div>-->
+                                    <div class="summary-errors alert alert-success alert-dismissible" id="error-message" style="display:none;margin-top:10px">
+                                        <p></p>
+                                    </div>
+                                </div>
+                            </div>
+                        {{/ notcurrentuser }}
+                        {{/haseditpermission}}
+                    </div>
+                </div>
+            </div>
+            <!-- End Panel -->
+        </div>
+        {{/ user }}
+    </div>
+{{> theme_remui/common_end }}
+
+{{#js}}
+require(['jquery', 'theme_remui/loader', 'theme_remui/profile'], function (jquery) {
+    Breakpoints();
+    var tabs = {
+        "aboutme": {
+            "left": [],
+            "right": ["usercourses", "editprofile", "userprefs"],
+        },
+        "usercourses": {
+            "left": ["aboutme"],
+            "right": ["editprofile", "userprefs"],
+        },
+        "editprofile": {
+            "left": ["aboutme", "usercourses"],
+            "right": ["userprefs"],
+        },
+        "userprefs": {
+            "left": ["aboutme", "usercourses", "editprofile"],
+            "right": [],
+        },
+    };
+    $('.profile-tabs [role="tablist"] [role="tab"]').click(function() {
+        var prev = $('.profile-tabs [role="tablist"] [role="tab"].active').attr('aria-controls');
+        var current = $(this).attr('aria-controls');
+        var anim = 'animation-slide-left';
+        if (tabs[current].left.indexOf(prev) != -1) {
+            anim = 'animation-slide-right';
+        }
+        $('.profile-tabs .tab-content [role="tabpanel"].tab-pane').removeClass('animation-slide-left animation-slide-right').addClass(anim);
+    });
+});
+{{/js}}

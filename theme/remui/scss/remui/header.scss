@@ -1,0 +1,380 @@
+.navbar {
+    background: white;
+    .navbar-brand {
+        width: $drawer-closed-width;
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        background: $primary;
+        color: white;
+        z-index: 1;
+        @media screen and (max-width: 480px) {
+            position: absolute;
+            left: 50%;
+            transform: translate(-50%,0);
+            & {
+                direction: rtl;
+                transform: translate(50%,0);
+            }
+        }
+    }
+    .navbar-brand-logo {
+        width: 100%;
+        height: 100%;
+        width: 260px;
+        display: none !important;
+        align-items: center;
+        justify-content: center;
+        &.mini {
+            width: 80px;
+            display: flex !important;
+        }
+    }
+    .nav-item, .nav-link {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        .avatar {
+            width: 32px;
+        }
+    }
+    .popover-region {
+        height: 100%;
+        margin: 0;
+        .popover-region-toggle {
+            width: auto !important;
+            padding: .5rem 1rem;
+            &:focus {
+                margin: 0 !important;
+                outline: none;
+            }
+            &::before, &::after {
+                display: none !important;
+            }
+            .icon {
+                margin-right: 0px;
+            }
+        }
+        @include media-breakpoint-down(xs) {
+            [data-region="popover-region-container"] {
+                position: fixed;
+                top: 66px;
+                left: 0;
+                right: 0;
+                width: 100%;
+            }
+            .nav-link {
+                padding: .5rem !important;
+            }
+        }
+    }
+    .dropdown-toggle, .userbutton {
+        display: flex;
+        align-items: center;
+    }
+    .wdm-custom-menus {
+        white-space: nowrap;
+        width: auto;
+    }
+    #toggleFullscreen {
+        svg {
+            width: 16px;
+            margin: 0;
+            &:first-child {
+                display: block;
+            }
+            &:last-child {
+                display: none;
+            }
+        }
+        &.collapse {
+            svg {
+                &:first-child {
+                    display: none;
+                }
+                &:last-child {
+                    display: block;
+                }
+            }
+        }
+    }
+    @media screen and (max-width: 480px) {
+        background: $primary;
+        span.username, #toggleFullscreen {
+            display: none;
+        }
+        .navbar-brand {
+            width: auto !important;
+        }
+        .icon {
+            color: white !important;
+        }
+    }
+    &.nav-inverse {
+        background: $primary;
+        .nav-item {
+            &:hover {
+                background-color: rgba(0, 0, 0, .1) !important;
+            }
+        }
+        .nav-link, .fa, .dropdown-toggle, .usermenu, .login a, .dropdown {
+            color: white !important;
+            border-radius: 0 !important;
+            &:hover {
+                color: white !important;
+            }
+        }
+        .dropdown-menu {
+            .fa {
+                color: #526069 !important;
+            }
+        }
+        div[data-region="drawer-toggle"] {
+            button {
+                &:hover {
+                    background-color: rgba(0,0,0,.1) !important;
+                }
+            }
+        }
+    }
+    div[data-region="drawer-toggle"] {
+        button {
+            &:focus {
+                box-shadow: none !important;
+            }
+        }
+    }
+    .loginddown {
+        width: 350px;
+        @media screen and (max-width: 480px) {
+           position: fixed !important;
+           left: 0 !important;
+           right: 0 !important;
+           top: 120px;
+           width: 100%;
+        }
+
+    }
+    div[data-region="popover-region-container"] {
+        &.dropdown-menu {
+            display: block;
+            transform: scale(0);
+            transition: all 250ms ease-in-out;
+            transform-origin: 100% 0;
+            opacity: 0;
+            &.show {
+                transition: all 250ms ease-in-out;
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+    }
+}
+
+.navbar-light {
+    .nav-link {
+        color: rgba(0,0,0,.6)!important;
+    }
+    @media screen and (max-width: 480px) {
+        .navbar-nav .nav-link, .nav-link {
+            color: white !important;
+        }
+    }
+}
+
+body {
+    &.drawer-open-left {
+        .navbar-brand {
+            width: $drawer-width;
+        }
+	    /** even if drawer open, keep navbar brand width smaller below 768 */
+        @media screen and (max-width: 767px) {
+            .navbar-brand {
+                width: 80px;
+            }
+        }
+        div[data-region="drawer-toggle"] {
+            left: $drawer-width;
+            button {
+                &:focus {
+                    box-shadow: none !important;
+                }
+            }
+        }
+        .navbar-brand-logo {
+            @media screen and (min-width: 768px) {
+                display: flex !important;
+                &.mini {
+                    display: none !important;
+                }
+            }
+        }
+    }
+    &.mergemessagingsidebar{
+        .nav.navbar-nav {
+            .popover-region {
+                .nav-link.popover-region-toggle[href="#sidebar-message"] {
+                    display: none;
+                }
+            }
+        }
+    }
+}
+
+body.notloggedin {
+    @media screen and (max-width: 480px) {
+        .navbar-nav.right-menu {
+            position: absolute;
+            top: 99%;
+            background: $primary;
+            right: 0;
+            margin-right: 0 !important;
+            width: 100%;
+            justify-content: center;
+            display: none;
+            &.show {
+                display: flex;
+            }
+        }
+        .navbar-toggler {
+            display: block;
+            height: 60px;
+            margin-left: auto;
+            border: 0;
+            &:focus {
+                outline: 0;
+                box-shadow: none;
+            }
+        }
+    }
+}
+
+// give min width to right menu
+.right-menu {
+    min-width: auto;
+    @media screen and (min-width: 481px) {
+        min-width: 300px;
+    }
+    @media screen and (min-width: 992px) {
+        min-width: 360px;
+    }
+}
+
+// limit username length in navbar
+.nav-link .navbar-avatar span.username {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 120px;
+    overflow: hidden;
+    @media screen and (min-width: 992px) {
+        max-width: 160px;
+    }
+}
+
+
+/** show single recent and nav in footer till 480px */
+@media screen and (max-width: 480px) {
+    #recentCourses.outer {
+        display: flex !important;
+    }
+    .footer-bottom .navbar-nav {
+        display: flex !important;
+    }
+}
+
+/** hide collapsible menu in mobile devices
+  * can not use display none, it will break collapsible menu js */ 
+@media screen and (max-width: 480px) {
+    ul.links, .menu-toggle {
+        position: absolute;
+        left: -2000px;
+    }
+}
+
+nav.greedy .menu-toggle {
+    align-self: stretch;
+    -webkit-transition: all .4s ease-out;
+    -o-transition: all .4s ease-out;
+    transition: all .4s ease-out;
+    outline: 0;
+    border: 0;
+    font-size: .9rem;
+    background: transparent;
+    color: #676767;
+}
+
+  nav.greedy .menu-toggle.hidden {
+    transition: none;
+    border-right: 0.5rem solid #b6b6b6;
+    width: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+  
+//   nav.greedy .menu-toggle::after {
+//     content: attr(count);
+//     display: inline-flex;
+//     width: 30px;
+//     height: 30px;
+//     align-items: center;
+//     justify-content: center;
+//     background: #9f9f9f;
+//     color: #f2f2f2;
+//     box-shadow: 0 0 1px 0 rgba(0,0,0,0.8);
+//     border-radius: 50%;
+//     font-size: 14px;
+//     line-height: 14px;
+//     margin-left: 1rem;
+//     margin-right: calc(-1rem + -8px);
+//   }
+  
+  ul.links {
+    display: flex;
+    justify-content: flex-start;
+    flex: 1;
+    // overflow: hidden;
+  }
+  
+  ul.links li {
+    flex: none;
+  }
+  
+  ul.hidden-links {
+    position: absolute;
+    max-width: 275px;
+    background: #d8d8d8;
+    right: 0;
+    top: 100%;
+    transition: all .25s ease;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #e4eaec;
+    border-radius: .215rem;
+    box-shadow: 0 3px 12px rgba(0,0,0,.05);
+    z-index: 1200;
+    padding: 0;
+    margin: 5px;
+    text-align: left;
+    list-style: none;
+  }
+
+  ul.hidden-links li {
+
+    .nav-link {
+        padding: .715rem !important;
+    }
+
+    margin: 5px;
+    width: auto;
+    border-radius: .215rem;
+    clear: both;
+    white-space: nowrap;
+
+    &:hover {
+        color: #526069;
+        text-decoration: none;
+        background-color: #f3f7f9;
+    }
+  }
+  
+/** TODO: Optimize media queries and use bootstrap 4 standards */

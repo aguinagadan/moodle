@@ -1,0 +1,63 @@
+{{!
+    @template core/signup_form_layout
+
+    Example context (json):
+    {
+        "logourl": "https://moodle.org/logo/moodle-logo.svg",
+        "sitename": "Site name",
+        "formhtml": "<p>(Form html would go here)</p>"
+    }
+}}
+<div class="container-fluid">
+    <div class="row justify-content-md-center">
+        <div class="page-brand-info">
+            {{#loginpage_context}}
+            {{^logopos}}
+                {{#logourl}}
+                    <h2 class="card-header bg-transparent mb-3" ><img src="{{logourl}}" class="img-fluid" title="{{sitename}}" alt="{{sitename}}"/></h2>
+                {{/logourl}}
+                {{^logourl}}
+                    <h2 class="card-header bg-transparent mb-3"><i class="fa fa-{{siteicon}}"></i> {{sitename}}</h2>
+                {{/logourl}}
+            {{/logopos}}
+            {{/loginpage_context}}
+            {{#sitedesc}}
+                <p class="font-size-20 site-desc">{{{sitedesc}}}</p>
+            {{/sitedesc}}
+            {{^sitedesc}}
+                {{#hasinstructions}}
+                    <p class="font-size-20 instructions">{{{instructions}}}</p>
+                {{/hasinstructions}}
+            {{/sitedesc}}
+        </div>
+        <div class="p-0 signupform">
+            <div class="card">
+                <div class="card-block p-5">
+                    {{#loginpage_context}}
+                    {{#logopos}}
+                        {{#logourl}}
+                            <h2 class="card-header text-center bg-transparent mb-3 p-4" ><img src="{{logourl}}" class="img-fluid" title="{{sitename}}" alt="{{sitename}}"/></h2>
+                        {{/logourl}}
+                        {{^logourl}}
+                            <h2 class="card-header text-center bg-transparent mb-3 p-4"><i class="fa fa-{{siteicon}}"></i> {{sitename}}</h2>
+                        {{/logourl}}
+                    {{/logopos}}
+                    {{/loginpage_context}}
+                    <div class="card-body">
+                        <div class="card-title">
+                            <h3 class="font-size-24">{{#str}}signup, theme_remui{{/str}}</h3>
+                        </div>
+                        {{{formhtml}}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{#js}}
+require(['theme_remui/loader'], function () {
+    jQuery(document).ready(function(){
+        jQuery('#page-login-signup label[for="id_recaptcha_element"]').parent().css({"width": "100%", "margin": "0 20px"});
+    });
+});
+{{/js}}

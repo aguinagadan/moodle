@@ -1,0 +1,22 @@
+<div class="course-card-wrapper col-12 my-10" style="min-height: 200px;">
+    <div class="course-card my-10" style="{{#shadowless}}box-shadow: 0px 0px 10px -1px  {{sectionproperties.shadowcolor}};{{/shadowless}}">
+        <div class="body" style="min-height: 170px; {{^shadowless}}box-shadow: 0px 0px 2px #ccc;{{/shadowless}}">
+            <p class="name m-0" >{{{categoryname}}}</p>
+            {{#parentname}}<p class="type m-0 mt-1">{{{parentname}}}</p>{{/parentname}}
+            <p class="description ellipsis mb-0 mx-0 mt-1" data-clamp="
+            {{#parentname}} 4 {{/parentname}}
+            {{^parentname}} 5 {{/parentname}}
+            ">{{{categorydesc}}}</p>
+        </div>
+        <div class="footer bg-primary">
+            <div class="left">
+                <button class="bg-transparent border-0 font-size-24 font-weight-600 p-0 text-white">{{coursecount}}</button>
+                <span class="font-size-12">{{#str}}courses, theme_remui{{/str}}</span>
+            </div> 
+
+            <div class="right">
+                <a href="{{categoryurl}}"><button class="btn bg-white ">{{#str}}view, core{{/str}}</button></a>
+            </div>
+        </div>
+    </div>
+</div>

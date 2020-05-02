@@ -1,0 +1,76 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template core_message/message_drawer_view_conversation_body_message
+
+    This template will render a single message for the body of the conversation page
+    in the message drawer.
+
+    Classes required for JS:
+    * none
+
+    Data attributes required for JS:
+    * All data attributes are required
+
+    Context variables required for this template:
+    * userid The logged in user id
+    * urls The URLs for the popover
+
+    Example context (json):
+    {}
+
+}}
+
+<div
+    class="message d-block"
+    data-region="message"
+    data-message-id="{{id}}"
+    role="checkbox"
+    aria-checked="false"
+    tabindex="0"
+>    
+    <div class="chat-content {{^fromloggedinuser}}chat-left{{/fromloggedinuser}}">
+        <span class="hidden position-absolute position-right ml-2 small text-dark" data-region="not-selected-icon">{{#pix}} i/uncheckedcircle, core {{/pix}}</span>
+        <span class="hidden position-absolute position-right ml-2 small text-primary" data-region="selected-icon">{{#pix}} i/checkedcircle, core {{/pix}}</span>
+        
+        {{^fromloggedinuser}}
+            <div class="d-flex align-items-center">
+                <div>
+                    <img
+                        class="rounded-circle"
+                        src="{{{userfrom.profileimageurl}}}"
+                        alt="{{userfrom.fullname}}"
+                        aria-hidden="true"
+                        style="height: 30px"
+                    >
+                </div>
+                <div class="text-truncate pl-2 pr-2">
+                    <h6 class="text-truncate m-0 font-weight-bold">{{userfrom.fullname}}</h6>
+                </div>
+            </div>
+        {{/fromloggedinuser}}
+
+        <div>
+            {{{text}}}
+            <time class="font-size-10">
+                {{formattedtime}}
+            </time>
+        </div>
+
+    </div>
+
+</div>

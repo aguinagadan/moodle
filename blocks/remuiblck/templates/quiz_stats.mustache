@@ -1,0 +1,38 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+<div id="quiz_stats">
+  {{# has_courses_for_quiz }}
+    <div>
+        <select id="quiz-course-list" class="form-control mb-30">
+          {{# courses_for_quiz}}
+            <option data-id="{{ courseid }}">{{{ shortname }}}</option>
+          {{/ courses_for_quiz}}
+        </select>
+        <div id="quiz-chart-area"  class="chart">
+            <canvas id="barChart"></canvas>
+        </div>
+        <div class="quiz-stats-error alert alert-danger" style="display:none">
+          {{#str}}problemwhileloadingdata, block_remuiblck{{/str}}
+        </div>
+    </div>
+  {{/ has_courses_for_quiz }}
+</div>
+{{#js}}
+require(['block_remuiblck/quizstats'], function(quizstats) {
+    quizstats.init('#quiz_stats');
+});
+{{/js}}

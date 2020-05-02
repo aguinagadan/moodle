@@ -1,0 +1,37 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+<h5 class="py-25 m-0 bold">{{#str}}courseprogress, theme_remui{{/str}}</h5>
+<table id="DataTables_Teacher" >
+    <thead>
+        <tr role="row">
+           <th>#</th>
+            <th>{{#str}}course, moodle{{/str}}</th>
+            <th>{{#str}}startdate, block_remuiblck{{/str}}</th>
+            <th>{{#str}}enrolledstudents, block_remuiblck{{/str}}</th>
+            <th>{{#str}}progress, block_remuiblck{{/str}}</th>
+        </tr>
+    </thead>
+    <tbody>
+    {{#course_progress}}
+    {{> block_remuiblck/dashboard_teacher_view_row }}
+    {{/course_progress}}
+    </tbody>
+</table>
+
+<div class="student_progress_ele">
+
+</div>

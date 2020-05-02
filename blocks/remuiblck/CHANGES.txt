@@ -1,0 +1,96 @@
+Change Log:
+===========
+
+v 1.0.12 
+Fix - Course progress loader issue for empty table
+Fix - JS Error Cannot read property 'length' of undefined in quiz block of remui block
+Fix - Homepage loader keeps loading in IE
+Fix - Unnecessary margin zero to blocks Removed
+Fix - Reset Dashboard Issue with blocks rendering
+
+v 1.0.11
+Fix - Toolbar button link not working in manage courses block
+Fix - Fixed course overview block load issue because of RemUI block plugin
+Fix - Javascript error resolved when moodle caching is off.
+
+v 1.0.10 [ Edwiser RemUI 3.4, 3.5, 3.6, 3.7 and 3.8 Compatible]
+===============================================================
+Fix - Course Analytics Block was Not showing the proper result
+Fix - Add Notes block undefined string error
+Fix - Manage course block - menu button styling
+Fix - Add Notes - Capability check and functinality check (Enrolled courses are only visible)
+
+v 1.0.9
+=======
+
+Fix - Fixed Course progress block messaging issue
+Fix - Fixed Forum sql issue.
+
+v 1.0.8
+=======
+
+Fix - Fixed styling issue of Course Progress block in Mobile devices.
+Fix - Fixed js and styling issue for Internet Explorer 11.
+Fix - Fixed Manager Courses action button styling.
+Fix - Fixed card visibility by user roles.
+Tweak - Improved Dashboard loading time.
+Tweak - Improved language translations.
+Tweak - Oprimized Course Progress block.
+Tweak - Oprimized Course Analytics block.
+Tweak - Oprimized User Stats block.
+Tweak - Oprimized Quiz Attempts block.
+Tweak - Oprimized Notes block.
+Tweak - Oprimized Manage Courses blocks.
+Tweak - Improved Manager Courses block card styling.
+
+
+v 1.0.7 [ Edwiser RemUI 3.4, 3.5, 3.6 and 3.7 Compatible ]
+==========================================================
+
+Fix - Added few language translation for Course Progress block.
+Fix - Fixed database issue when user is not enrolled in any course.
+Tweak - Added auto-generated pattern to course card when course image is not uploaded.
+Tweak - Improved dashboard page loading time.
+
+
+v 1.0.6
+=======
+
+Fix - Postgres Sql compatibility with To Do List Block
+Fix - Uninstallation problem with plugin db/uninstall.php
+Tweak - Added Pagination to Course analytics block and Manage Courses Block
+
+
+
+v 1.0.5 [ Edwiser RemUI 3.5, 3.6 and 3.7 Comapatible ]
+======================================================
+
+Fix - Babel-Helpers Error for asPieProgress in Course Progress
+Fix - Todo List table Creation Problem on upgrade
+Fix - Courses link in Course Progress Block is not clickable when no user is enrolled
+Fix - Fixed Course Analytics block visibility for students.
+Tweak - Edwiser RemUI Compatibility with 3.5
+Fix - Course overview block responsiveness problem when both sidebars are open fixed
+
+v 1.0.4 [ Edwiser RemUI 3.6 and 3.7 Compatible Only]
+====================================================
+
+Feature - Added Manage Courses Block for teacher to access enrolled courses directly from dashboard.
+Feature - Course report for teacher in manage courses block.
+Feature - See which student is irregular in table format and send message directly from table.
+Feature - Added To Do List Block for all users to create and assign task to self or to mates.
+Tweak - Improved performance of each blocks.
+Fix - Roles handling for each blocks.
+
+v 1.0.3 [ Edwiser RemUI 3.6.0 Compatible Only ]
+===============================================
+
+Tweak - Improved the UI
+Tweak - Multilang support for courseprogress table course name
+Fix - Made compatible with Moodle 3.6
+Fix - Course Progress Block, progress piechart issue when table reordered
+
+v 1.0.1
+=======
+
+Fix - Exception handled with templatecontext and curblock errors

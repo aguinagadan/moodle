@@ -1,0 +1,25 @@
+{{!
+    @template theme_remui/nav-drawer
+
+
+    Example context (json): {}
+}}
+<div id="nav-drawer" data-region="drawer" class="d-print-none moodle-has-zindex {{^navdraweropen}}closed{{/navdraweropen}} {{^sidebarcolor}}dark{{/sidebarcolor}}" aria-hidden="{{#navdraweropen}}false{{/navdraweropen}}{{^navdraweropen}}true{{/navdraweropen}}" tabindex="-1">
+    <div id="nav-drawer-container">
+    {{# isactivitypage }}
+        {{> theme_remui/activity_navigation }}
+    {{/ isactivitypage }}
+
+    {{^ isactivitypage }}
+        {{> theme_remui/flat_navigation }}
+    {{/ isactivitypage }}
+    {{! Footer Menus }}
+    <div class="site-menubar-footer d-flex align-items-center">
+        {{#navfootermenu}}
+            <a href="{{{ url }}}" class="w-100 d-flex align-items-center justify-content-center" data-placement="top" data-toggle="tooltip" data-original-title="{{title}}">
+                <span class="fa {{ iconclass }}" aria-hidden="true"></span>
+            </a>
+        {{/navfootermenu}}
+    </div>
+    </div>
+</div>

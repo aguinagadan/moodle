@@ -1,0 +1,94 @@
+<section data-instance="{{id}}" data-sectionname="{{sectionname}}" {{{sectionpropertiesoutput}}} data-totalcourses="{{totalcourses}}" data-current="0">
+
+    {{> local_remuihomepage/editmenu}}
+    {{^userisediting}}
+    <div class="section-loader-wrapper d-none" data-instance="{{id}}">
+        <div class="section-loader">
+            {{#loader}}
+                <img class="icon" src="{{loader}}"/>
+            {{/loader}}
+            {{^loader}}
+                {{#pix}} owl_loader, local_remuihomepage {{/pix}}
+            {{/loader}}
+        </div>
+    </div>
+    {{/userisediting}}
+
+    <div class="row m-0 w-p100 m-auto px-sm-0 {{sectioncontaineroutput}} " >
+        <div class="row w-p100 text-center justify-content-center m-0 p-0">
+            <div class=" pb-50 px-50 pt-0" >
+                {{#title}}{{> local_remuihomepage/common_title}}{{/title}}
+
+                {{#description}}
+                {{> local_remuihomepage/common_title}}
+                {{/description}}
+            </div>
+        </div>
+
+        {{#coursesview}}
+            <div class="row w-p100 courses-slider {{#latest_card}}latest-cards{{/latest_card}} m-0 p-0">
+                {{> local_remuihomepage/courses_cards}}
+            </div>
+        {{/coursesview}}
+
+        {{#categoriesview}}
+        <div class="category-wrapper card-deck w-p100 row courses-slider py-10 m-0 p-0" data-categories="{{categorycount}}" data-categories-loaded="20">
+            {{#categorylist}}
+                {{> local_remuihomepage/category_container}}
+            {{/categorylist}}
+        </div>
+        {{/categoriesview}}
+
+        {{#categoryandcoursesview}}
+        <div class="course-category-wrapper w-full d-inline-flex h-400" data-categories="{{categorycount}}" data-categories-loaded="20">
+            {{#categoryandcourses}}
+            <div class="category-list col-lg-3 col-md-6 col-sm-10 h-only-md-400 h-only-sm-450 h-only-xs-450 p-0">
+                <div class="site-skintools-toggle d-none text-primary btn-primary btn-outline border-left-0" data-instance="{{id}}"><i class="fa fa-chevron-right"></i></div>
+                <div class="wrapper border border-left-0 border-primary mb-0 pb-lg-15 {{#latest_card}}latest_card{{/latest_card}} {{^latest_card}}old_card{{/latest_card}}">
+                  <!-- Card List -->
+                  <div class="card-list mb-0 h-p100">
+                    {{> local_remuihomepage/course_categories}}
+                  </div>
+                </div>
+
+            </div>
+            <div class="row col-lg-9 col-12 courses-slider {{#latest_card}}latest-cards{{/latest_card}} m-0 p-0 h-p100">
+            </div>
+            {{/categoryandcourses}}
+        </div>
+        {{#js}}
+            require(['jquery'], function($) {
+                $('[data-instance="{{id}}"][data-sectionname="{{sectionname}}"].categoryandcourses-view .card-list').scroll(function() {
+                    $('body').trigger('card-list-scroll', [{{id}}]);
+                });
+                $('[data-instance="{{id}}"][data-sectionname="{{sectionname}}"].categoryandcourses-view .card-list').bind('touchmove', function() {
+                    $('body').trigger('card-list-scroll', [{{id}}]);
+                });
+            });
+        {{/js}}
+        {{/categoryandcoursesview}}
+
+        <div class='available-courses button-container w-p100 text-center p-10'>
+            <button type='button' class='btn btn-floating btn-primary btn-prev btn-sm {{^shadowless}}shadow-none{{/shadowless}}'>
+                <i class='icon fa fa-chevron-left' aria-hidden='true'></i></button>
+            <button type='button' class='btn btn-floating btn-primary btn-next btn-sm {{^shadowless}}shadow-none{{/shadowless}}'>
+                <i class='icon fa fa-chevron-right' aria-hidden='true'></i></button>
+        </div>
+    </div>
+</div>
+
+</section>
+{{#js}}
+require(['jquery'], function($) {
+    var root = $('[data-instance="{{id}}"]');
+    if (root.is('.categories-view')) {
+        root.find('.section-loader-wrapper').removeClass('d-none');
+        setTimeout(function() {
+            root.find('.course-card .description').each(function(index, element) {
+                $(element).css('-webkit-line-clamp', $(element).data('clamp'));
+            });
+            root.find('.section-loader-wrapper').addClass('d-none');
+        }, 1000);
+    }
+});
+{{/js}}

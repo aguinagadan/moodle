@@ -1,0 +1,331 @@
+/* Anchor link offset fix. This makes hash links scroll 60px down to account for the fixed header. */
+$fixed-header-y: $navbar-height;
+
+$drawer-closed-width: 80px !default;
+$drawer-width: 260px !default;
+$drawer-padding-x: 0px !default;
+$drawer-padding-y: 0px !default;
+$drawer-offscreen-gutter: 20px !default;
+
+:target::before {
+    content: " ";
+    display: block;
+    height: ($fixed-header-y + 10px); /* fixed header height*/
+    margin-top: -($fixed-header-y + 10px); /* negative fixed header height */
+    width: 1px;
+    pointer-events: none;
+}
+
+.pagelayout-embedded :target {
+    padding-top: initial;
+    margin-top: initial;
+}
+
+body {
+    #nav-drawer.closed {
+        .mycoursesubmenu .list-group-item {
+            padding: 16px !important;
+            & > div {
+                margin: 0 !important;
+                & > div.media {
+                    margin: 0 !important;
+                }
+            }
+        }
+    }
+}
+
+body.full-sidebar {
+    #nav-drawer.closed {
+        left: -($drawer-width + $drawer-offscreen-gutter);
+    }
+}
+@include media-breakpoint-down(sm) {
+    #nav-drawer.closed {
+        left: -($drawer-width + $drawer-offscreen-gutter);
+    }
+}
+@include media-breakpoint-up(sm) {
+    body:not(.full-sidebar) {
+        #nav-drawer.closed {
+            // left: -($drawer-width + $drawer-offscreen-gutter);
+            @include media-breakpoint-up(sm) {
+                width: $drawer-closed-width;
+            }
+            .list-group-item {
+                .media {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    .media-left .icon {
+                        margin: 0;
+                        font-size: 16px;
+                        width: 16px;
+                        height: 16px;
+                    }
+                    .media-body {
+                        display: none !important;
+                    }
+                }
+                &.hovered {
+                    .media-body {
+                        display: inline-block !important;
+                        align-items: center;
+                        position: fixed;
+                        left: 80px;
+                        width: 250px;
+                        height: 54px;
+                        padding: 16px;
+                        background: #edf4fd;
+                    }
+                }
+            }
+            .section-heading {
+                color: #2a363b;
+            }
+            &.dark {
+                .list-group-item {
+                    &.hovered {
+                        .media-body {
+                            background: #2a363b;
+                        }
+                    }
+                    &:hover {
+                        background: #2a363b;
+                    }
+                }
+                .section-heading {
+                    color: white;
+                }
+            }
+            .site-menubar-footer {
+                width: $drawer-closed-width;
+                a {
+                    display: none !important;
+                    &:last-child {
+                        display: flex !important;
+                    }
+                }
+            }
+        }
+    }
+}
+#page {
+    margin-top: $navbar-height;
+    // margin-right: 0;
+}
+
+/* Use a variable for the drawer background colors. */
+$drawer-bg: $gray-lighter !default;
+
+[data-region="drawer"] {
+    position: fixed;
+    padding: $drawer-padding-x $drawer-padding-y;
+    width: $drawer-width;
+    top: $fixed-header-y;
+    height: calc(100% - #{$navbar-height + 75px});
+    overflow-y: visible;
+    -webkit-overflow-scrolling: touch;
+    z-index: $zindex-footer - 1;
+    background-color: white;
+    transition: all 500ms ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+    .list-group-item {
+        border-radius: 0 !important;
+    }
+    &.dark {
+        background-color: #263238;
+        .list-group {
+            border-color: #263238 !important;
+            background-color: #263238;            
+            .list-group-item {
+                background-color: #263238;
+                color: rgba(163,175,183,.9);
+                .icon {
+                    color: rgba(255, 255, 255, 0.8);
+                }
+                &.active {
+                    background: #242f35;
+                    color: white;
+                    .icon {
+                        color: white !important;
+                    }
+                }
+                &:hover {
+                    color: rgba(255,255,255,.8);
+                    background-color: rgba(255,255,255,.02);
+                    .icon {
+                        color: white;
+                    }
+                }
+            }
+        }
+        .site-menubar-footer {
+            a {
+                background-color: #21292e;
+                &:hover {
+                    background-color: #1e2427;
+                }
+            }
+        }
+    }
+    .list-group {
+        // transition: width 0.5s ease;
+    }
+    .list-group-item {
+        border: none;
+        padding: 1rem 1.25rem;
+        margin-bottom: 0 !important;
+        &.active {
+            background: rgba(11, 105, 227, .07);
+            border: none;
+            color: $primary;
+            .icon {
+                color: $primary;
+            }
+        }
+        .media-body {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .icon {
+            // transition: width 0.2s ease, height 0.2s ease;
+            margin-right: 1rem;
+        }
+    }
+    .site-menubar-footer {
+        width: $drawer-width;
+        position: fixed;
+        bottom: 0;
+        display: block;
+        transition: all 350ms ease-in-out;
+        a {
+            height: 75px;
+            background-color: #e4eaec;
+            text-decoration: none;
+            &:hover {
+                background-color: #d5dee1;
+            }
+            .fa {
+                color: #526069;
+            }
+        }
+    }
+}
+
+#nav-drawer {
+    right: auto;
+    left: 0;
+}
+
+#nav-drawer-container {
+    height : 100%;
+    overflow-y: auto;
+    position:relative;
+    scrollbar-width: none;
+    -ms-overflow-style: none; 
+    &::-webkit-scrollbar {
+       display: none;
+       border-top: none;
+    }
+    .list-group {
+       // Remove default list styling in nav menus.
+       ul {
+           list-style: none;
+           padding: 0;
+           margin: 0;
+       }
+       // Add margin to be consistent with `.list-group-item` spacing.
+       li {
+           margin-bottom: -1px;
+       }
+       li:last-child {
+          margin-bottom: 0;
+       }
+    }
+}
+
+#page {
+    margin-top: $fixed-header-y;
+}
+.pagelayout-embedded #page {
+    margin-top: 0;
+}
+body.drawer-ease {
+    transition: margin-left 200ms ease, margin-right 200ms ease;
+}
+
+body {
+    margin-left: 0;
+    @include media-breakpoint-up(md) {
+        &:not(.pagelayout-login) {
+            margin-left: $drawer-closed-width;
+        }
+	&.pagelayout-secure {
+            margin-left: 0;
+        }
+    }
+}
+
+body.drawer-open-left {
+    @include media-breakpoint-up(md) {
+        margin-left: $drawer-width;
+
+        &.pagelayout-secure {
+            margin-left: 0;
+        }
+    }
+}
+body.drawer-open-right {
+    @include media-breakpoint-up(md) {
+        margin-right: $drawer-width;
+    }
+}
+
+$right-drawer-width: 280px;
+
+
+[data-region=right-hand-drawer] {
+    display: flex;
+    flex-direction: column;
+    @include transition(right .2s ease-in-out);
+
+    &.drawer {
+        z-index: $zindex-sticky;
+        position: fixed;
+        top: $navbar-height;
+        right: 0;
+        height: calc(100% - #{$navbar-height});
+        width: $right-drawer-width;
+        box-shadow: -2px 2px 4px rgba(0, 0, 0, .08);
+        padding: 0;
+        visibility: visible;
+        opacity: 1;
+    }
+
+    &.hidden {
+        display: block;
+        right: $right-drawer-width * -1;
+        // Turn off visibility so that nothing in the drawer can receive focus when
+        // it is hidden.
+        visibility: hidden;
+        opacity: 0;
+        // Delay visibility changes until after the slide right animation has completed.
+        @include transition(right .2s ease-in-out, visibility 0s ease-in-out .2s, opacity 0s ease-in-out .2s);
+    }
+}
+.dir-rtl {
+    [data-region=right-hand-drawer] {
+        box-shadow: 2px 2px 4px rgba(0, 0, 0, .08);
+    }
+}
+// Merged Message Panel Css
+#sidebar-message {
+    [data-region=right-hand-drawer] {
+        &.drawer {
+            position: absolute;
+            height: calc(100% - #{$navbar-height});
+        }
+    }
+}

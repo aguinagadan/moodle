@@ -1,0 +1,47 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+<div id="tasks" class="table-responsive container p-0">
+    <a data-region="add-task" class="btn btn-default add-item-toggle d-none">
+        <i class="icon fa fa-plus" aria-hidden="true"></i>
+        {{#str}} addtask, block_remuiblck {{/str}}
+    </a>
+    <div class="filters row">
+        <div class="filter-options col-sm-12 col-md-6 d-flex justify-content-start">
+            <div class="input-search input-search-dark">
+                <input data-region="task-search-filter" type="text" class="form-control" name="" placeholder="{{#str}} search, core_admin {{/str}}" autocomplete="off">
+                <i class="input-search-icon fa fa-search" aria-hidden="true"></i>
+            </div>
+        </div>
+        <div class="filter-options col-sm-12 col-md-6 d-flex justify-content-end" >
+            {{> block_remuiblck/task-duration-selector }}
+            {{> block_remuiblck/task-status-selector }}
+        </div>
+    </div>
+    <ul data-region="task-list" class="task-list list-group list-group-dividered unstyled">
+        {{> block_remuiblck/placeholder-task-list-item }}
+        {{> block_remuiblck/placeholder-task-list-item }}
+        {{> block_remuiblck/placeholder-task-list-item }}
+    </ul>
+    <div class="block-processing">
+        <div class="block-processing-icon"><i class="fa fa-circle-o-notch fa-spin"></i></div>
+    </div>
+</div>
+{{#js}}
+require(['block_remuiblck/schedule_task'], function(scheduletask) {
+    scheduletask.init('#tasks');
+});
+{{/js}}

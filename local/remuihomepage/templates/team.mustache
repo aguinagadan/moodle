@@ -1,0 +1,51 @@
+<section  data-instance="{{id}}" data-sectionname="{{sectionname}}" {{{sectionpropertiesoutput}}}>
+    {{> local_remuihomepage/editmenu}}
+    <div class=" m-auto px-sm-0 {{sectioncontaineroutput}}">
+        <div class="row text-center justify-content-center">
+            <div class=" pb-50 px-50 pt-0" >
+                {{#title}}{{> local_remuihomepage/common_title}}{{/title}}
+
+                {{#description}}
+                   {{> local_remuihomepage/common_title}}
+                {{/description}}
+            </div>
+        </div>
+
+        {{#row}}
+        <div class="row text-center justify-content-center hidden-md-down">
+                {{#member}}
+                    {{#name.text}}
+                    <div class="col-3 my-10 {{textalign}}" >
+                        <div >
+                            <p>
+                                <img alt="image" class="img-fluid {{#view}}rounded-circle {{/view}} {{^view}}rounded {{/view}}  w-80 h-80" src="{{imgurl}}" 
+                                {{#shadowless}}style="box-shadow: 0px 2px 5px {{sectionproperties.shadowcolor}};"{{/shadowless}}>
+                            </p>
+                            {{#name}}<h5 style="color: {{color}};"><strong>{{{text}}}</strong></h5>{{/name}}
+                            {{#quote}}<p class="font-size-12" style="color: {{color}};">{{{text}}}</p>{{/quote}}
+                        </div>
+                    </div>
+                    {{/name.text}}
+                {{/member}}
+        </div>
+        {{/row}}
+        <div class="row text-center justify-content-center hidden-lg-up">
+            {{#row}}
+                {{#member}}
+                    {{#name.text}}
+                        <div class="col-md-6 col-sm-6 my-10 {{textalign}}" >
+                            <div >
+                                <p>
+                                    <img alt="image" class="img-fluid {{#view}}rounded-circle {{/view}} {{^view}}rounded {{/view}}  w-80 h-80" src="{{imgurl}}" 
+                                    {{#shadowless}}style="box-shadow: 0px 2px 5px {{sectionproperties.shadowcolor}};"{{/shadowless}}>
+                                </p>
+                                {{#name}}<h5 style="color: {{color}};"><strong>{{{text}}}</strong></h5>{{/name}}
+                                {{#quote}}<p class="font-size-12" style="color: {{color}};">{{{text}}}</p>{{/quote}}
+                            </div>
+                        </div>
+                    {{/name.text}}
+                {{/member}}
+            {{/row}}
+        </div>
+    </div>
+</section>

@@ -1,0 +1,12 @@
+<section data-instance="{{id}}" data-sectionname="{{sectionname}}" {{{sectionpropertiesoutput}}}>
+    {{> local_remuihomepage/editmenu}}
+    <div class="html-blocks row m-0">
+        {{#block}}
+        <div class="{{classname}} {{#userisediting}} dashed {{/userisediting}}" >
+            {{#style}}<style type="text/css">{{{style}}}</style>{{/style}}
+            {{{html.text}}}
+        </div>
+        {{/block}}
+    </div>
+</div>
+</section>

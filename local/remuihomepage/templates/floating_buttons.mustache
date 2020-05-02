@@ -1,0 +1,28 @@
+{{#caneditfrontpage}}
+    {{#userisediting}}
+        <button type="button" class="hidden-sm-down btn btn-floating d-flex align-items-center justify-content-center btns-animate animate-2 settings" style="background: #0bb2d4!important;" data-toggle="tooltip" data-original-title="Settings" data-placement="left" data-trigger="hover">
+            <i class="fa fa-cog" aria-hidden="true"></i>
+        </button>
+
+        <button type="button" class="hidden-sm-down btn btn-floating d-flex align-items-center justify-content-center btns-animate animate-2 publish " style="background: #9463f7!important;" data-toggle="tooltip" data-original-title="Publish" data-placement="left" data-trigger="hover">
+            <i class="fa fa-cloud-upload" aria-hidden="true"></i>
+        </button>
+
+        <button type="button" class="hidden-sm-down preview-section btn btn-floating d-flex align-items-center justify-content-center btns-animate animate-1" style="background: #ffcd17!important;" data-toggle="tooltip" data-original-title="{{#str}} preview {{/str}}" data-placement="left" data-trigger="hover">
+            <i class="fa fa-eye" aria-hidden="true"></i>
+        </button>
+
+        <button type="button" class="hidden-sm-down add-section btn btn-floating d-flex align-items-center justify-content-center btns-animate animate-1" style="background: #11c26d!important;" data-toggle="tooltip" data-original-title="Add Sections" data-placement="left" data-trigger="hover">
+            <i class="fa fa-plus" aria-hidden="true"></i>
+        </button>
+
+        <button type="button" class=" editing-action btn btn-floating d-flex align-items-center justify-content-center" style="background: #eb6709!important;" data-toggle="tooltip" data-original-title="Turn Editing Off" data-placement="left"  data-edit="{{customizepagevalue}}" data-trigger="hover">
+            <i class="fa fa-times" aria-hidden="true"></i>
+        </button>
+    {{/userisediting}}
+    {{^userisediting}}
+        <button type="button" class="hidden-sm-down editing-action btn btn-floating d-flex align-items-center justify-content-center" style="background: #eb6709!important;" data-toggle="tooltip" data-original-title="Turn Editing On" data-placement="left"  data-edit="{{customizepagevalue}}" data-trigger="hover">
+            <i class="fa fa-pencil" aria-hidden="true"></i>
+        </button>
+    {{/userisediting}}
+{{/caneditfrontpage}}

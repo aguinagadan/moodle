@@ -1,0 +1,98 @@
+#page-login-index, #page-login-signup {
+    background-image: url("[[setting:login_bg]]");
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    content: "";
+    background-position: center top;
+    background-size: cover;
+    &::after {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: -1;
+        width: 100%;
+        height: 100%;
+        content: "";
+        background-color: rgba(38,50,56,.6);
+    }
+    .page-brand-info {
+        position: fixed;
+        left: 0;
+        top: 100px;
+        width: calc(100% - 500px);
+        color: white;
+        padding: 75px;
+    }
+    .logininfo {
+        color: white;
+    }
+    .loginform, .signupform {
+        position: fixed;
+        right: 0;
+        top: 0;
+        background: white;
+        height: 100%;
+        width: 500px;
+        overflow-y: auto;
+        animation-name: slide-right;
+        animation-duration: 1s;
+        animation-timing-function: ease-out;
+        animation-fill-mode: both;
+        .col-form-label {
+            display: none !important;
+        }
+        #fgroup_id_buttonar {
+            margin: 20px 0px;
+            .col-md-1 {
+                display: none;
+            }
+            .col-md-11 {
+                max-width: 100%;
+                flex: 1;
+                padding: 0px;
+            }
+        }
+        .custom-select {
+            width: 100%;
+        }
+    }
+    #page {
+        background: transparent;
+    }
+}
+
+@media screen and (max-width: 1023px) {
+    .page-brand-info {
+        display: none;
+    }
+    .loginform, .signupform {
+        width: 100% !important;
+    }
+    #page-footer {
+        background: $primary;
+        width: 100%;
+        color:white;
+    }
+}
+@media screen and (max-width: 480px) {
+    .loginform, .signupform {
+        .card-block {
+            padding: 2rem 1rem 8rem 1rem !important;
+        }
+    }
+}
+@keyframes slide-right {
+    0% {
+      opacity: 0;
+      transform: translate3d(100%, 0, 0);
+    }
+  
+    100% {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+}

@@ -1,0 +1,195 @@
+.pagelayout-course {
+    #region-main {
+        padding: 0 !important;
+        >.card-body {
+            background: transparent;
+        }
+    }
+    .course-content {
+        .section.main {
+            margin: 1rem 0rem;
+            padding: 1rem 0rem;
+            background: white;
+            position: relative;
+        }
+        .section_availability {
+            padding: 0px 15px;
+        }
+        .sectionname {
+            font-size: 16px;
+            a {
+                color: #526069 !important;
+                font-weight: normal;
+            }
+        }
+        li.section ul {
+            padding: 0;
+            li.activity {
+                padding: .3em;
+            }
+        }
+        #completionprogressid {
+            display: none;
+        }
+        .toggle-section {
+            position: absolute;
+            right: 16px;
+            font-size: 18px;
+            &.down {
+                transform: rotateX(180deg);
+            }
+        }
+    }
+    #section-0 {
+        background-color: #e4e4e4 !important;
+    }
+    .course-stats .stats-title {
+        text-transform: uppercase;
+        font-size: .85rem;
+        font-weight: 700;
+        letter-spacing: .1rem;
+    }
+    .availabilityinfo {
+        &.isfullinfo {
+            font-size: 90%;
+            padding: 10px;
+            background: #e0e0e0;
+            border-radius: 5px;
+            margin: 5px 0px !important;
+            li {
+                list-style: none !important;
+            }
+        }
+    }
+    &.editing {
+        .toggle-section {
+            display: none;
+        }
+    }
+}
+@media (max-width:1200px) {
+    .course-stats {
+        .stats-card {
+            padding: 0 !important;
+            p.display-4 {
+                font-size: 3rem !important;
+            }
+            .stats-title {
+                font-size: .75rem !important;
+            }
+        }
+    }
+    .pagelayout-incourse, .pagelayout-course {
+        div[role="main"] {
+            overflow: auto;
+        }
+    }
+}
+// Participants.
+.initialbar {
+    .initialbarall {
+        .page-link {
+            width: 4em;
+            border-radius: 1.8rem !important;
+        }
+    }
+    .page-item {
+        .page-link {
+            display: inline-block;
+            padding: 0;
+            height: 1.8em;
+            min-width: 1.8em;
+            text-align: center;
+            color: #526069;
+            border-width: 1px;
+            border-color: #e4eaec;
+            border-style: solid;
+            background-color: transparent;
+            margin-right: .3em;
+            border-radius: .3em;
+            line-height: 1.7em;
+            &:hover {
+                border-radius: 1.7em;
+                color: $primary;
+                border-color: #e4eaec;
+                background-color: #f3f7f9;
+            }
+            &:focus {
+                outline: 0;
+                box-shadow: none;
+            }
+        }
+        &.active {
+            .page-link {
+                border-radius: 1.7em;
+                color: #fff;
+                border-color: $primary;
+                background-color: $primary;
+            }
+        }
+    }
+}
+@media (max-width:480px) {
+    .initialbargroups  {
+        width: 100%;        
+        .pagination {
+            width: 100%;
+        }
+    }
+}
+
+// Assignment.
+#page-mod-assign-grader {
+    div[data-region="grade-actions"] {
+        .btn-secondary {
+            &.active {
+                background: #e0dfdf;
+            }
+        }
+    }
+}
+
+// Scorm
+#tocbox {
+    padding-bottom: 10px;
+    overflow: hidden;
+}
+
+// Activity Navigation.
+.activity-navigation {
+    .btn {
+        @extend .text-truncate;
+        max-width: 250px;
+    }
+    form {
+        margin: 0;
+    }
+}
+
+// Edwiser RemUI Course Format.
+#page-course-view-remuiformat.pagelayout-course .remui-format-list #section-0 {
+    background-color: #f1f4f5 !important;
+}
+
+#page-course-view-remuiformat.pagelayout-course {
+    ul.general-single-card-container {
+        padding: 0rem 1rem;
+    }
+    .general-single-card  {
+        background-color: white !important;
+    }
+}
+
+#page-course-view-remuiformat.pagelayout-course .remui-format-list .wdm-card {
+    padding: 0 !important;
+}
+
+#page-course-view-remuiformat.editing ul.remui-format-list h4.sectionname {
+    padding: 10px 0px !important;
+    clear: none !important;
+}
+
+// collapsibletopics padding fix
+.format-collapsibletopics .course-content li.section {
+    @extend .p-3;
+}

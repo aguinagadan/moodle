@@ -1,0 +1,32 @@
+// Bootstrap's functions
+@import "bootstrap/functions";
+
+// Bootstrap's variables
+@import 'bootstrap/variables';
+
+// Load mixins
+@import 'mixins';
+
+// Load color variables
+@import 'variables/vars-color';
+
+// Load social color variables
+@import 'variables/vars-social-color';
+
+// Load Bootstrap override variables
+@import 'variables/vars-bootstrap';
+
+// Load Site variables
+@import 'variables/vars-site';
+
+// Load components variables
+@import 'variables/vars-components';
+
+// Load Custom variables
+@import 'variables/vars-customs';
+
+// // Reset and dependencies
+// // v4-normalize
+// @import "bootstrap/normalize";
+// // v4-print
+// @import "bootstrap/print";

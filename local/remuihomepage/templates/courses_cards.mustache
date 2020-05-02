@@ -1,0 +1,9 @@
+{{#courses}}
+    {{> theme_remui/course_card_grid}}
+{{/courses}}
+{{^courses}}
+    <div class="empty-courses-container text-xs-center text-center m-auto" data-region="empty-message">
+        <img class="empty-placeholder-image-lg w-150" src="{{coursesplaceholder}}" alt="{{#str}} nocourses {{/str}}" role="presentation">
+        <p class="text-muted mt-3">{{#str}} nocourses {{/str}}</p>
+    </div>
+{{/courses}}

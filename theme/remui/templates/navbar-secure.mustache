@@ -1,0 +1,58 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    secure navbar.
+}}
+<nav class="fixed-top navbar navbar-light {{#navbarinverse}}nav-inverse{{/navbarinverse}}  navbar-expand moodle-has-zindex p-0" aria-label="{{#str}}navigation{{/str}}">
+    <div class="navbar-brand navbar-brand-center p-0 m-0 h-100">
+        {{# output.should_display_logo }}
+            {{# isiconsitename }}
+                <a class="text-white d-flex align-items-center justify-content-center h-100 w-full text-decoration-none" href="{{{ config.wwwroot }}}">
+                    <span class="navbar-brand-logo mini"><i class="fa fa-{{siteicon}}"></i></span>
+                    <span class="navbar-brand-logo font-weight-bold">
+                        <i class="fa fa-{{siteicon}}"></i>&nbsp;
+                        {{{ sitename }}}
+                    </span>
+                </a>
+            {{/ isiconsitename }}
+                
+            {{# islogo }}
+                <a class="text-white d-flex align-items-center justify-content-center h-100 w-full text-decoration-none" href="{{{ config.wwwroot }}}">
+                    <span class="navbar-brand-logo mini" style="background-image: url({{ logominiurl }});
+                        background-position: center; background-size: contain; background-repeat: no-repeat;"></span>
+                    <span class="navbar-brand-logo" style="background-image: url({{ logourl }});
+                        background-position: center; background-size: contain; background-repeat: no-repeat;">
+                    </span>
+                </a>
+            {{/ islogo }}
+        {{/ output.should_display_logo }}
+    </div>
+    <div data-region="drawer-toggle" class="d-inline-block m-0 h-100">
+        <button aria-expanded="{{#navdraweropen}}true{{/navdraweropen}}{{^navdraweropen}}false{{/navdraweropen}}" aria-controls="nav-drawer" type="button" class="btn nav-link float-sm-left  bg-transparent" data-action="toggle-drawer" data-side="left" data-preference="drawer-open-nav">{{#pix}}i/menubars{{/pix}}<span class="sr-only">{{#str}}sidepanel, core{{/str}}</span></button>
+    </div>
+    <div class="nav-item" id="toggleFullscreen" title="{{#str}}togglefullscreen, theme_remui{{/str}}">
+        <a class="nav-link icon m-0 px-3" data-toggle="fullscreen" href="#" role="button">
+            {{! Expand Icon SVG }}
+            <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="expand" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="svg-inline--fa fa-expand fa-w-14 fa-3x"><path fill="currentColor" d="M0 180V56c0-13.3 10.7-24 24-24h124c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12H64v84c0 6.6-5.4 12-12 12H12c-6.6 0-12-5.4-12-12zM288 44v40c0 6.6 5.4 12 12 12h84v84c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12V56c0-13.3-10.7-24-24-24H300c-6.6 0-12 5.4-12 12zm148 276h-40c-6.6 0-12 5.4-12 12v84h-84c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h124c13.3 0 24-10.7 24-24V332c0-6.6-5.4-12-12-12zM160 468v-40c0-6.6-5.4-12-12-12H64v-84c0-6.6-5.4-12-12-12H12c-6.6 0-12 5.4-12 12v124c0 13.3 10.7 24 24 24h124c6.6 0 12-5.4 12-12z" class=""></path></svg>
+            {{! Collapse Icon SVG }}
+            <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="compress" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="svg-inline--fa fa-compress fa-w-14 fa-3x"><path fill="currentColor" d="M436 192H312c-13.3 0-24-10.7-24-24V44c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v84h84c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12zm-276-24V44c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v84H12c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h124c13.3 0 24-10.7 24-24zm0 300V344c0-13.3-10.7-24-24-24H12c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h84v84c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm192 0v-84h84c6.6 0 12-5.4 12-12v-40c0-6.6-5.4-12-12-12H312c-13.3 0-24 10.7-24 24v124c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12z" class=""></path></svg>
+        </a>
+    </div>
+    <div class="nav-item text-white" style="line-height: 66px;">
+      {{{ output.secure_login_info }}}
+    </div>
+</nav>

@@ -1,0 +1,196 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    Edwiser RemUI 
+    @package    theme_remui
+    @copyright  (c) 2018 WisdmLabs (https://wisdmlabs.com/)
+    @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ 
+}}
+
+{{#old_card}}
+<div class=" {{widthclasses}} d-flex animation-{{animation}}" data-plugin="appear" data-animate="{{animation}}" course-id="{{id}}" >
+    <div class="card my-3 w-full {{^shadowless}}border{{/shadowless}} rounded bg-white" style="{{#shadowless}}box-shadow: 0 2px 5px {{sectionproperties.shadowcolor}};{{/shadowless}}">
+        <div class="img-container position-relative">
+            <a href="{{ courseurl }}">
+            <div class="rounded-top" style="background-image: url('{{ courseimage }}');background-size: cover;background-position: center; position: relative; height:200px;"></div>
+            {{^visible}}<i class="hidden-icon fa fa-eye-slash text-white" aria-hidden="true" title="{{#str}} hiddencourse, theme_remui {{/str}}"></i>{{/visible}}
+            </a>
+
+            {{# instructors }}
+            <a href="{{ url }}" class="d-flex justify-content-end instructor-img {{ imgStyle }}" data-toggle="tooltip" title="{{{name}}}">
+                <img src="{{ picture }}" style="border: 2px solid white; cursor: pointer;" class="rounded-circle" alt="{{ name }}" />
+            </a>
+            {{/ instructors }}
+        </div>
+        <div class="card-body" title="{{{ coursename }}}">
+            <h4 class="card-title my-1 ellipsis ellipsis-3" style="-webkit-box-orient: vertical;"><a href="{{ courseurl }}" class="font-weight-400 text-dark font-size-18">{{{ coursename }}}</a></h4>
+            <span class="text-muted ellipsis ellipsis-2" style="-webkit-box-orient: vertical;">{{{ categoryname }}}</span>
+            <p class="card-text ellipsis ellipsis-3 m-0 pt-2" style="-webkit-box-orient: vertical;">{{{ coursesummary }}}</p>
+        </div>
+        
+        {{# mycourses}}
+            {{# coursecompleted }}
+                <div class="card-footer bg-transparent border-0 p-0 activity-btn {{listbuttons}}">
+                    <a href="{{ courseurl }}" class="btn btn-success btn-block p-10 bg-green-500 border-0 rounded-0 text-white font-weight-800" href="">
+                    <i class="fa fa-check" aria-hidden="true"></i>
+                    {{coursecompleted}}</a>
+                </div>
+            {{/ coursecompleted }}
+
+            {{# courseinprogress }}
+                <div class="progress progress-xs m-0 bg-purple-200 w-p100 {{listprogress}}">
+                    <div class="progress-bar bg-purple-400" style="width: {{percentage}}%;" role="progressbar">
+                    </div>
+                </div>
+                <div class="card-footer bg-transparent border-0 p-0 activity-btn {{listbuttons}}">
+                    <a href="{{# lastaccessactivity}} {{lastaccessactivity}} {{/ lastaccessactivity}}{{^ lastaccessactivity}} {{ courseurl }} {{/ lastaccessactivity}}" class="btn btn-default btn-block p-10 bg-purple-500 border-0 rounded-0 text-white font-weight-800" href=""><i class="fa fa-refresh" aria-hidden="true"></i>
+                    {{courseinprogress}}</a>
+                </div>
+            {{/ courseinprogress }}
+
+            {{# coursetostart }}
+                <div class="card-footer bg-transparent border-0 p-0 activity-btn {{listbuttons}}">
+                    <a href="{{ courseurl }}" class="btn btn-info btn-block p-10 border-0 rounded-0 text-white font-weight-800" href=""><i class="fa fa-play-circle" aria-hidden="true"></i>
+                    {{coursetostart}}</a>
+                </div>
+            {{/ coursetostart }}
+        {{/ mycourses}}
+
+
+        {{^ mycourses}}
+            {{# usercanmanage }}
+                <div class="card-footer bg-transparent border-0 text-muted activity-btn {{listbuttons}}">
+                    <div class="enrolmenticons d-inline-block">
+                        {{{ enrollmenticons }}}
+                    </div>
+
+                    <button type="button"
+                        class="btn btn-icon btn-outline-primary btn-sm btn-round float-right showoptions "
+                        data-plugin="toolbar"
+                        data-toolbar="#course-{{ id }}-options">
+                        <i class="icon fa fa-cog" aria-hidden="true"></i>
+                    </button>
+                </div>
+                <div class="toolbar-icons tool-items toolbar-primary" id="course-{{ id }}-options" hidden="">
+                    <a href="{{ enrollusers }}" class="tool-item" title="{{# str }} enroluser, theme_remui {{/ str }}"><i class="icon fa fa-users" aria-hidden="true"></i></a>
+                    <a href="{{ grader }}" class="tool-item" title="{{# str }} graderreport, theme_remui {{/ str }}"><i class="icon fa fa-star" aria-hidden="true"></i></a>
+                    <a href="{{ activity }}" class="tool-item" title="{{# str }} activityeport, theme_remui {{/ str }}"><i class="icon fa fa-pie-chart" aria-hidden="true"></i></a>
+                    <a href="{{ editcourse }}" class="tool-item" title="{{# str }} editcourse, theme_remui {{/ str }}"><i class="icon fa fa-edit" aria-hidden="true"></i></a>
+                </div>
+            {{/ usercanmanage }}
+
+            {{^ usercanmanage }}
+                {{#enrollmenticons}}
+                <div class="card-footer bg-transparent border-0 text-muted">
+                    <div class="enrolmenticons">
+                        {{{ enrollmenticons }}}
+                    </div>
+                </div>
+                {{/enrollmenticons}}
+            {{/ usercanmanage }}
+        {{/ mycourses}}
+    </div>
+</div>
+{{/old_card}}
+
+
+{{^old_card}}
+<div class=" {{widthclasses}} course_card my-3 card animation-{{animation}}" data-plugin="appear" data-animate="{{animation}}" course-id="{{id}}">
+    <div class="wrapper" style="background-image: url('{{ courseimage }}');background-size: cover;background-position: center; position: relative;
+    {{#shadowless}}box-shadow: -1px 4px 6px -1px {{sectionproperties.shadowcolor}};{{/shadowless}}">
+        {{#startdate}}
+        <div class="date btn-primary">
+        <span class="day">{{day}}</span>
+        <span class="month">{{month}}</span>
+        <span class="year">{{year}}</span>
+        </div>
+        {{/startdate}}
+        {{^visible}}<i class="hidden-icon fa fa-eye-slash visible text-white" aria-hidden="true" title="{{#str}} hiddencourse, theme_remui {{/str}}"></i>{{/visible}}
+        {{# usercanmanage }}
+        <div class="menu-picker-select">
+            <div class="menu-picker btn-group " role="group">
+              <label for="show-menu" class="menu-button"><span></span></label>
+            </div>
+            <div class="menu-content btn-group btn-group-vertical" aria-label="Vertical button group">
+                <button type="button" class="btn btn-primary p-0">
+                    <a href="{{ enrollusers }}" title="{{# str }} enroluser, theme_remui {{/ str }}" class="d-block py-2 px-2">
+                        <i class="m-0 icon fa fa-users text-white" aria-hidden="true"></i>
+                    </a>
+                </button>
+                <button type="button" class="btn btn-primary p-0">
+                    <a href="{{ grader }}" title="{{# str }} graderreport, theme_remui {{/ str }}" class="d-block py-2 px-2">
+                        <i class="m-0 icon fa fa-star text-white" aria-hidden="true"></i>
+                    </a>
+                </button>
+                <button type="button" class="btn btn-primary p-0">
+                    <a href="{{ activity }}" title="{{# str }} activityeport, theme_remui {{/ str }}" class="d-block py-2 px-2">
+                        <i class="m-0 icon fa fa-pie-chart text-white" aria-hidden="true"></i>
+                    </a>
+                </button>
+                <button type="button" class="btn btn-primary p-0">
+                    <a href="{{ editcourse }}" title="{{# str }} editcourse, theme_remui {{/ str }}" class="d-block py-2 px-2">
+                        <i class="m-0 icon  fa fa-edit text-white" aria-hidden="true"></i>
+                    </a>
+                </button>
+            </div>
+        </div>
+        {{/ usercanmanage }}
+        {{# instructors }}
+            <a href="{{ url }}" class="d-flex justify-content-end instructor-img {{ imgStyle }}" data-toggle="tooltip" title="{{{name}}}">
+                <img src="{{ picture }}" style="border: 2px solid white; cursor: pointer;" class="rounded-circle" alt="{{ name }}" />
+            </a>
+        {{/ instructors }}
+        <div class="data">
+            {{# mycourses}}
+                <div class="course-stat">
+                {{# coursecompleted }}
+                <div class="progress progress-xs m-0 bg-success w-p100 {{listprogress}}">
+                    <div class="progress-bar bg-success " style="width: 100%;" role="progressbar">
+                    </div>
+                </div>
+                <div class="card-footer bg-transparent border-0 p-0 activity-btn {{listbuttons}}">
+                    <a href="{{ courseurl }}" class="btn btn-success btn-block p-10 bg-success border-0 rounded-0 text-white font-weight-800" href="">
+                    <i class="fa fa-check" aria-hidden="true"></i>
+                    {{coursecompleted}}</a>
+                </div>
+                {{/ coursecompleted }}
+
+                {{# courseinprogress }}
+                <div class="progress progress-xs m-0 bg-purple-200 w-p100 {{listprogress}}">
+                    <div class="progress-bar bg-purple-400" style="width: {{percentage}}%;" role="progressbar">
+                    </div>
+                </div>
+                <div class="card-footer bg-transparent border-0 p-0 activity-btn {{listbuttons}}">
+                    <a href="{{# lastaccessactivity}} {{lastaccessactivity}} {{/ lastaccessactivity}}{{^ lastaccessactivity}} {{ courseurl }} {{/ lastaccessactivity}}" class="btn btn-default btn-block p-10 bg-purple-500 border-0 rounded-0 text-white font-weight-800" href=""><i class="fa fa-refresh" aria-hidden="true"></i>
+                    {{courseinprogress}}</a>
+                </div>
+                {{/ courseinprogress }}
+
+                {{# coursetostart }}
+                <div class="card-footer bg-transparent border-0 p-0 activity-btn {{listbuttons}}">
+                    <a href="{{ courseurl }}" class="btn btn-info btn-block p-10 border-0 rounded-0 text-white font-weight-800" href=""><i class="fa fa-play-circle" aria-hidden="true"></i>
+                    {{coursetostart}}</a>
+                </div>
+                {{/ coursetostart }}
+                </div>
+            {{/ mycourses}}
+            <div class="content" title="{{{coursename}}}">
+                <span class="author ellipsis ellipsis-1" style="-webkit-box-orient: vertical;">{{{categoryname}}}</span>
+                <h4 class="card-title my-1 ellipsis ellipsis-3 title" style="-webkit-box-orient: vertical;"><a href="{{ courseurl }}" class="font-weight-400 text-dark font-size-18">{{{coursename}}}</a></h4>
+                <p class="text" style="-webkit-box-orient: vertical;">{{{coursesummary}}}</p>
+            </div>
+        </div>
+    </div>
+</div>
+{{/old_card}}

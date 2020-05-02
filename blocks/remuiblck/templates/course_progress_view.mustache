@@ -1,0 +1,68 @@
+<div class="panel panel-default panel-info mb-20">
+<div class="row col-12 mx-0">
+    <div class="teacherdash col-xs-12 col-sm-12 col-md-10 mx-0 px-0 text-justify">
+        <h3 class="my-15">{{{coursefullname}}}</h3>
+    </div>
+    <div class="dashmenu col-xs-12 col-sm-12 col-md-2 px-0 text-right">
+        <a class="toggle-desc panel-action px-15 icon fa fa-plus font-size-18 py-15" data-toggle="collapse" aria-hidden="true"></a>
+        <a class="panel-action icon fa fa-times font-size-18 py-15" data-toggle="panel-close" aria-hidden="true" id="courserevertbtn"></a>
+    </div>
+</div>
+<div class="panel-body px-15 py-5 text-justify collapse">
+    <p>{{{coursesummary}}}</p>
+</div>
+</div>
+
+<!-- Modal Div -->
+<div class="modal fade" id="exampleModalSuccess" tabindex="-1" role="dialog" aria-labelledby="exampleModalSuccess" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">{{#str}} message, core_message {{/str}}e</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <input type="hidden" name="studentid" id="messageidhidden">
+          <textarea class="form-control" rows="5" id="messagearea"></textarea>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default close-message" data-dismiss="modal">{{#str}} closebuttontitle, moodle {{/str}}</button>
+        <button type="button" class="btn btn-primary send-message">{{#str}} send, core_message {{/str}}</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<table class="table table-hover dataTable table-striped w-full dtr-inline responsive nowrap" id="wdmCourseProgressTable" role="grid" aria-describedby="exampleTableTools_info" cellspacing="0" width="100%">
+<thead >
+<tr>
+<th class="pl-10">#</th>
+<th class="pl-10">{{#str}} name, block_remuiblck {{/str}}</th>
+<th class="pl-10">{{#str}} status, block_remuiblck {{/str}}</th>
+<th class="pl-10">{{#str}} progress, block_remuiblck {{/str}}</th>
+</tr>
+</thead>
+<tbody>
+{{#students}}
+    <tr>
+        <td>{{index}}</td>
+        <td>{{{name}}}
+        <i class="icon fa fa-envelope text-success custom-message float-right" name="colorChosen" data-target="#exampleModalSuccess" data-toggle="modal" data-studentid="{{id}}" style="cursor:pointer;"></i></td>
+        <td>{{lastaccess}}</td>
+        <td>
+            <div class="pie-progress pie-progress-xs" data-plugin="pieProgress" data-valuemax="100" data-barcolor="#57c7d4" data-size="100" data-barsize="10" data-goal="86"
+            aria-valuenow="{{progress}}" role="progressbar" style="max-width: 35px!important;">
+            <div class="pie-progress-content ml-50" style="z-index:2;">
+            <div class="pie-progress-number">{{progress}}%</div>
+            </div>
+            </div>
+        </td>
+    </tr>
+{{/students}}
+</tbody>
+</table>

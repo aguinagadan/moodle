@@ -1,0 +1,99 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    Page footer.
+}}
+<footer id="page-footer" class="py-3 bg-primary">
+    <div class="floating-buttons page-settings" data-html2canvas-ignore>
+        <button id="gotop" type="button" class=" btn btn-floating btn-primary {{#hasblock}}hasblock{{/hasblock}} d-none align-items-center justify-content-center" data-toggle="tooltip" data-original-title="Go Top" data-placement="left" data-trigger="hover">
+            <i class="fa fa-chevron-up" aria-hidden="true"></i>
+        </button>
+        {{#floating_buttons}}
+            {{{floating_buttons}}}
+        {{/floating_buttons}}
+    </div>
+    {{# footerdata }}
+    <div class="container-fluid">
+        <div class="container">
+            <div class="row m-0 p-0">
+                {{# sections }}
+                <div class="{{ classes }} text-xs-center">
+                    <div class="p-2">
+                        <h4 class="card-title mt-1 text-white font-weight-normal font-size-18">{{{ title }}}</h4>
+                        <div class="card-text text-white">{{{ content }}}</div>
+                    </div>
+                </div>
+                {{/ sections }}
+
+                {{# social }}
+                <div class="{{ classes }} text-xs-center">
+                    <div class="py-2 px-1">
+                        <h4 class="card-title mt-1 text-white font-weight-normal font-size-18">{{# str }} followus, theme_remui {{/ str }}</h4>
+                        <p class="card-text">
+                            {{# facebook }}
+                                <a href="{{ facebook }}" class="btn btn-icon btn-round social-facebook m-1"><i class="icon fa fa-facebook" aria-hidden="true"></i></a>
+                            {{/ facebook }}
+                            {{# twitter }}
+                                <a href="{{ twitter }}" class="btn btn-icon btn-round social-twitter m-1"><i class="icon fa fa-twitter" aria-hidden="true"></i></a>
+                            {{/ twitter }}
+                            {{# linkedin }}
+                                <a href="{{ linkedin }}" class="btn btn-icon btn-round social-linkedin m-1"><i class="icon fa fa-linkedin" aria-hidden="true"></i></a>
+                            {{/ linkedin }}
+                            {{# gplus }}
+                                <a href="{{ gplus }}" class="btn btn-icon btn-round social-google-plus m-1"><i class="icon fa fa-google-plus" aria-hidden="true"></i></a>
+                            {{/ gplus }}
+                            {{# instagram }}
+                                <a href="{{ instagram }}" class="btn btn-icon btn-round social-instagram m-1"><i class="icon fa fa-instagram" aria-hidden="true"></i></a>
+                            {{/ instagram }}
+                            {{# youtube }}
+                                <a href="{{ youtube }}" class="btn btn-icon btn-round social-youtube m-1"><i class="icon fa fa-youtube" aria-hidden="true"></i></a>
+                            {{/ youtube }}
+                            {{# pinterest }}
+                                <a href="{{ pinterest }}" class="btn btn-icon btn-round social-pinterest m-1"><i class="icon fa fa-pinterest" aria-hidden="true"></i></a>
+                            {{/ pinterest }}
+                        </p>
+                    </div>
+                </div>
+                {{/ social }}
+            </div>
+        </div>
+
+        <div class="footer-bottom row mx-3 px-0 py-2">
+            <div class="site-footer-legal pt-2 col-md-6">
+                <nav class="nav navbar-nav d-none" aria-label="{{#str}}custommenu, admin{{/str}}">
+                    {{# output.custom_menu_flat }}
+                        <ul class="list-unstyled pt-3">
+                            {{> theme_remui/custom_menu_footer }}
+                        </ul>
+                    {{/ output.custom_menu_flat }}
+                </nav>
+                <a href="{{ bottomlink }}">{{{ bottomtext }}}</a>
+            </div>
+            <div class="site-footer-right pt-2 col-md-6 text-right">
+                {{# poweredby }}
+                    <a href="https://edwiser.org/remui/" rel="nofollow" target="_blank" >{{# str }} poweredby, theme_remui {{/ str }}</a>
+                {{/ poweredby }}
+                {{{ output.login_info }}}
+                <div class="tool_usertours-resettourcontainer"></div>
+                {{{ output.standard_footer_html }}}
+            </div>
+        </div>
+        <div id="course-footer">{{{ output.course_footer }}}</div>
+        {{{ output.standard_end_of_body_html }}}
+    </div>
+    {{/ footerdata }}
+</footer>

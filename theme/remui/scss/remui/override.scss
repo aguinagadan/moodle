@@ -1,0 +1,171 @@
+/* override the list item style in profile page */
+.page-profile .page-content {
+  .list-group-item {
+    .media .avatar {
+        width: 75px;
+    }
+    &:last-child {
+      border-bottom-color: transparent;
+    }
+  }
+}
+
+.card-header {
+    background: transparent;
+}
+
+.alert {
+    &:focus {
+        box-shadow: none;
+        outline: none;
+    }
+    &.dark {
+        &.alert-info {
+            color: #fff;
+            background-color: #0bb2d4;
+            border-color: #0bb2d4;
+        }
+        &.alert-success {
+            color: #fff;
+            background-color: #11c26d;
+            border-color: #11c26d;
+        }
+        &.alert-warning {
+            color: #fff;
+            background-color: #eb6709;
+            border-color: #eb6709;
+        }
+        &.alert-danger {
+            color: #fff;
+            background-color: #ff4c52;
+            border-color: #ff4c52;
+        }
+    }
+}
+.alert>:last-child {
+    margin-bottom: 0 !important;
+}
+
+.editor_atto {
+    .editor_atto_toolbar, .editor_atto_content_wrap {
+        border: 0;
+        .atto_group {
+            border: 0;
+            margin: 9px 9px 0px 9px;
+            button {
+                &:active, &:hover {
+                    background-image: none;
+                }
+                +button {
+                    border: 0;
+                    background-image: none;
+                }
+                &.highlight {
+                    background-image: none;
+                    background-color: #f2f2f2;
+                    .fa {
+                        color: $primary;
+                    }
+                }
+            }
+        }
+    }
+    .editor_atto_content_wrap {
+        border: 1px solid #f5f5f5 !important;
+    } 
+}
+/** Datatable header in course progress block **/
+table.dataTable thead th, table.dataTable tfoot th{
+    background-color: $brand-primary ;
+    color: #fff !important;
+}
+
+.btn-group > .btn {
+    box-shadow: none;
+}
+
+.btn-group > .btn:first-child {
+  margin-left: 0; }
+
+.btn-group > .btn:not(:last-child):not(.dropdown-toggle),
+.btn-group > .btn-group:not(:last-child) > .btn,
+.tool-items > .btn:not(:last-child) {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0; }
+
+.btn-group > .btn:not(:first-child),
+.btn-group > .btn-group:not(:first-child) > .btn,
+.tool-items > .btn:not(:first-child) {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0; }
+.message-app .body-container>* {
+    position: absolute;
+    right: 0;
+    left: 0;
+    top: 0;
+    bottom: 0;
+}
+
+.bootstrap-select {
+    &.show {
+        .dropdown-menu {
+            display: block;
+            transform: scale(1);
+            li {
+                padding: 0 5px;
+                margin: 2px 0;
+                a {
+                    display: block;
+                    padding: .572rem 1.072rem;
+                    font-weight: 400;
+                    line-height: 1.57142857;
+                    color: #526069;
+                    white-space: nowrap;
+                    border-radius: .215rem;
+                    &:hover {
+                        background: #f3f7f9;
+                    }
+                    &:focus {
+                        box-shadow: none;
+                        outline: none;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.badge {
+    font-size: 85% !important;
+    color: white !important;
+    border-radius: .5rem;
+}
+
+#dndupload-status {
+    padding: .75rem 1.25rem !important;
+    color: white;
+    border-radius: .215rem !important;
+}
+
+.step {
+    padding: 5px 10px;
+    border: .3px solid #f0f0f0;
+    &.current {
+        border-color: $primary;
+    }
+    .step-number {
+        left: auto;
+    }
+}
+
+input[type="text"] {
+    @extend .form-control;
+}
+
+.btn-group-vertical {
+  > .btn,
+  > .btn-group {
+    width: 100%;
+    margin-left: 0 !important;
+  }
+}

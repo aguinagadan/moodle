@@ -1,0 +1,100 @@
+header.page-header {
+    display: none;
+}
+.section-team {
+    .w-80 {
+        width: 80px !important;
+    }
+    .h-80 {
+        height: 80px !important;
+    }
+}
+.section-courses {
+    .h-p100 {
+        height: 100% !important;
+    }
+    .img-container .rounded-top {
+        height: 170px !important;
+    }
+    .h-400 {
+        height: 400px !important;
+    }
+    .courses-slider {
+        .card {
+            margin: 0 0 2.143rem 0!important;
+        }
+        .card-footer {
+            display: none !important;
+        }
+    }
+    .w-p100 {
+        width: 100%;
+    }
+}
+#region-main-box, #region-main {
+    padding: 0;
+}
+&:not(.drawer-open-left) {
+    margin-left: 0;
+    &.has-slider {
+        .fixed-top.navbar {
+            transition: all .45s ease-in;
+            .navbar-brand {
+                transition: all .45s ease-in;
+            }
+        }
+        #page {
+            margin-top: 0;
+            .home-sections {
+                section.panel:first-child.section-slider {
+                    .edit-menu {
+                        top: 80px;
+                    }
+                }
+            }
+        }
+        &.animate-header {
+            .fixed-top.navbar {
+                height: 80px;
+                background: transparent !important;
+                .navbar-brand {
+                    background: transparent !important;
+                }
+            }
+        }
+    }
+}
+
+.form-check-input {
+    position: relative;
+}
+
+.mr-5 {
+    margin-right: .25rem !important;
+}
+
+.mb-10 {
+    margin-bottom: .5rem !important;
+}
+
+.h-p100 {
+    height: 100%;
+}
+
+.form-check {
+    padding-left: 0;
+}
+
+.btn.square {
+    border-radius: .215rem !important;
+}
+
+.hidden-icon {
+    position: absolute;
+    font-size: 20px;
+    left: 10px;
+    bottom: 10px;
+}
+.h-300 {
+    height: 300px;
+}

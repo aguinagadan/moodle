@@ -1,0 +1,391 @@
+// Scrollbar
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+    background-color: transparent;
+}
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    box-shadow: inset 0 0 6px #b8b9bf;
+    background-color: #b8b9bf;
+}
+
+body {
+    font-size: 14px;
+    font-family: "[[setting:fontfamily]]",sans-serif;
+    #sidebar-blocks {
+        .dropdown-menu {
+            width: 230px;
+            .menu-action-text {
+                white-space: normal;
+            }
+        }
+    }
+    #page-wrapper {
+        -ms-overflow-style: -ms-autohiding-scrollbar;
+        // overflow-x: hidden;
+    }
+}
+
+/*Goto top*/
+:not(.sidebar-open, .sidebar-pinned){
+    .floating-buttons {
+        position: fixed;
+        bottom: 50px;
+        right: 2%;
+        z-index: 5;
+        transition: right .5s ease,left .5s ease;
+        button {
+            height: 50px;
+            width: 50px;
+            margin-top: 10px;
+            i {
+                color: #ffffff;
+                font-size: 16px;
+            }
+        }
+    }
+}
+.sidebar-open, .sidebar-pinned {
+    .floating-buttons {
+        @include media-breakpoint-up(md) {
+            right: 38%;
+        }
+        @include media-breakpoint-up(lg) {
+            right: 23%;
+        }
+    }
+}
+
+// Nav Links.
+.navbar {
+    .dropdown-toggle {
+        background: transparent;
+        border: 0;
+    }
+}
+.nav-tabs {
+    .nav-link {
+        border: none !important;
+        border-bottom: 1px solid transparent !important;
+        color: $gray-700 !important;
+        &.active {
+            color: $primary !important;
+            border-color: $primary !important;
+            .fa {
+                color: $primary !important;
+            }
+        }
+    }
+}
+
+.nav-pills {
+    .nav-link {
+        border: none !important;
+        border-radius: .215rem;
+        border-bottom: 1px solid transparent !important;
+        color: $gray-700 !important;
+        &.active {
+            color: white !important;
+            border-color: $primary !important;
+            .fa {
+                color: white !important;
+            }
+        }
+    }
+}
+
+// Radio and Checkboxes.
+.radio-custom, .checkbox-custom {
+    position: relative;
+    padding: 0 !important;
+    input[type=checkbox], input[type=radio] {
+        z-index: 1;
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+        opacity: 0;
+        position: absolute;
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+
+    label {
+        display: inline-flex;
+        padding-left: 10px;
+        margin-left: 20px;
+        &::before {
+            display: inline-block;
+            position: absolute;
+            left: 0;
+            width: 20px;
+            height: 20px;
+            background: #fff;
+            content: "";
+            border: 1px solid #e4eaec;
+            border-radius: 50%;
+            transition: border .3s ease-in-out 0s,color .3s ease-in-out 0s;
+        }
+    }
+}
+.checkbox-custom label::before {
+	border-radius: .215rem;
+}
+
+.radio-custom input[type=radio]:checked+label::before,
+.checkbox-custom input[type=checkbox]:checked+label::before{
+    border-color: $primary;
+    border-width: 10px;
+}
+
+.radio-custom label::after {
+    position: absolute;
+    top: 7px;
+    left: 7px;
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    content: " ";
+    background-color: transparent;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    transition: .1s cubic-bezier(.8,-.33,.2,1.33);
+    -webkit-transform: scale(0,0);
+    transform: scale(0,0);
+}
+
+.radio-custom input[type=radio]:checked+label::after {
+    -webkit-transform: scale(1,1);
+    transform: scale(1,1);
+}
+
+.checkbox-custom input[type=checkbox]:checked+label::after{ 
+	position: absolute;
+	display: inline-block;
+	content: "\f00c";
+	font-family: FontAwesome;
+	left: 3px;
+    top: -1px;
+    color: white;
+}
+
+// Main Page.
+#page {
+    background: #f1f4f5;
+    #page-header {
+        .card {
+            background: transparent;
+        }
+    }
+    #region-main {
+        padding: 0px 20px;
+        @include media-breakpoint-down(md) { 
+            padding: 0px;
+        }
+        >.card {
+            overflow: auto;
+        }
+    }
+}
+
+// Fcontainers.
+fieldset {
+    margin-left: 0 !important;
+    border-bottom: 0 !important;
+    legend {
+        &.ftoggler {
+            background: #f5f5f5;
+            padding: 10px;
+            margin: 0;
+            a.fheader {
+                margin-left: 0px !important;
+                font-size: 18px;
+            }
+        }
+    }
+    div.fcontainer {
+        padding: 15px;
+        border: 4px solid #f5f5f5;
+    }
+}
+
+// General table.
+.generaltable, .collection {
+    thead {
+        th {
+            background: $primary;
+            color: white;
+            height: 50px;
+            font-weight: normal;
+            border: 0 !important;
+            vertical-align: middle!important;
+            padding-left: 1em!important;
+            padding-right: 1em!important;
+            a {
+                color: white !important;
+                text-decoration: none;
+            }
+            .fa {
+                color:white !important;
+            }
+        }
+    }
+    tr {
+        td {
+            background: white;
+            height: 60px;
+            vertical-align: middle!important;
+            padding-left: 1em!important;
+            padding-right: 1em!important;
+            border-color: #f1f4f5;
+        }
+        &:hover {
+            td {
+                background: #f1f4f5;
+            }
+        }
+    }
+}
+
+// Dropdown Menu.
+.dropdown {
+    display: flex;
+}
+.overlay-menu {
+    .dropdown-toggle {
+        &::after {
+            display: none;
+        }
+    }
+}
+.dropdown-toggle {
+    background: white;
+    border: 1px solid #e4eaec;
+    padding: .4rem .75rem;
+    border-radius: .215rem;
+    &:focus {
+        box-shadow: none;
+        outline: none;
+    }
+    .icon {
+        height: auto !important;
+        // font-size: 16px !important;
+    }
+}
+.dropdown-menu {
+    transition: all .25s ease;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #e4eaec;
+    border-radius: .215rem;
+    box-shadow: 0 3px 12px rgba(0,0,0,.05);
+    overflow-x: hidden;
+    .dropdown-item {
+        padding: .5rem 1rem;
+        margin: 5px;
+        width: auto;
+        border-radius: $border-radius;
+        a {
+            color: inherit !important;
+        }
+        &:active {
+            a, .icon {
+                color: white !important;
+            }
+        }
+        &:focus {
+            box-shadow: 0;
+            outline: 0;
+        }
+    }
+}
+.dropdown-menu-media {
+    width: 360px;
+}
+
+// Action menus.
+.page-header-actionss {
+    .singlebutton, .moodle-actionmenu {
+        margin: 5px !important;
+    }
+}
+.moodle-actionmenu {
+    a.dropdown-toggle {
+        color: inherit !important;
+    }
+} 
+
+// Bootstrap Carousel.
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background: none !important;
+    font-size: 24px !important;
+}
+
+.bg-grey-200 {
+    background: $color-grey-200 !important;
+}
+
+// Progress XS. 
+.progress-xs {
+    height: 4px !important;
+}
+
+// Message Page - Mobile View.
+@media (max-width:767px) {
+    .wdm-msg-description {
+        background: white;
+        position: absolute;
+        height: 100%;
+        display: none !important;
+        &.show {
+            display: flex !important;
+        }
+    }
+}
+
+// Calendar Buttons
+@media (max-width: 768px) {
+    #page-calendar-view .calendar-controls {
+        flex-direction: column;
+        align-items: center !important;
+        a.arrow_link, .current {
+            width: 100%!important;
+            text-align: center;
+        }
+        .current {
+            margin: 5px 0px !important;
+        }
+        .wdm-next-month , .wdm-prev-month {
+            width: 100%;
+        }
+    }
+}
+
+.w-p100 {
+    width: 100% !important;
+}
+
+// Container fluid. 
+@media (min-width: 1600px) {
+    .container {
+        max-width: 1410px;
+    }
+}
+
+.w-400 {
+    width: 400px;
+}
+
+#usercourses {
+    .avatar {
+        width: 75px;
+    }
+}
+
+[dir="rtl"] {
+    .popover {
+        left: auto !important;
+        right: 0 !important;
+    }
+}

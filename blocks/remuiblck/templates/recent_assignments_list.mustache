@@ -1,0 +1,85 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{#recentdata}}
+    {{# hasrecentassignments }}
+      <div class="card card-shadow mh-100 mx-0" data-name="recentassignments" style="overflow-y: hidden;">
+        <div class="divScroll">
+          <div data-role="container" class="h-auto">
+            <div data-role="content">
+              <div class="widget-content tab-content bg-white ">
+              {{# recentassignments }}
+                <div class="bg-blue-grey-200 p-1 mb-1">
+                  <div class="d-inline-block">
+                    {{#str}}activity, moodle{{/str}} : {{{ cm_name }}}
+                    <br>
+                    {{#str}}course, moodle{{/str}} : {{{ course_fullname }}}
+                  </div>
+                  <a href="{{ cm_url }}" class="d-block">
+                    Grade
+                  </a>
+                </div>
+              {{/ recentassignments }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    {{/ hasrecentassignments }}
+
+    {{^ hasrecentassignments}}
+      <div data-name="recentfeedback" class="table-responsive">
+        {{# hasrecentfeedback }}
+          <table class="table">
+            <thead>
+              <tr>
+                <th>{{#str}}course, moodle{{/str}}</th>
+                <th>{{#str}}activity, moodle{{/str}}</th>
+                <th>{{#str}}grade ,moodle{{/str}}</th>
+                <th>{{#str}}time, moodle{{/str}}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{# recentfeedback }}
+              <tr>
+                <td><a href="{{ courseurl }}" style="text-decoration: none;">{{ course_shortname }}</a></td>
+                <td><a href="{{ assignurl }}" style="text-decoration: none;">{{ grade_itemname }}</a></td>
+                <td>{{ grade_rawgrade }} / {{ grade_rawgrademax }}</td>
+                <td>
+                  <span class="text-info">
+                    <i class="fa fa-clock-o"></i>
+                    {{#userdate}} {{ timemodified }}, %d %B %Y, %I:%M %p {{/userdate}}
+                  </span>
+                </td>
+              </tr>
+              {{/ recentfeedback }}
+            </tbody>
+          </table>
+        {{/ hasrecentfeedback }}
+
+        {{^ hasrecentfeedback }}
+          <div class="widget-content tab-content bg-white ">
+            {{#str}}norecentfeedback, block_remuiblck{{/str}}
+          </div>
+        {{/ hasrecentfeedback }}
+      </div>
+    {{/ hasrecentassignments }}
+{{/recentdata}}
+{{^recentdata}}
+<div class="widget-content tab-content bg-white">
+  {{#str}}norecentfeedback, block_remuiblck{{/str}}
+</div>
+{{/recentdata}}

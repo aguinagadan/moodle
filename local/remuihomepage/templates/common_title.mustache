@@ -1,0 +1,10 @@
+{{#text}}
+    <p class="
+        {{#textbold}}font-weight-bold{{/textbold}}
+        {{#textitalic}}font-italic{{/textitalic}}
+        {{#fontsize}}font-size-{{fontsize}}{{/fontsize}}
+        " {{#color}}style="color:{{color}};"{{/color}}>
+        {{#textunderline}}<u>{{{text}}}</u>{{/textunderline}}
+        {{^textunderline}}{{{text}}}{{/textunderline}}
+    </p>
+{{/text}}

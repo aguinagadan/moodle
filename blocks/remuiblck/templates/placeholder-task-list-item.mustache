@@ -1,0 +1,39 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template block_timeline/event-list-item
+
+    This template renders an event list item loading placeholder for the timeline block.
+
+    Example context (json):
+    {}
+}}
+<li class="list-group-item flex-column align-items-start pl-0 pr-0">
+    <div class="checkbox-custom checkbox-success checkbox-lg d-flex pl-0">
+        <div class="bg-pulse-grey" style="width: 24px; height: 24px;"></div>
+        <div class="item-title bg-pulse-grey ml-10" style="width: 150px; height: 24px;"></div>
+    </div>
+    <div class="w-full">
+        <div class="item-due-date bg-pulse-grey float-left" style="margin-left: 34px; width: 100px; height: 24px;">
+        </div>
+        <div class="item-members float-right">
+            <label class="bg-pulse-grey" style="width: 30px; height: 30px; border-radius: 50%"></label>
+            <label class="bg-pulse-grey" style="width: 30px; height: 30px; border-radius: 50%"></label>
+            <label class="bg-pulse-grey" style="width: 30px; height: 30px; border-radius: 50%"></label>
+        </div>
+    </div>
+</li>

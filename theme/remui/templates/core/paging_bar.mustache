@@ -1,0 +1,48 @@
+{{#haspages}}
+    <nav aria-label="{{label}}" class="pagination pagination-centered justify-content-start">
+        <ul class="mt-1 pagination flex-wrap">
+            {{#previous}}
+                <li class="page-item">
+                    <a href="{{url}}" class="page-link btn mr-2 mb-2 border-0" aria-label="Previous">
+                        <span aria-hidden="true"><i class="fa fa-chevron-left" aria-hidden="true"></i></span>
+                        <span class="sr-only">{{#str}}previous{{/str}}</span>
+                    </a>
+                </li>
+            {{/previous}}
+            {{#first}}
+                <li class="page-item">
+                    <a href="{{url}}" class="page-link btn mr-2 mb-2 border-0">{{page}}</a>
+                </li>
+                <li class="page-item disabled">
+                    <span class="page-link mr-2 mb-2 border-0">&hellip;</a>
+                </li>
+            {{/first}}
+            {{#pages}}
+                <li class="page-item {{#active}}active{{/active}}">
+                    <a href="{{#url}}{{.}}{{/url}}{{^url}}#{{/url}}" class="page-link btn mr-2 mb-2 border-0">
+                        {{page}}
+                        {{#active}}
+                            <span class="sr-only">{{#str}}currentinparentheses, theme_boost{{/str}}</span>
+                        {{/active}}
+                    </a>
+                </li>
+            {{/pages}}
+            {{#last}}
+                <li class="page-item disabled">
+                    <span class="page-link btn mr-2 mb-2 border-0">&hellip;</a>
+                </li>
+                <li class="page-item">
+                    <a href="{{url}}" class="page-link btn mr-2 mb-2 border-0">{{page}}</a>
+                </li>
+            {{/last}}
+            {{#next}}
+                <li class="page-item">
+                    <a href="{{url}}" class="page-link btn mr-2 mb-2 border-0" aria-label="Next">
+                        <span aria-hidden="true"><i class="fa fa-chevron-right" aria-hidden="true"></i></span>
+                        <span class="sr-only">{{#str}}next{{/str}}</span>
+                    </a>
+                </li>
+            {{/next}}
+        </ul>
+    </nav>
+{{/haspages}}

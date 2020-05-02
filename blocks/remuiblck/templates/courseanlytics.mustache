@@ -1,0 +1,66 @@
+
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{^cannotview}}
+<div id="quiz_overview" class="remuiblck-courseanalysis">
+     <div class="w-full">
+        <div class="col-md-12 p-0">
+            <select id='coursecategorylist' class='form-control mb-10'>
+                <option value="">{{#str}}selectacourse, block_remuiblck{{/str}}</option>
+                {{#quizcourse}}
+                    <option data-id="{{id}}">{{{name}}}</option>
+                {{/quizcourse}}
+            </select>
+        </div>
+        <div class="col-md-12 p-0">
+            <div id="analysis-chart-area">
+                <div class="analysis-chart-wrapper">
+                    <canvas id="analysischart"></canvas>
+                </div>
+                <div class="analysis-chart-pagination d-none">
+                    {{> block_remuiblck/per-page-and-pagination-selector }}
+                </div>
+            </div>
+        </div>
+
+        <div id = "course-stats" class="row px-15 justify-content-center">
+            <div class="col-md-4 col-sm-6 py-20 d-flex align-items-center flex-column">
+                <div id="highestgradelabel" class="counter-label font-size-20 font-weight-600">{{#str}}highestgrade, block_remuiblck{{/str}}</div>
+                <div id="highestgrade" class="counter-label display-4 green-500">0</div>
+                <div id="highestactivity" class="counter-label text-center"></div>
+            </div>
+            <div class="col-md-4 col-sm-6 py-20 d-flex align-items-center flex-column">
+                <div id="lowestgradelabel" class="counter-label font-size-20 font-weight-600">{{#str}}lowestgrade, block_remuiblck{{/str}}</div>
+                <div id="lowestgrade" class="counter-label display-4 red-500">0</div>
+                <div id="lowestactivity" class="counter-label  text-center"></div>
+            </div>
+            <div class="col-md-4 col-sm-6 py-20 d-flex align-items-center flex-column">
+                <div id="averagegradelabel" class="counter-label font-size-20 font-weight-600">{{#str}}averagegrade, block_remuiblck{{/str}}</div>
+                <div id="averagegrade" class="counter-label display-4 purple-500">0</div>
+                <div id="allactivities" class="counter-label text-center">{{#str}}allActivities, block_remuiblck{{/str}}</div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{{#js}}
+require(['block_remuiblck/courseanalytics'], function(courseanalytics){
+    courseanalytics.init('#quiz_overview');
+});
+{{/js}}
+{{/cannotview}}

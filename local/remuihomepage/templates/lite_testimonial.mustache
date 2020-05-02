@@ -1,0 +1,80 @@
+<section  data-instance="{{id}}" data-sectionname="{{sectionname}}" {{{sectionpropertiesoutput}}}>
+    {{> local_remuihomepage/editmenu}}
+    <div class="m-auto row px-sm-0 text-center {{sectioncontaineroutput}} ">
+        {{#hastitledescription}}
+        <div class="mx-auto row col-12 {{#view}}col-lg-6{{/view}} text-center justify-content-center p-0">
+            <div class="pb-10 px-50 pt-0 pb-lg-50 pt-0" >
+                {{#title}}
+                {{> local_remuihomepage/common_title}}
+                {{/title}}
+
+                {{#description}}
+                {{> local_remuihomepage/common_title}}
+                {{/description}}
+            </div>
+        </div>
+        {{/hastitledescription}}
+
+        <div id="testimonial_carousel_{{id}}" class="carousel slide w-100" data-ride="carousel">
+            <div class="carousel-inner w-75 m-auto ">
+                {{#testimonial}}
+                    <div class="item carousel-item {{#status}}active{{/status}}">
+
+                        {{#view}}
+                            <!-- LAYOUT 1 -->
+                            <div class="img-box my-10">
+                                <img src="{{imageurl}}" alt=""
+                                {{#shadowless}}style=" box-shadow: 0 2px 5px {{sectionproperties.shadowcolor}};"{{/shadowless}}>
+                            </div>
+                            {{#testimonial}} {{> local_remuihomepage/common_title}} {{/testimonial}}
+                            <p class="overview testimonial-name">
+                                <b class="text-uppercase" style="color: {{namecolor}};">{{{name.text}}}</b>
+                                <span style="color: {{designationcolor}};">
+                                    {{#designation.text}}, {{{designation.text}}}{{/designation.text}}
+                            </span>
+                            </p>
+                        {{/view}}
+
+                        {{^view}}
+                            <!-- LAYOUT 2 -->
+                            <div class="row w-100 m-0 py-50">
+                                <div class="col-lg-3 col-sm-12 mb-10">
+                                    <div class="img-box">
+                                        <img src="{{imageurl}}" alt=""
+                                        {{#shadowless}}style=" box-shadow: 0 2px 5px {{sectionproperties.shadowcolor}};"{{/shadowless}}>
+                                    </div>
+                                </div>
+                                <div class="col-lg-9 col-sm-12 text-left mb-10 d-flex flex-column justify-content-center">
+                                    {{#testimonial}} {{> local_remuihomepage/common_title}} {{/testimonial}}
+                                    <p class="overview testimonial-name">
+                                        <b class="text-uppercase" style="color: {{namecolor}};">{{{name.text}}}</b>
+                                        <span style="color: {{designationcolor}};">
+                                            {{#designation.text}}, {{{designation.text}}}{{/designation.text}}
+                                    </span>
+                                    </p>
+                                </div>
+                            </div>
+                        {{/view}}
+                    </div>
+                {{/testimonial}}
+            </div>
+            <a class="carousel-control left carousel-control-prev" href="#testimonial_carousel_{{id}}" data-slide="prev">
+                <i class="font-size-24 fa fa-chevron-left" style="color: #ccc;"></i>
+            </a>
+            <a class="carousel-control right carousel-control-next" href="#testimonial_carousel_{{id}}" data-slide="next">
+                <i class="font-size-24 fa fa-chevron-right" style="color: #ccc;"></i>
+            </a>
+        </div>
+
+    </div>
+</section>
+
+
+{{#js}}
+require(['jquery'], function($) {
+    $('#testimonial_carousel_{{id}}').carousel({
+        interval: {{#slideinterval}}{{slideinterval}}{{/slideinterval}}{{^slideinterval}}5000{{/slideinterval}},
+        ride: 'carousel'
+    });
+});
+{{/js}}

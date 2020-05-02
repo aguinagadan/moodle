@@ -1,0 +1,51 @@
+// Write your custom variables here
+// --------------------------------
+
+// extend bootstrap-extend (remark)
+
+//== Page Aside
+$page-aside-padding-horizontal: 25px;
+$page-aside-width:              280px;
+$page-aside-md-width:           240px;
+$site-menubar-fold-width: 80px;
+$site-menu-sub-height: 36px;
+// extend bootstrap 4 variables
+
+// Container sizes
+// Define the maximum width of `.container` for different screen sizes.
+$container-max-widths: (
+  sm: 606px,
+  md: 750px,
+  lg: 970px,
+  xl: 1170px,
+  xxl: 1410px
+);
+
+// font-family based on theme settings
+$use-font-family:      "[[setting:fontfamily]]";
+$headings-font-family: "[[setting:fontfamily]]";
+
+// SiteMenuBar font family change
+$site-menubar-font-family: "[[setting:fontfamily]]";
+$font-family-sans-serif:     $use-font-family, sans-serif;
+$font-family-base:           $font-family-sans-serif;
+$font-weight-base:  400;
+$font-weight-normal:  400;
+$font-weight-light : 400;
+$link-color: #62a8eb;
+$gray-dark:     $color-blue-grey-600;
+// darken grey text color
+$text-muted: $gray-600;
+$font-weight-bold: 600;
+
+$hamburger-size: 13px; 
+
+//Step variables 
+$step-title-font-size: 14px !default;
+$step-padding-horizontal: 10px !default;
+$step-padding-vertical: 5px !default;
+
+
+// override default line-height for headings, for better multiline headings - bharat
+// testing in this release, can be removed
+$headings-line-height:        1.3;

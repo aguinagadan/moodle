@@ -1,0 +1,106 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    Edwiser RemUI 
+    @package    theme_remui
+    @copyright  (c) 2018 WisdmLabs (https://wisdmlabs.com/)
+    @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ 
+}}
+{{!
+    @template theme_remui/activity_navigation
+
+    Display the activity navigation for all activities in a course
+
+    Classes required for JS:
+    * none
+
+    Data attributes required for JS:
+    * none
+
+    Context variables required for this template:
+    * flatnavigation - array of flat_navigation_nodes
+      * showdivider - boolean
+      * action - string
+      * isactive - boolean
+      * get_indent - integer
+      * is_section - boolean
+      * text - HTML
+
+    Example context (json):
+    {
+        "flatnavigation" : [
+            {
+                "showdivider": false,
+                "action": "#",
+                "isactive": true,
+                "get_indent": 1,
+                "is_section": false,
+                "text": "First"
+            },{
+                "showdivider": true,
+                "action": "#",
+                "isactive": false,
+                "get_indent": 0,
+                "is_section": true,
+                "text": "Last &amp; Second"
+            }
+        ]
+    }
+}}
+
+<nav class="list-group" id="activity-nav">
+    <a href="{{ courseurl }}" class="list-group-item text-decoration-none">
+        <div class="ml-0">
+            <div class="media">
+                <span class="media-left backtocourse">
+                    <i class="icon fa fa-chevron-left" aria-hidden="true"></i>
+                </span>
+                <span class="media-body">{{# str }} backtocourse, theme_remui {{/ str }}</span>
+            </div>
+        </div>
+    </a>
+    <p class="text-uppercase my-2 text-center font-size-10 section-heading">{{#str}}sections, theme_remui{{/str}}</p>
+    {{# activitysections }}
+        <a href="javascript:void(0)" class="list-group-item activity-sections text-decoration-none {{#open}}active{{/open}}" data-toggle="collapse" data-target="#activity-submenu-{{count}}">
+            <div class="ml-0">
+                <div class="media">
+                    <span class="media-body">{{ name }}<i class="icon fa fa-angle-right mr-0 ml-2" aria-hidden="true"></i></span>
+                    <span class="media-left">
+                        {{ count }}
+                    </span>
+                </div>
+            </div>
+        </a>
+        <ul class="collapse p-0 {{open}} sub-menu m-0" id="activity-submenu-{{count}}" data-parent="#activiy-nav">
+            {{# activity_list }}
+                <li class="list-group-item activity {{active}} {{ classes }} p-0" title="{{{name}}}">
+                  {{{ title }}}
+                </li>
+            {{/ activity_list }}
+        </ul>
+    {{/ activitysections }}
+
+    {{# addblock }}
+        <a href="{{ action }}" class="list-group-item text-decoration-none" data-key="addblock">
+            <div class="ml-0">
+                <div class="media">
+                    <span class="media-left">
+                        <i class="icon fa fa-plus-circle" aria-hidden="true"></i>
+                    </span>
+                    <span class="media-body">{{{ text }}}</span>
+                </div>
+            </div>
+        </a>
+    {{/ addblock }}
+</nav>

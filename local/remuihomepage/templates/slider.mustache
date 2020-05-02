@@ -1,0 +1,56 @@
+<section class="panel m-0 invisible section-slider" data-sectionname="{{sectionname}}" data-instance="{{id}}">
+    {{> local_remuihomepage/editmenu}}
+    <div id="carouselSlidesOnly_{{id}}" class="carousel slide">
+        <ol class="carousel-indicators">
+            {{#slide}}
+            <li data-target="#carouselSlidesOnly_{{id}}" data-slide-to="{{ index }}" class="{{#status}} active {{/status}}"></li>
+            {{/slide}}
+        </ol>
+        <div class="carousel-inner">
+            {{#slide}}
+            <div class="carousel-item {{#status}} active {{/status}}">
+                {{#image}}
+                    <img class="d-block w-p100" src="{{fileurl}}" alt="First slide">
+                {{/image}}
+                {{#video}}
+                    <div class="view">
+                        <video class="video-fluid w-p100" loop muted >
+                            <source src="{{fileurl}}" type="video/mp4" />
+                        </video>
+                    <div class="mask rgba-indigo-light"></div>
+                    </div>
+                {{/video}}
+                <div class="carousel-caption h-p100 d-flex align-items-center justify-content-center text-{{textalign}}">
+                    <div class="d-block">
+                        <div class="animated fadeInDown">
+                            {{#heading}}<h3 class="slider-heading" style="color: {{headingcolor}};">{{{heading}}}</h3>{{/heading}}
+                            {{#description}}<h2 class="slider-text" style="color: {{desccolor}};">{{{description}}}</h2>{{/description}}
+                        </div>
+                        {{#btnlabel}}
+                        <div class="slide-button">
+                            <a href="{{btnlink}}"><button type="button" class="btn btn-round btn-info btn-sm px-50">{{{btnlabel}}}</button></a>
+                        </div>
+                        {{/btnlabel}}
+                    </div>
+                </div>
+            </div>
+            {{/slide}}
+        </div>
+        <a class="carousel-control-prev {{enablenav}}" href="#carouselSlidesOnly_{{id}}" role="button" data-slide="prev">
+            <i class="fa fa-angle-left "></i>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next {{enablenav}}" href="#carouselSlidesOnly_{{id}}" role="button" data-slide="next">
+            <i class="fa fa-angle-right "></i>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+</section>
+{{#js}}
+require(['jquery'], function($) {
+    $('#carouselSlidesOnly_{{id}}').carousel({
+        interval: {{#slideinterval}}{{slideinterval}}{{/slideinterval}}{{^slideinterval}}5000{{/slideinterval}},
+        ride: 'carousel'
+    });
+});
+{{/js}}
