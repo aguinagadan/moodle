@@ -76,7 +76,7 @@ class tool_lp_external_testcase extends externallib_advanced_testcase {
      * Setup function- we will create a course and add an assign instance to it.
      */
     protected function setUp() {
-        global $DB, $CFG;
+        global $DB;
 
         $this->resetAfterTest(true);
 
@@ -91,7 +91,9 @@ class tool_lp_external_testcase extends externallib_advanced_testcase {
         $catcontext = context_coursecat::instance($category->id);
 
         // Fetching default authenticated user role.
-        $authrole = $DB->get_record('role', array('id' => $CFG->defaultuserroleid));
+        $userroles = get_archetype_roles('user');
+        $this->assertCount(1, $userroles);
+        $authrole = array_pop($userroles);
 
         // Reset all default authenticated users permissions.
         unassign_capability('moodle/competency:competencygrade', $authrole->id);

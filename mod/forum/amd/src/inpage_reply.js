@@ -36,15 +36,10 @@ define([
     ) {
 
     var DISPLAYCONSTANTS = {
-        NESTED_V2: 4,
         THREADED: 2,
         NESTED: 3,
         FLAT_OLDEST_FIRST: 1,
         FLAT_NEWEST_FIRST: -1
-    };
-
-    var EVENTS = {
-        POST_CREATED: 'mod_forum-post-created'
     };
 
      /**
@@ -102,10 +97,9 @@ define([
             var topreferredformat = true;
             var postid = form.elements.reply.value;
             var subject = form.elements.subject.value;
-            var currentRoot = submitButton.closest(Selectors.post.post);
+            var currentRoot = submitButton.parents(Selectors.post.forumContent);
             var isprivatereply = form.elements.privatereply != undefined ? form.elements.privatereply.checked : false;
-            var modeSelector = root.find(Selectors.post.modeSelect);
-            var mode = modeSelector.length ? parseInt(modeSelector.get(0).value) : null;
+            var mode = parseInt(root.find(Selectors.post.modeSelect).get(0).value);
             var newid;
 
             if (message.length) {
@@ -131,23 +125,7 @@ define([
                         form.reset();
                         var post = context.post;
                         newid = post.id;
-
                         switch (mode) {
-                            case DISPLAYCONSTANTS.NESTED_V2:
-                                var capabilities = post.capabilities;
-                                var currentAuthorName = currentRoot.children()
-                                                                   .not(Selectors.post.repliesContainer)
-                                                                   .find(Selectors.post.authorName)
-                                                                   .text();
-                                post.parentauthorname = currentAuthorName;
-                                post.showactionmenu = capabilities.view ||
-                                                      capabilities.controlreadstatus ||
-                                                      capabilities.edit ||
-                                                      capabilities.split ||
-                                                      capabilities.delete ||
-                                                      capabilities.export ||
-                                                      post.urls.viewparent;
-                                return Templates.render('mod_forum/forum_discussion_nested_v2_post_reply', post);
                             case DISPLAYCONSTANTS.THREADED:
                                 return Templates.render('mod_forum/forum_discussion_threaded_post', post);
                             case DISPLAYCONSTANTS.NESTED:
@@ -157,7 +135,16 @@ define([
                         }
                     })
                     .then(function(html, js) {
-                        var repliesnode = currentRoot.find(Selectors.post.repliesContainer).first();
+                        var repliesnode;
+
+                        // Try and get the replies-container which can either be a sibling OR parent if it's flat
+                        if (mode == DISPLAYCONSTANTS.FLAT_OLDEST_FIRST || mode == DISPLAYCONSTANTS.FLAT_NEWEST_FIRST) {
+                            repliesnode = currentRoot.parents(Selectors.post.repliesContainer).children().get(0);
+                        }
+
+                        if (repliesnode == undefined) {
+                            repliesnode = currentRoot.siblings(Selectors.post.repliesContainer).children().get(0);
+                        }
 
                         if (mode == DISPLAYCONSTANTS.FLAT_NEWEST_FIRST) {
                             return Templates.prependNodeContents(repliesnode, html, js);
@@ -166,7 +153,6 @@ define([
                         }
                     })
                     .then(function() {
-                        submitButton.trigger(EVENTS.POST_CREATED, newid);
                         hideSubmitButtonLoadingIcon(submitButton);
                         allButtons.prop('disabled', false);
                         return currentRoot.find(Selectors.post.inpageReplyContent).hide();
@@ -188,7 +174,6 @@ define([
         init: function(root) {
             registerEventListeners(root);
         },
-        CONTENT_FORMATS: CONTENT_FORMATS,
-        EVENTS: EVENTS
+        CONTENT_FORMATS: CONTENT_FORMATS
     };
 });

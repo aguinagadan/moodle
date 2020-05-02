@@ -31,7 +31,7 @@ require_once($CFG->libdir . '/adminlib.php');
 require_once($CFG->libdir . '/tablelib.php');
 
 // Check permissions.
-require_login(null, false);
+require_login();
 $systemcontext = context_system::instance();
 require_capability('moodle/question:config', $systemcontext);
 

@@ -61,7 +61,6 @@ class qtype_calculated extends question_type {
         // First get the datasets and default options.
         // The code is used for calculated, calculatedsimple and calculatedmulti qtypes.
         global $CFG, $DB, $OUTPUT;
-        parent::get_question_options($question);
         if (!$question->options = $DB->get_record('question_calculated_options',
                 array('question' => $question->id))) {
             $question->options = new stdClass();

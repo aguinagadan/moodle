@@ -33,13 +33,6 @@ require_login();
 $model = new \core_analytics\model($id);
 \core_analytics\manager::check_can_manage_models();
 
-if (!\core_analytics\manager::is_analytics_enabled()) {
-    $PAGE->set_context(\context_system::instance());
-    $renderer = $PAGE->get_renderer('tool_analytics');
-    echo $renderer->render_analytics_disabled();
-    exit(0);
-}
-
 $returnurl = new \moodle_url('/admin/tool/analytics/index.php');
 $params = array('id' => $id, 'action' => $action);
 $url = new \moodle_url('/admin/tool/analytics/model.php', $params);
@@ -52,8 +45,8 @@ switch ($action) {
     case 'evaluate':
         $title = get_string('evaluatemodel', 'tool_analytics');
         break;
-    case 'scheduledanalysis':
-        $title = get_string('analysis', 'tool_analytics');
+    case 'getpredictions':
+        $title = get_string('getpredictions', 'tool_analytics');
         break;
     case 'log':
         $title = get_string('viewlog', 'tool_analytics');
@@ -75,9 +68,6 @@ switch ($action) {
         break;
     case 'clear':
         $title = get_string('clearpredictions', 'tool_analytics');
-        break;
-    case 'insightsreport':
-        $title = get_string('insightsreport', 'tool_analytics');
         break;
     case 'invalidanalysables':
         $title = get_string('invalidanalysables', 'tool_analytics');
@@ -120,21 +110,13 @@ switch ($action) {
     case 'edit':
         confirm_sesskey();
 
-        $invalidcurrenttimesplitting = $model->invalid_timesplitting_selected();
-        $potentialtimesplittings = $model->get_potential_timesplittings();
-
         $customdata = array(
             'id' => $model->get_id(),
             'trainedmodel' => $model->is_trained(),
             'staticmodel' => $model->is_static(),
-            'invalidcurrenttimesplitting' => (!empty($invalidcurrenttimesplitting)),
-            'targetclass' => $model->get_target()->get_id(),
-            'targetname' => $model->get_target()->get_name(),
             'indicators' => $model->get_potential_indicators(),
-            'timesplittings' => $potentialtimesplittings,
-            'predictionprocessors' => \core_analytics\manager::get_all_prediction_processors(),
-            'supportscontexts' => ($model->get_analyser(['notimesplitting' => true]))::context_restriction_support(),
-            'contexts' => $model->get_contexts(),
+            'timesplittings' => \core_analytics\manager::get_all_time_splittings(),
+            'predictionprocessors' => \core_analytics\manager::get_all_prediction_processors()
         );
         $mform = new \tool_analytics\output\form\edit_model(null, $customdata);
 
@@ -159,11 +141,7 @@ switch ($action) {
                 $predictionsprocessor = false;
             }
 
-            if (!isset($data->contexts)) {
-                $data->contexts = null;
-            }
-
-            $model->update($data->enabled, $indicators, $timesplitting, $predictionsprocessor, $data->contexts);
+            $model->update($data->enabled, $indicators, $timesplitting, $predictionsprocessor);
             redirect($returnurl);
         }
 
@@ -174,9 +152,6 @@ switch ($action) {
         $callable = array('\tool_analytics\output\helper', 'class_to_option');
         $modelobj->indicators = array_map($callable, json_decode($modelobj->indicators));
         $modelobj->timesplitting = \tool_analytics\output\helper::class_to_option($modelobj->timesplitting);
-        if ($modelobj->contextids) {
-            $modelobj->contexts = array_map($callable, json_decode($modelobj->contextids));
-        }
         $modelobj->predictionsprocessor = \tool_analytics\output\helper::class_to_option($modelobj->predictionsprocessor);
         $mform->set_data($modelobj);
         $mform->display();
@@ -225,7 +200,7 @@ switch ($action) {
         echo $renderer->render_evaluate_results($results, $model->get_analyser()->get_logs());
         break;
 
-    case 'scheduledanalysis':
+    case 'getpredictions':
         confirm_sesskey();
 
         if ($onlycli) {
@@ -296,18 +271,6 @@ switch ($action) {
 
         $model->clear();
         redirect($returnurl);
-        break;
-
-    case 'insightsreport':
-
-        $contextid = optional_param('contextid', null, PARAM_INT);
-
-        echo $OUTPUT->header();
-
-        $renderable = new \tool_analytics\output\insights_report($model, $contextid);
-        $renderer = $PAGE->get_renderer('tool_analytics');
-        echo $renderer->render($renderable);
-
         break;
 
     case 'invalidanalysables':

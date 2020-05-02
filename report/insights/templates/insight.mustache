@@ -31,31 +31,17 @@
     Example context (json):
     {
         "sampleimage": "<a href=\"#\">Link</a>",
-        "sampledescription": "Sample description",
-        "actions": [
-            {
-                "classes": "",
-                "primary": {
-                    "items": [{"rawhtml": "<p>View details</p>"}]
-                },
-                "secondary": {
-                    "items": [{"rawhtml": "<p>Not useful</p>"}]
-                }
-            }
-        ]
+        "sampledescription": "Sample description"
     }
 }}
-<tr data-prediction-id="{{predictionid}}" class="d-flex">
-    <td class="insight-checkbox-cell col-xs-1{{^bulkactions}} hidden{{/bulkactions}}">
-        {{{toggleslave}}}
-    </td>
-    <td class="col-xs-8">
+<tr>
+    <td>
         {{#sampleimage}}
             {{{sampleimage}}}
         {{/sampleimage}}
         {{{sampledescription}}}
     </td>
-    <td class="col-xs-3{{^actions}} hidden{{/actions}}">
+    <td>
     {{#actions}}
         {{> core/action_menu}}
     {{/actions}}

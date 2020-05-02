@@ -241,27 +241,11 @@ forum_discussion_view($modcontext, $forumrecord, $discussionrecord);
 
 unset($SESSION->fromdiscussion);
 
-$saveddisplaymode = get_user_preferences('forum_displaymode', $CFG->forum_displaymode);
-
 if ($mode) {
-    $displaymode = $mode;
-} else {
-    $displaymode = $saveddisplaymode;
+    set_user_preference('forum_displaymode', $mode);
 }
 
-if (get_user_preferences('forum_useexperimentalui', false)) {
-    if ($displaymode == FORUM_MODE_NESTED) {
-        $displaymode = FORUM_MODE_NESTED_V2;
-    }
-} else {
-    if ($displaymode == FORUM_MODE_NESTED_V2) {
-        $displaymode = FORUM_MODE_NESTED;
-    }
-}
-
-if ($displaymode != $saveddisplaymode) {
-    set_user_preference('forum_displaymode', $displaymode);
-}
+$displaymode = get_user_preferences('forum_displaymode', $CFG->forum_displaymode);
 
 if ($parent) {
     // If flat AND parent, then force nested display this time
@@ -307,22 +291,13 @@ if ($node && $post->get_id() != $discussion->get_first_post_id()) {
     $node->add(format_string($post->get_subject()), $PAGE->url);
 }
 
-$isnestedv2displaymode = $displaymode == FORUM_MODE_NESTED_V2;
 $PAGE->set_title("$course->shortname: " . format_string($discussion->get_name()));
 $PAGE->set_heading($course->fullname);
-if ($isnestedv2displaymode) {
-    $PAGE->add_body_class('nested-v2-display-mode reset-style');
-    $settingstrigger = $OUTPUT->render_from_template('mod_forum/settings_drawer_trigger', null);
-    $PAGE->add_header_action($settingstrigger);
-} else {
-    $PAGE->set_button(forum_search_form($course));
-}
+$PAGE->set_button(forum_search_form($course));
 
 echo $OUTPUT->header();
-if (!$isnestedv2displaymode) {
-    echo $OUTPUT->heading(format_string($forum->get_name()), 2);
-    echo $OUTPUT->heading(format_string($discussion->get_name()), 3, 'discussionname');
-}
+echo $OUTPUT->heading(format_string($forum->get_name()), 2);
+echo $OUTPUT->heading(format_string($discussion->get_name()), 3, 'discussionname');
 
 $rendererfactory = mod_forum\local\container::get_renderer_factory();
 $discussionrenderer = $rendererfactory->get_discussion_renderer($forum, $discussion, $displaymode);

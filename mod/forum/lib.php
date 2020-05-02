@@ -32,7 +32,6 @@ define('FORUM_MODE_FLATOLDEST', 1);
 define('FORUM_MODE_FLATNEWEST', -1);
 define('FORUM_MODE_THREADED', 2);
 define('FORUM_MODE_NESTED', 3);
-define('FORUM_MODE_NESTED_V2', 4);
 
 define('FORUM_CHOOSESUBSCRIBE', 0);
 define('FORUM_FORCESUBSCRIBE', 1);
@@ -187,25 +186,8 @@ function forum_update_instance($forum, $mform) {
     // MDL-3942 - if the aggregation type or scale (i.e. max grade) changes then recalculate the grades for the entire forum
     // if  scale changes - do we need to recheck the ratings, if ratings higher than scale how do we want to respond?
     // for count and sum aggregation types the grade we check to make sure they do not exceed the scale (i.e. max score) when calculating the grade
-    $updategrades = false;
-
-    if ($oldforum->assessed <> $forum->assessed) {
-        // Whether this forum is rated.
-        $updategrades = true;
-    }
-
-    if ($oldforum->scale <> $forum->scale) {
-        // The scale currently in use.
-        $updategrades = true;
-    }
-
-    if (empty($oldforum->grade_forum) || $oldforum->grade_forum <> $forum->grade_forum) {
-        // The whole forum grading.
-        $updategrades = true;
-    }
-
-    if ($updategrades) {
-        forum_update_grades($forum); // Recalculate grades for the forum.
+    if (($oldforum->assessed<>$forum->assessed) or ($oldforum->scale<>$forum->scale)) {
+        forum_update_grades($forum); // recalculate grades for the forum
     }
 
     if ($forum->type == 'single') {  // Update related discussion and post.
@@ -257,7 +239,6 @@ function forum_update_instance($forum, $mform) {
             $post->message = file_save_draft_area_files($draftid, $modcontext->id, 'mod_forum', 'post', $post->id, $options, $post->message);
         }
 
-        \mod_forum\local\entities\post::add_message_counts($post);
         $DB->update_record('forum_posts', $post);
         $discussion->name = $forum->name;
         $DB->update_record('forum_discussions', $discussion);
@@ -367,11 +348,11 @@ function forum_supports($feature) {
         case FEATURE_BACKUP_MOODLE2:          return true;
         case FEATURE_SHOW_DESCRIPTION:        return true;
         case FEATURE_PLAGIARISM:              return true;
-        case FEATURE_ADVANCED_GRADING:        return true;
 
         default: return null;
     }
 }
+
 
 /**
  * Obtains the automatic completion state for this forum based on any conditions
@@ -460,55 +441,47 @@ function forum_get_email_message_id($postid, $usertoid) {
 function forum_user_outline($course, $user, $mod, $forum) {
     global $CFG;
     require_once("$CFG->libdir/gradelib.php");
-
-    $gradeinfo = '';
-    $gradetime = 0;
-
     $grades = grade_get_grades($course->id, 'mod', 'forum', $forum->id, $user->id);
-    if (!empty($grades->items[0]->grades)) {
-        // Item 0 is the rating.
+    if (empty($grades->items[0]->grades)) {
+        $grade = false;
+    } else {
         $grade = reset($grades->items[0]->grades);
-        $gradetime = max($gradetime, grade_get_date_for_user_grade($grade, $user));
-        if (!$grade->hidden || has_capability('moodle/grade:viewhidden', context_course::instance($course->id))) {
-            $gradeinfo .= get_string('gradeforrating', 'forum', $grade) .  html_writer::empty_tag('br');
-        } else {
-            $gradeinfo .= get_string('gradeforratinghidden', 'forum') . html_writer::empty_tag('br');
-        }
-    }
-
-    // Item 1 is the whole-forum grade.
-    if (!empty($grades->items[1]->grades)) {
-        $grade = reset($grades->items[1]->grades);
-        $gradetime = max($gradetime, grade_get_date_for_user_grade($grade, $user));
-        if (!$grade->hidden || has_capability('moodle/grade:viewhidden', context_course::instance($course->id))) {
-            $gradeinfo .= get_string('gradeforwholeforum', 'forum', $grade) .  html_writer::empty_tag('br');
-        } else {
-            $gradeinfo .= get_string('gradeforwholeforumhidden', 'forum') . html_writer::empty_tag('br');
-        }
     }
 
     $count = forum_count_user_posts($forum->id, $user->id);
-    if ($count && $count->postcount > 0) {
-        $info = get_string("numposts", "forum", $count->postcount);
-        $time = $count->lastpost;
 
-        if ($gradeinfo) {
-            $info .= ', ' . $gradeinfo;
-            $time = max($time, $gradetime);
+    if ($count && $count->postcount > 0) {
+        $result = new stdClass();
+        $result->info = get_string("numposts", "forum", $count->postcount);
+        $result->time = $count->lastpost;
+        if ($grade) {
+            if (!$grade->hidden || has_capability('moodle/grade:viewhidden', context_course::instance($course->id))) {
+                $result->info .= ', ' . get_string('grade') . ': ' . $grade->str_long_grade;
+            } else {
+                $result->info = get_string('grade') . ': ' . get_string('hidden', 'grades');
+            }
+        }
+        return $result;
+    } else if ($grade) {
+        $result = new stdClass();
+        if (!$grade->hidden || has_capability('moodle/grade:viewhidden', context_course::instance($course->id))) {
+            $result->info = get_string('grade') . ': ' . $grade->str_long_grade;
+        } else {
+            $result->info = get_string('grade') . ': ' . get_string('hidden', 'grades');
         }
 
-        return (object) [
-            'info' => $info,
-            'time' => $time,
-        ];
-    } else if ($gradeinfo) {
-        return (object) [
-            'info' => $gradeinfo,
-            'time' => $gradetime,
-        ];
-    }
+        //datesubmitted == time created. dategraded == time modified or time overridden
+        //if grade was last modified by the user themselves use date graded. Otherwise use date submitted
+        //TODO: move this copied & pasted code somewhere in the grades API. See MDL-26704
+        if ($grade->usermodified == $user->id || empty($grade->datesubmitted)) {
+            $result->time = $grade->dategraded;
+        } else {
+            $result->time = $grade->datesubmitted;
+        }
 
-    return null;
+        return $result;
+    }
+    return NULL;
 }
 
 
@@ -521,43 +494,24 @@ function forum_user_outline($course, $user, $mod, $forum) {
  * @param object $forum
  */
 function forum_user_complete($course, $user, $mod, $forum) {
-    global $CFG, $USER;
+    global $CFG,$USER, $OUTPUT;
     require_once("$CFG->libdir/gradelib.php");
 
-    $getgradeinfo = function($grades, string $type) use ($course): string {
-        global $OUTPUT;
-
-        if (empty($grades)) {
-            return '';
-        }
-
-        $result = '';
-        $grade = reset($grades);
+    $grades = grade_get_grades($course->id, 'mod', 'forum', $forum->id, $user->id);
+    if (!empty($grades->items[0]->grades)) {
+        $grade = reset($grades->items[0]->grades);
         if (!$grade->hidden || has_capability('moodle/grade:viewhidden', context_course::instance($course->id))) {
-            $result .= $OUTPUT->container(get_string("gradefor{$type}", "forum", $grade));
+            echo $OUTPUT->container(get_string('grade').': '.$grade->str_long_grade);
             if ($grade->str_feedback) {
-                $result .= $OUTPUT->container(get_string('feedback').': '.$grade->str_feedback);
+                echo $OUTPUT->container(get_string('feedback').': '.$grade->str_feedback);
             }
         } else {
-            $result .= $OUTPUT->container(get_string("gradefor{$type}hidden", "forum"));
+            echo $OUTPUT->container(get_string('grade') . ': ' . get_string('hidden', 'grades'));
         }
-
-        return $result;
-    };
-
-    $grades = grade_get_grades($course->id, 'mod', 'forum', $forum->id, $user->id);
-
-    // Item 0 is the rating.
-    if (!empty($grades->items[0]->grades)) {
-        echo $getgradeinfo($grades->items[0]->grades, 'rating');
-    }
-
-    // Item 1 is the whole-forum grade.
-    if (!empty($grades->items[1]->grades)) {
-        echo $getgradeinfo($grades->items[1]->grades, 'wholeforum');
     }
 
     if ($posts = forum_get_user_posts($forum->id, $user->id)) {
+
         if (!$cm = get_coursemodule_from_instance('forum', $forum->id, $course->id)) {
             print_error('invalidcoursemodule');
         }
@@ -586,10 +540,44 @@ function forum_user_complete($course, $user, $mod, $forum) {
 }
 
 /**
- * @deprecated since Moodle 3.3, when the block_course_overview block was removed.
+ * Filters the forum discussions according to groups membership and config.
+ *
+ * @deprecated since 3.3
+ * @todo The final deprecation of this function will take place in Moodle 3.7 - see MDL-57487.
+ * @since  Moodle 2.8, 2.7.1, 2.6.4
+ * @param  array $discussions Discussions with new posts array
+ * @return array Forums with the number of new posts
  */
-function forum_filter_user_groups_discussions() {
-    throw new coding_exception('forum_filter_user_groups_discussions() can not be used any more and is obsolete.');
+function forum_filter_user_groups_discussions($discussions) {
+
+    debugging('The function forum_filter_user_groups_discussions() is now deprecated.', DEBUG_DEVELOPER);
+
+    // Group the remaining discussions posts by their forumid.
+    $filteredforums = array();
+
+    // Discard not visible groups.
+    foreach ($discussions as $discussion) {
+
+        // Course data is already cached.
+        $instances = get_fast_modinfo($discussion->course)->get_instances();
+        $forum = $instances['forum'][$discussion->forum];
+
+        // Continue if the user should not see this discussion.
+        if (!forum_is_user_group_discussion($forum, $discussion->groupid)) {
+            continue;
+        }
+
+        // Grouping results by forum.
+        if (empty($filteredforums[$forum->instance])) {
+            $filteredforums[$forum->instance] = new stdClass();
+            $filteredforums[$forum->instance]->id = $forum->id;
+            $filteredforums[$forum->instance]->count = 0;
+        }
+        $filteredforums[$forum->instance]->count += $discussion->count;
+
+    }
+
+    return $filteredforums;
 }
 
 /**
@@ -619,10 +607,155 @@ function forum_is_user_group_discussion(cm_info $cm, $discussiongroupid) {
 }
 
 /**
- * @deprecated since Moodle 3.3, when the block_course_overview block was removed.
+ * @deprecated since 3.3
+ * @todo The final deprecation of this function will take place in Moodle 3.7 - see MDL-57487.
+ * @global object
+ * @global object
+ * @global object
+ * @param array $courses
+ * @param array $htmlarray
  */
-function forum_print_overview() {
-    throw new coding_exception('forum_print_overview() can not be used any more and is obsolete.');
+function forum_print_overview($courses,&$htmlarray) {
+    global $USER, $CFG, $DB, $SESSION;
+
+    debugging('The function forum_print_overview() is now deprecated.', DEBUG_DEVELOPER);
+
+    if (empty($courses) || !is_array($courses) || count($courses) == 0) {
+        return array();
+    }
+
+    if (!$forums = get_all_instances_in_courses('forum',$courses)) {
+        return;
+    }
+
+    // Courses to search for new posts
+    $coursessqls = array();
+    $params = array();
+    foreach ($courses as $course) {
+
+        // If the user has never entered into the course all posts are pending
+        if ($course->lastaccess == 0) {
+            $coursessqls[] = '(d.course = ?)';
+            $params[] = $course->id;
+
+        // Only posts created after the course last access
+        } else {
+            $coursessqls[] = '(d.course = ? AND p.created > ?)';
+            $params[] = $course->id;
+            $params[] = $course->lastaccess;
+        }
+    }
+    $params[] = $USER->id;
+    $coursessql = implode(' OR ', $coursessqls);
+
+    $sql = "SELECT d.id, d.forum, d.course, d.groupid, COUNT(*) as count "
+                .'FROM {forum_discussions} d '
+                .'JOIN {forum_posts} p ON p.discussion = d.id '
+                ."WHERE ($coursessql) "
+                .'AND p.deleted <> 1 '
+                .'AND p.userid != ? '
+                .'AND (d.timestart <= ? AND (d.timeend = 0 OR d.timeend > ?)) '
+                .'GROUP BY d.id, d.forum, d.course, d.groupid '
+                .'ORDER BY d.course, d.forum';
+    $params[] = time();
+    $params[] = time();
+
+    // Avoid warnings.
+    if (!$discussions = $DB->get_records_sql($sql, $params)) {
+        $discussions = array();
+    }
+
+    $forumsnewposts = forum_filter_user_groups_discussions($discussions);
+
+    // also get all forum tracking stuff ONCE.
+    $trackingforums = array();
+    foreach ($forums as $forum) {
+        if (forum_tp_can_track_forums($forum)) {
+            $trackingforums[$forum->id] = $forum;
+        }
+    }
+
+    if (count($trackingforums) > 0) {
+        $cutoffdate = isset($CFG->forum_oldpostdays) ? (time() - ($CFG->forum_oldpostdays*24*60*60)) : 0;
+        $sql = 'SELECT d.forum,d.course,COUNT(p.id) AS count '.
+            ' FROM {forum_posts} p '.
+            ' JOIN {forum_discussions} d ON p.discussion = d.id '.
+            ' LEFT JOIN {forum_read} r ON r.postid = p.id AND r.userid = ? WHERE p.deleted <> 1 AND (';
+        $params = array($USER->id);
+
+        foreach ($trackingforums as $track) {
+            $sql .= '(d.forum = ? AND (d.groupid = -1 OR d.groupid = 0 OR d.groupid = ?)) OR ';
+            $params[] = $track->id;
+            if (isset($SESSION->currentgroup[$track->course])) {
+                $groupid =  $SESSION->currentgroup[$track->course];
+            } else {
+                // get first groupid
+                $groupids = groups_get_all_groups($track->course, $USER->id);
+                if ($groupids) {
+                    reset($groupids);
+                    $groupid = key($groupids);
+                    $SESSION->currentgroup[$track->course] = $groupid;
+                } else {
+                    $groupid = 0;
+                }
+                unset($groupids);
+            }
+            $params[] = $groupid;
+        }
+        $sql = substr($sql,0,-3); // take off the last OR
+        $sql .= ') AND p.modified >= ? AND r.id is NULL ';
+        $sql .= 'AND (d.timestart < ? AND (d.timeend = 0 OR d.timeend > ?)) ';
+        $sql .= 'GROUP BY d.forum,d.course';
+        $params[] = $cutoffdate;
+        $params[] = time();
+        $params[] = time();
+
+        if (!$unread = $DB->get_records_sql($sql, $params)) {
+            $unread = array();
+        }
+    } else {
+        $unread = array();
+    }
+
+    if (empty($unread) and empty($forumsnewposts)) {
+        return;
+    }
+
+    $strforum = get_string('modulename','forum');
+
+    foreach ($forums as $forum) {
+        $str = '';
+        $count = 0;
+        $thisunread = 0;
+        $showunread = false;
+        // either we have something from logs, or trackposts, or nothing.
+        if (array_key_exists($forum->id, $forumsnewposts) && !empty($forumsnewposts[$forum->id])) {
+            $count = $forumsnewposts[$forum->id]->count;
+        }
+        if (array_key_exists($forum->id,$unread)) {
+            $thisunread = $unread[$forum->id]->count;
+            $showunread = true;
+        }
+        if ($count > 0 || $thisunread > 0) {
+            $str .= '<div class="overview forum"><div class="name">'.$strforum.': <a title="'.$strforum.'" href="'.$CFG->wwwroot.'/mod/forum/view.php?f='.$forum->id.'">'.
+                $forum->name.'</a></div>';
+            $str .= '<div class="info"><span class="postsincelogin">';
+            $str .= get_string('overviewnumpostssince', 'forum', $count)."</span>";
+            if (!empty($showunread)) {
+                $str .= '<div class="unreadposts">'.get_string('overviewnumunread', 'forum', $thisunread).'</div>';
+            }
+            $str .= '</div></div>';
+        }
+        if (!empty($str)) {
+            if (!array_key_exists($forum->course,$htmlarray)) {
+                $htmlarray[$forum->course] = array();
+            }
+            if (!array_key_exists('forum',$htmlarray[$forum->course])) {
+                $htmlarray[$forum->course]['forum'] = ''; // initialize, avoid warnings
+            }
+            $htmlarray[$forum->course]['forum'] .= $str;
+        }
+    }
 }
 
 /**
@@ -648,10 +781,10 @@ function forum_print_recent_activity($course, $viewfullnames, $timestart) {
     if (!$posts = $DB->get_records_sql("SELECT p.*,
                                               f.course, f.type AS forumtype, f.name AS forumname, f.intro, f.introformat, f.duedate,
                                               f.cutoffdate, f.assessed AS forumassessed, f.assesstimestart, f.assesstimefinish,
-                                              f.scale, f.grade_forum, f.maxbytes, f.maxattachments, f.forcesubscribe,
+                                              f.scale, f.maxbytes, f.maxattachments, f.forcesubscribe,
                                               f.trackingtype, f.rsstype, f.rssarticles, f.timemodified, f.warnafter, f.blockafter,
                                               f.blockperiod, f.completiondiscussions, f.completionreplies, f.completionposts,
-                                              f.displaywordcount, f.lockdiscussionafter, f.grade_forum_notify,
+                                              f.displaywordcount, f.lockdiscussionafter,
                                               d.name AS discussionname, d.firstpost, d.userid AS discussionstarter,
                                               d.assessed AS discussionassessed, d.timemodified, d.usermodified, d.forum, d.groupid,
                                               d.timestart, d.timeend, d.pinned, d.timelocked,
@@ -727,7 +860,6 @@ function forum_print_recent_activity($course, $viewfullnames, $timestart) {
                 'assesstimestart' => $post->assesstimestart,
                 'assesstimefinish' => $post->assesstimefinish,
                 'scale' => $post->scale,
-                'grade_forum' => $post->grade_forum,
                 'maxbytes' => $post->maxbytes,
                 'maxattachments' => $post->maxattachments,
                 'forcesubscribe' => $post->forcesubscribe,
@@ -743,7 +875,6 @@ function forum_print_recent_activity($course, $viewfullnames, $timestart) {
                 'completionposts' => $post->completionposts,
                 'displaywordcount' => $post->displaywordcount,
                 'lockdiscussionafter' => $post->lockdiscussionafter,
-                'grade_forum_notify' => $post->grade_forum_notify
             ];
             // Build the forum entity from the factory.
             $forumentity = $entityfactory->get_forum_from_stdclass($forumrecord, $context, $coursemodule, $course);
@@ -800,161 +931,158 @@ function forum_print_recent_activity($course, $viewfullnames, $timestart) {
 }
 
 /**
- * Update activity grades.
+ * Return grade for given user or all users.
  *
+ * @global object
+ * @global object
+ * @param object $forum
+ * @param int $userid optional user id, 0 means all users
+ * @return array array of grades, false if none
+ */
+function forum_get_user_grades($forum, $userid = 0) {
+    global $CFG;
+
+    require_once($CFG->dirroot.'/rating/lib.php');
+
+    $ratingoptions = new stdClass;
+    $ratingoptions->component = 'mod_forum';
+    $ratingoptions->ratingarea = 'post';
+
+    //need these to work backwards to get a context id. Is there a better way to get contextid from a module instance?
+    $ratingoptions->modulename = 'forum';
+    $ratingoptions->moduleid   = $forum->id;
+    $ratingoptions->userid = $userid;
+    $ratingoptions->aggregationmethod = $forum->assessed;
+    $ratingoptions->scaleid = $forum->scale;
+    $ratingoptions->itemtable = 'forum_posts';
+    $ratingoptions->itemtableusercolumn = 'userid';
+
+    $rm = new rating_manager();
+    return $rm->get_user_grades($ratingoptions);
+}
+
+/**
+ * Update activity grades
+ *
+ * @category grade
  * @param object $forum
  * @param int $userid specific user only, 0 means all
+ * @param boolean $nullifnone return null if grade does not exist
+ * @return void
  */
-function forum_update_grades($forum, $userid = 0): void {
+function forum_update_grades($forum, $userid=0, $nullifnone=true) {
     global $CFG, $DB;
     require_once($CFG->libdir.'/gradelib.php');
-    $cm = get_coursemodule_from_instance('forum', $forum->id);
-    $forum->cmidnumber = $cm->idnumber;
 
-    $ratings = null;
-    if ($forum->assessed) {
-        require_once($CFG->dirroot.'/rating/lib.php');
+    if (!$forum->assessed) {
+        forum_grade_item_update($forum);
 
-        $rm = new rating_manager();
-        $ratings = $rm->get_user_grades((object) [
-            'component' => 'mod_forum',
-            'ratingarea' => 'post',
-            'contextid' => \context_module::instance($cm->id)->id,
+    } else if ($grades = forum_get_user_grades($forum, $userid)) {
+        forum_grade_item_update($forum, $grades);
 
-            'modulename' => 'forum',
-            'moduleid  ' => $forum->id,
-            'userid' => $userid,
-            'aggregationmethod' => $forum->assessed,
-            'scaleid' => $forum->scale,
-            'itemtable' => 'forum_posts',
-            'itemtableusercolumn' => 'userid',
-        ]);
+    } else if ($userid and $nullifnone) {
+        $grade = new stdClass();
+        $grade->userid   = $userid;
+        $grade->rawgrade = NULL;
+        forum_grade_item_update($forum, $grade);
+
+    } else {
+        forum_grade_item_update($forum);
     }
-
-    $forumgrades = null;
-    if ($forum->grade_forum) {
-        $sql = <<<EOF
-SELECT
-    g.userid,
-    0 as datesubmitted,
-    g.grade as rawgrade,
-    g.timemodified as dategraded
-  FROM {forum} f
-  JOIN {forum_grades} g ON g.forum = f.id
- WHERE f.id = :forumid
-EOF;
-
-        $params = [
-            'forumid' => $forum->id,
-        ];
-
-        if ($userid) {
-            $sql .= " AND g.userid = :userid";
-            $params['userid'] = $userid;
-        }
-
-        $forumgrades = [];
-        if ($grades = $DB->get_recordset_sql($sql, $params)) {
-            foreach ($grades as $userid => $grade) {
-                if ($grade->rawgrade != -1) {
-                    $forumgrades[$userid] = $grade;
-                }
-            }
-            $grades->close();
-        }
-    }
-
-    forum_grade_item_update($forum, $ratings, $forumgrades);
 }
 
 /**
- * Create/update grade items for given forum.
+ * Create/update grade item for given forum
  *
+ * @category grade
+ * @uses GRADE_TYPE_NONE
+ * @uses GRADE_TYPE_VALUE
+ * @uses GRADE_TYPE_SCALE
  * @param stdClass $forum Forum object with extra cmidnumber
  * @param mixed $grades Optional array/object of grade(s); 'reset' means reset grades in gradebook
+ * @return int 0 if ok
  */
-function forum_grade_item_update($forum, $ratings = null, $forumgrades = null): void {
+function forum_grade_item_update($forum, $grades=NULL) {
     global $CFG;
-    require_once("{$CFG->libdir}/gradelib.php");
+    if (!function_exists('grade_update')) { //workaround for buggy PHP versions
+        require_once($CFG->libdir.'/gradelib.php');
+    }
 
-    // Update the rating.
-    $item = [
-        'itemname' => get_string('gradeitemnameforrating', 'forum', $forum),
-        'idnumber' => $forum->cmidnumber,
-    ];
+    $params = array('itemname'=>$forum->name, 'idnumber'=>$forum->cmidnumber);
 
-    if (!$forum->assessed || $forum->scale == 0) {
-        $item['gradetype'] = GRADE_TYPE_NONE;
+    if (!$forum->assessed or $forum->scale == 0) {
+        $params['gradetype'] = GRADE_TYPE_NONE;
+
     } else if ($forum->scale > 0) {
-        $item['gradetype'] = GRADE_TYPE_VALUE;
-        $item['grademax']  = $forum->scale;
-        $item['grademin']  = 0;
+        $params['gradetype'] = GRADE_TYPE_VALUE;
+        $params['grademax']  = $forum->scale;
+        $params['grademin']  = 0;
+
     } else if ($forum->scale < 0) {
-        $item['gradetype'] = GRADE_TYPE_SCALE;
-        $item['scaleid']   = -$forum->scale;
+        $params['gradetype'] = GRADE_TYPE_SCALE;
+        $params['scaleid']   = -$forum->scale;
     }
 
-    if ($ratings === 'reset') {
-        $item['reset'] = true;
-        $ratings = null;
-    }
-    // Itemnumber 0 is the rating.
-    grade_update('mod/forum', $forum->course, 'mod', 'forum', $forum->id, 0, $ratings, $item);
-
-    // Whole forum grade.
-    $item = [
-        'itemname' => get_string('gradeitemnameforwholeforum', 'forum', $forum),
-        // Note: We do not need to store the idnumber here.
-    ];
-
-    if (!$forum->grade_forum) {
-        $item['gradetype'] = GRADE_TYPE_NONE;
-    } else if ($forum->grade_forum > 0) {
-        $item['gradetype'] = GRADE_TYPE_VALUE;
-        $item['grademax'] = $forum->grade_forum;
-        $item['grademin'] = 0;
-    } else if ($forum->grade_forum < 0) {
-        $item['gradetype'] = GRADE_TYPE_SCALE;
-        $item['scaleid'] = $forum->grade_forum * -1;
+    if ($grades  === 'reset') {
+        $params['reset'] = true;
+        $grades = NULL;
     }
 
-    if ($forumgrades === 'reset') {
-        $item['reset'] = true;
-        $forumgrades = null;
-    }
-    // Itemnumber 1 is the whole forum grade.
-    grade_update('mod/forum', $forum->course, 'mod', 'forum', $forum->id, 1, $forumgrades, $item);
+    return grade_update('mod/forum', $forum->course, 'mod', 'forum', $forum->id, 0, $grades, $params);
 }
 
 /**
- * Delete grade item for given forum.
+ * Delete grade item for given forum
  *
+ * @category grade
  * @param stdClass $forum Forum object
+ * @return grade_item
  */
 function forum_grade_item_delete($forum) {
     global $CFG;
     require_once($CFG->libdir.'/gradelib.php');
 
-    grade_update('mod/forum', $forum->course, 'mod', 'forum', $forum->id, 0, null, ['deleted' => 1]);
-    grade_update('mod/forum', $forum->course, 'mod', 'forum', $forum->id, 1, null, ['deleted' => 1]);
+    return grade_update('mod/forum', $forum->course, 'mod', 'forum', $forum->id, 0, NULL, array('deleted'=>1));
+}
+
+
+/**
+ * This function returns if a scale is being used by one forum
+ *
+ * @global object
+ * @param int $forumid
+ * @param int $scaleid negative number
+ * @return bool
+ */
+function forum_scale_used ($forumid,$scaleid) {
+    global $DB;
+    $return = false;
+
+    $rec = $DB->get_record("forum",array("id" => "$forumid","scale" => "-$scaleid"));
+
+    if (!empty($rec) && !empty($scaleid)) {
+        $return = true;
+    }
+
+    return $return;
 }
 
 /**
- * Checks if scale is being used by any instance of forum.
+ * Checks if scale is being used by any instance of forum
  *
- * This is used to find out if scale used anywhere.
+ * This is used to find out if scale used anywhere
  *
+ * @global object
  * @param $scaleid int
  * @return boolean True if the scale is used by any forum
  */
-function forum_scale_used_anywhere(int $scaleid): bool {
+function forum_scale_used_anywhere($scaleid) {
     global $DB;
-
-    if (empty($scaleid)) {
+    if ($scaleid and $DB->record_exists('forum', array('scale' => -$scaleid))) {
+        return true;
+    } else {
         return false;
     }
-
-    return $DB->record_exists('forum', ['scale' => $scaleid * -1]);
 }
 
 // SQL FUNCTIONS ///////////////////////////////////////////////////////////
@@ -1220,18 +1348,6 @@ function forum_search_posts($searchterms, $courseid=0, $limitfrom=0, $limitnum=5
         $where[] = "(d.forum $fullid_sql)";
     }
 
-    $favjoin = "";
-    if (in_array('starredonly:on', $searchterms)) {
-        $usercontext = context_user::instance($USER->id);
-        $ufservice = \core_favourites\service_factory::get_service_for_user_context($usercontext);
-        list($favjoin, $favparams) = $ufservice->get_join_sql_by_type('mod_forum', 'discussions',
-            "favourited", "d.id");
-
-        $searchterms = array_values(array_diff($searchterms, array('starredonly:on')));
-        $params = array_merge($params, $favparams);
-        $extrasql .= " AND favourited.itemid IS NOT NULL AND favourited.itemid != 0";
-    }
-
     $selectdiscussion = "(".implode(" OR ", $where).")";
 
     $messagesearch = '';
@@ -1257,39 +1373,36 @@ function forum_search_posts($searchterms, $courseid=0, $limitfrom=0, $limitnum=5
         $tagjoins = '';
         $tagfields = [];
         $tagfieldcount = 0;
-        if ($parsearray) {
-            foreach ($parsearray as $token) {
-                if ($token->getType() == TOKEN_TAGS) {
-                    for ($i = 0; $i <= substr_count($token->getValue(), ','); $i++) {
-                        // Queries can only have a limited number of joins so set a limit sensible users won't exceed.
-                        if ($tagfieldcount > 10) {
-                            continue;
-                        }
-                        $tagjoins .= " LEFT JOIN {tag_instance} ti_$tagfieldcount
+        foreach ($parsearray as $token) {
+            if ($token->getType() == TOKEN_TAGS) {
+                for ($i = 0; $i <= substr_count($token->getValue(), ','); $i++) {
+                    // Queries can only have a limited number of joins so set a limit sensible users won't exceed.
+                    if ($tagfieldcount > 10) {
+                        continue;
+                    }
+                    $tagjoins .= " LEFT JOIN {tag_instance} ti_$tagfieldcount
                                         ON p.id = ti_$tagfieldcount.itemid
                                             AND ti_$tagfieldcount.component = 'mod_forum'
                                             AND ti_$tagfieldcount.itemtype = 'forum_posts'";
-                        $tagjoins .= " LEFT JOIN {tag} t_$tagfieldcount ON t_$tagfieldcount.id = ti_$tagfieldcount.tagid";
-                        $tagfields[] = "t_$tagfieldcount.rawname";
-                        $tagfieldcount++;
-                    }
+                    $tagjoins .= " LEFT JOIN {tag} t_$tagfieldcount ON t_$tagfieldcount.id = ti_$tagfieldcount.tagid";
+                    $tagfields[] = "t_$tagfieldcount.rawname";
+                    $tagfieldcount++;
                 }
             }
-            list($messagesearch, $msparams) = search_generate_SQL($parsearray, 'p.message', 'p.subject',
-                'p.userid', 'u.id', 'u.firstname',
-                'u.lastname', 'p.modified', 'd.forum',
-                $tagfields);
-
-            $params = ($msparams ? array_merge($params, $msparams) : $params);
         }
+        list($messagesearch, $msparams) = search_generate_SQL($parsearray, 'p.message', 'p.subject',
+                                                              'p.userid', 'u.id', 'u.firstname',
+                                                              'u.lastname', 'p.modified', 'd.forum',
+                                                              $tagfields);
+        $params = array_merge($params, $msparams);
     }
 
     $fromsql = "{forum_posts} p
                   INNER JOIN {forum_discussions} d ON d.id = p.discussion
-                  INNER JOIN {user} u ON u.id = p.userid $tagjoins $favjoin";
+                  INNER JOIN {user} u ON u.id = p.userid $tagjoins";
 
-    $selectsql = ($messagesearch ? $messagesearch . " AND " : "").
-                " p.discussion = d.id
+    $selectsql = " $messagesearch
+               AND p.discussion = d.id
                AND p.userid = u.id
                AND $selectdiscussion
                    $extrasql";
@@ -2567,7 +2680,7 @@ function forum_get_discussion_subscription_icon($forum, $discussionid, $returnur
 
         return html_writer::link($subscriptionlink, $output, array(
                 'title' => get_string('clicktounsubscribe', 'forum'),
-                'class' => 'discussiontoggle btn btn-link',
+                'class' => 'discussiontoggle iconsmall',
                 'data-forumid' => $forum->id,
                 'data-discussionid' => $discussionid,
                 'data-includetext' => $includetext,
@@ -2581,7 +2694,7 @@ function forum_get_discussion_subscription_icon($forum, $discussionid, $returnur
 
         return html_writer::link($subscriptionlink, $output, array(
                 'title' => get_string('clicktosubscribe', 'forum'),
-                'class' => 'discussiontoggle btn btn-link',
+                'class' => 'discussiontoggle iconsmall',
                 'data-forumid' => $forum->id,
                 'data-discussionid' => $discussionid,
                 'data-includetext' => $includetext,
@@ -2613,29 +2726,12 @@ function forum_get_discussion_subscription_icon_preloaders() {
  */
 function forum_print_mode_form($id, $mode, $forumtype='') {
     global $OUTPUT;
-    $useexperimentalui = get_user_preferences('forum_useexperimentalui', false);
     if ($forumtype == 'single') {
-        $select = new single_select(
-            new moodle_url("/mod/forum/view.php",
-            array('f' => $id)),
-            'mode',
-            forum_get_layout_modes($useexperimentalui),
-            $mode,
-            null,
-            "mode"
-        );
+        $select = new single_select(new moodle_url("/mod/forum/view.php", array('f'=>$id)), 'mode', forum_get_layout_modes(), $mode, null, "mode");
         $select->set_label(get_string('displaymode', 'forum'), array('class' => 'accesshide'));
         $select->class = "forummode";
     } else {
-        $select = new single_select(
-            new moodle_url("/mod/forum/discuss.php",
-            array('d' => $id)),
-            'mode',
-            forum_get_layout_modes($useexperimentalui),
-            $mode,
-            null,
-            "mode"
-        );
+        $select = new single_select(new moodle_url("/mod/forum/discuss.php", array('d'=>$id)), 'mode', forum_get_layout_modes(), $mode, null, "mode");
         $select->set_label(get_string('displaymode', 'forum'), array('class' => 'accesshide'));
     }
     echo $OUTPUT->render($select);
@@ -3106,7 +3202,6 @@ function forum_add_new_post($post, $mform, $unused = null) {
         $post->mailnow    = 0;
     }
 
-    \mod_forum\local\entities\post::add_message_counts($post);
     $post->id = $DB->insert_record("forum_posts", $post);
     $post->message = file_save_draft_area_files($post->itemid, $context->id, 'mod_forum', 'post', $post->id,
             mod_forum_post_form::editor_options($context, null), $post->message);
@@ -3129,38 +3224,6 @@ function forum_add_new_post($post, $mform, $unused = null) {
     forum_trigger_content_uploaded_event($post, $cm, 'forum_add_new_post');
 
     return $post->id;
-}
-
-/**
- * Trigger post updated event.
- *
- * @param object $post forum post object
- * @param object $discussion discussion object
- * @param object $context forum context object
- * @param object $forum forum object
- * @since Moodle 3.8
- * @return void
- */
-function forum_trigger_post_updated_event($post, $discussion, $context, $forum) {
-    global $USER;
-
-    $params = array(
-        'context' => $context,
-        'objectid' => $post->id,
-        'other' => array(
-            'discussionid' => $discussion->id,
-            'forumid' => $forum->id,
-            'forumtype' => $forum->type,
-        )
-    );
-
-    if ($USER->id !== $post->userid) {
-        $params['relateduserid'] = $post->userid;
-    }
-
-    $event = \mod_forum\event\post_updated::create($params);
-    $event->add_record_snapshot('forum_discussions', $discussion);
-    $event->trigger();
 }
 
 /**
@@ -3209,19 +3272,11 @@ function forum_update_post($newpost, $mform, $unused = null) {
     }
     $post->message = file_save_draft_area_files($newpost->itemid, $context->id, 'mod_forum', 'post', $post->id,
             mod_forum_post_form::editor_options($context, $post->id), $post->message);
-    \mod_forum\local\entities\post::add_message_counts($post);
     $DB->update_record('forum_posts', $post);
     // Note: Discussion modified time/user are intentionally not updated, to enable them to track the latest new post.
     $DB->update_record('forum_discussions', $discussion);
 
     forum_add_attachment($post, $forum, $cm, $mform);
-
-    if ($forum->type == 'single' && $post->parent == '0') {
-        // Updating first post of single discussion type -> updating forum intro.
-        $forum->intro = $post->message;
-        $forum->timemodified = time();
-        $DB->update_record("forum", $forum);
-    }
 
     if (isset($newpost->tags)) {
         core_tag_tag::set_item_tags('mod_forum', 'forum_posts', $post->id, $context, $newpost->tags);
@@ -3279,7 +3334,6 @@ function forum_add_discussion($discussion, $mform=null, $unused=null, $userid=nu
     $post->course        = $forum->course; // speedup
     $post->mailnow       = $discussion->mailnow;
 
-    \mod_forum\local\entities\post::add_message_counts($post);
     $post->id = $DB->insert_record("forum_posts", $post);
 
     // TODO: Fix the calling code so that there always is a $cm when this function is called
@@ -3368,17 +3422,6 @@ function forum_delete_discussion($discussion, $fulldelete, $course, $cm, $forum)
             $completion->update_state($cm, COMPLETION_INCOMPLETE, $discussion->userid);
         }
     }
-
-    $params = array(
-        'objectid' => $discussion->id,
-        'context' => context_module::instance($cm->id),
-        'other' => array(
-            'forumid' => $forum->id,
-        )
-    );
-    $event = \mod_forum\event\discussion_deleted::create($params);
-    $event->add_record_snapshot('forum_discussions', $discussion);
-    $event->trigger();
 
     return $result;
 }
@@ -5152,7 +5195,7 @@ function forum_reset_gradebook($courseid, $type='') {
 
     if ($forums = $DB->get_records_sql($sql, $params)) {
         foreach ($forums as $forum) {
-            forum_grade_item_update($forum, 'reset', 'reset');
+            forum_grade_item_update($forum, 'reset');
         }
     }
 }
@@ -5390,23 +5433,13 @@ function forum_reset_course_form_defaults($course) {
 /**
  * Returns array of forum layout modes
  *
- * @param bool $useexperimentalui use experimental layout modes or not
  * @return array
  */
-function forum_get_layout_modes(bool $useexperimentalui = false) {
-    $modes = [
-        FORUM_MODE_FLATOLDEST => get_string('modeflatoldestfirst', 'forum'),
-        FORUM_MODE_FLATNEWEST => get_string('modeflatnewestfirst', 'forum'),
-        FORUM_MODE_THREADED   => get_string('modethreaded', 'forum')
-    ];
-
-    if ($useexperimentalui) {
-        $modes[FORUM_MODE_NESTED_V2] = get_string('modenestedv2', 'forum');
-    } else {
-        $modes[FORUM_MODE_NESTED] = get_string('modenested', 'forum');
-    }
-
-    return $modes;
+function forum_get_layout_modes() {
+    return array (FORUM_MODE_FLATOLDEST => get_string('modeflatoldestfirst', 'forum'),
+                  FORUM_MODE_FLATNEWEST => get_string('modeflatnewestfirst', 'forum'),
+                  FORUM_MODE_THREADED   => get_string('modethreaded', 'forum'),
+                  FORUM_MODE_NESTED     => get_string('modenested', 'forum'));
 }
 
 /**
@@ -5455,39 +5488,17 @@ function forum_get_extra_capabilities() {
 function forum_extend_settings_navigation(settings_navigation $settingsnav, navigation_node $forumnode) {
     global $USER, $PAGE, $CFG, $DB, $OUTPUT;
 
+    $forumobject = $DB->get_record("forum", array("id" => $PAGE->cm->instance));
     if (empty($PAGE->cm->context)) {
         $PAGE->cm->context = context_module::instance($PAGE->cm->instance);
     }
-
-    $vaultfactory = mod_forum\local\container::get_vault_factory();
-    $managerfactory = mod_forum\local\container::get_manager_factory();
-    $legacydatamapperfactory = mod_forum\local\container::get_legacy_data_mapper_factory();
-    $forumvault = $vaultfactory->get_forum_vault();
-    $forumentity = $forumvault->get_from_id($PAGE->cm->instance);
-    $forumobject = $legacydatamapperfactory->get_forum_data_mapper()->to_legacy_object($forumentity);
 
     $params = $PAGE->url->params();
     if (!empty($params['d'])) {
         $discussionid = $params['d'];
     }
 
-    // Display all forum reports user has access to.
-    if (isloggedin() && !isguestuser()) {
-        $reportnames = array_keys(core_component::get_plugin_list('forumreport'));
-
-        foreach ($reportnames as $reportname) {
-            if (has_capability("forumreport/{$reportname}:view", $PAGE->cm->context)) {
-                $reportlinkparams = [
-                    'courseid' => $forumobject->course,
-                    'forumid' => $forumobject->id,
-                ];
-                $reportlink = new moodle_url("/mod/forum/report/{$reportname}/index.php", $reportlinkparams);
-                $forumnode->add(get_string('nodetitle', "forumreport_{$reportname}"), $reportlink, navigation_node::TYPE_CONTAINER);
-            }
-        }
-    }
-
-    // For some actions you need to be enrolled, being admin is not enough sometimes here.
+    // for some actions you need to be enrolled, beiing admin is not enough sometimes here
     $enrolled = is_enrolled($PAGE->cm->context, $USER, '', false);
     $activeenrolled = is_enrolled($PAGE->cm->context, $USER, '', true);
 
@@ -5615,12 +5626,6 @@ function forum_extend_settings_navigation(settings_navigation $settingsnav, navi
 
         $url = new moodle_url(rss_get_url($PAGE->cm->context->id, $userid, "mod_forum", $forumobject->id));
         $forumnode->add($string, $url, settings_navigation::TYPE_SETTING, null, null, new pix_icon('i/rss', ''));
-    }
-
-    $capabilitymanager = $managerfactory->get_capability_manager($forumentity);
-    if ($capabilitymanager->can_export_forum($USER)) {
-        $url = new moodle_url('/mod/forum/export.php', ['id' => $forumobject->id]);
-        $forumnode->add(get_string('export', 'mod_forum'), $url, navigation_node::TYPE_SETTING);
     }
 }
 
@@ -6940,22 +6945,6 @@ function mod_forum_user_preferences() {
             $discussionlistvault::SORTORDER_REPLIES_ASC
         )
     );
-    $preferences['forum_useexperimentalui'] = [
-        'null' => NULL_NOT_ALLOWED,
-        'default' => false,
-        'type' => PARAM_BOOL
-    ];
 
     return $preferences;
-}
-
-/**
- * Lists all gradable areas for the advanced grading methods gramework.
- *
- * @return array('string'=>'string') An array with area names as keys and descriptions as values
- */
-function forum_grading_areas_list() {
-    return [
-        'forum' => get_string('grade_forum_header', 'forum'),
-    ];
 }

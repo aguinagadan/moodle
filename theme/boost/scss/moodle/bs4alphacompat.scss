@@ -166,11 +166,11 @@ $tag-font-weight: bold !default;
 }
 
 @mixin pull-left() {
-    float: left !important; /* stylelint-disable-line declaration-no-important */
+    @include float-left();
 }
 
 @mixin pull-right() {
-    float: right !important; /* stylelint-disable-line declaration-no-important */
+    @include float-right();
 }
 
 .custom-select {

@@ -28,26 +28,20 @@ define([
         'core/notification',
         'mod_forum/repository',
         'mod_forum/selectors',
-        'core/pubsub',
-        'mod_forum/forum_events',
     ], function(
         $,
         Templates,
         Notification,
         Repository,
-        Selectors,
-        PubSub,
-        ForumEvents
+        Selectors
     ) {
 
     /**
      * Register event listeners for the subscription toggle.
      *
      * @param {object} root The discussion list root element
-     * @param {boolean} preventDefault Should the default action of the event be prevented
-     * @param {function} callback Success callback
      */
-    var registerEventListeners = function(root, preventDefault, callback) {
+    var registerEventListeners = function(root) {
         root.on('click', Selectors.subscription.toggle, function(e) {
             var toggleElement = $(this);
             var forumId = toggleElement.data('forumid');
@@ -56,21 +50,20 @@ define([
 
             Repository.setDiscussionSubscriptionState(forumId, discussionId, subscriptionState)
                 .then(function(context) {
-                    PubSub.publish(ForumEvents.SUBSCRIPTION_TOGGLED, {
-                        discussionId: discussionId,
-                        subscriptionState: subscriptionState
-                    });
-                    return callback(toggleElement, context);
+                    return Templates.render('mod_forum/discussion_subscription_toggle', context);
+                })
+                .then(function(html, js) {
+                    return Templates.replaceNode(toggleElement, html, js);
                 })
                 .catch(Notification.exception);
 
-            if (preventDefault) {
-                e.preventDefault();
-            }
+            e.preventDefault();
         });
     };
 
     return {
-        init: registerEventListeners
+        init: function(root) {
+            registerEventListeners(root);
+        }
     };
 });

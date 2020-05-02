@@ -91,12 +91,6 @@ class author extends exporter {
                 'default' => null,
                 'null' => NULL_ALLOWED
             ],
-            'isdeleted' => [
-                'type' => PARAM_BOOL,
-                'optional' => true,
-                'default' => null,
-                'null' => NULL_ALLOWED
-            ],
             'groups' => [
                 'multiple' => true,
                 'optional' => true,
@@ -150,60 +144,41 @@ class author extends exporter {
         $forum = $this->related['forum'];
 
         if ($this->canview) {
-            if ($author->is_deleted()) {
-                return [
-                    'id' => $author->get_id(),
-                    'fullname' => get_string('deleteduser', 'mod_forum'),
-                    'isdeleted' => true,
-                    'groups' => [],
-                    'urls' => [
-                        'profile' => ($urlfactory->get_author_profile_url($author, $forum->get_course_id()))->out(false),
-                        'profileimage' => ($urlfactory->get_author_profile_image_url($author, $authorcontextid))->out(false)
-                    ]
-                ];
-            } else {
-                $groups = array_map(function($group) use ($urlfactory, $context, $output) {
-                    $imageurl = null;
-                    $groupurl = null;
-                    if (!$group->hidepicture) {
-                        $imageurl = get_group_picture_url($group, $group->courseid, true);
-                        if (empty($imageurl)) {
-                            // Get a generic group image URL.
-                            $imageurl = $output->image_url('g/g1');
-                        }
-                    }
-                    if (course_can_view_participants($context)) {
-                        $groupurl = $urlfactory->get_author_group_url($group);
-                    }
-
-                    return [
-                        'id' => $group->id,
-                        'name' => $group->name,
-                        'urls' => [
-                            'image' => $imageurl ? $imageurl->out(false) : null,
-                            'group' => $groupurl ? $groupurl->out(false) : null
-
-                        ]
-                    ];
-                }, $this->authorgroups);
+            $groups = array_map(function($group) use ($urlfactory, $context) {
+                $imageurl = null;
+                $groupurl = null;
+                if (!$group->hidepicture) {
+                    $imageurl = get_group_picture_url($group, $group->courseid, true);
+                }
+                if (course_can_view_participants($context)) {
+                    $groupurl = $urlfactory->get_author_group_url($group);
+                }
 
                 return [
-                    'id' => $author->get_id(),
-                    'fullname' => $author->get_full_name(),
-                    'isdeleted' => false,
-                    'groups' => $groups,
+                    'id' => $group->id,
+                    'name' => $group->name,
                     'urls' => [
-                        'profile' => ($urlfactory->get_author_profile_url($author, $forum->get_course_id()))->out(false),
-                        'profileimage' => ($urlfactory->get_author_profile_image_url($author, $authorcontextid))->out(false)
+                        'image' => $imageurl ? $imageurl->out(false) : null,
+                        'group' => $groupurl ? $groupurl->out(false) : null
+
                     ]
                 ];
-            }
+            }, $this->authorgroups);
+
+            return [
+                'id' => $author->get_id(),
+                'fullname' => $author->get_full_name(),
+                'groups' => $groups,
+                'urls' => [
+                    'profile' => ($urlfactory->get_author_profile_url($author, $forum->get_course_id()))->out(false),
+                    'profileimage' => ($urlfactory->get_author_profile_image_url($author, $authorcontextid))->out(false)
+                ]
+            ];
         } else {
             // The author should be anonymised.
             return [
                 'id' => null,
                 'fullname' => get_string('forumauthorhidden', 'mod_forum'),
-                'isdeleted' => null,
                 'groups' => [],
                 'urls' => [
                     'profile' => null,

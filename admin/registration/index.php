@@ -32,25 +32,24 @@ require_once($CFG->libdir . '/adminlib.php');
 
 admin_externalpage_setup('registrationmoodleorg');
 
-$unregistration = optional_param('unregistration', false, PARAM_BOOL);
-$confirm = optional_param('confirm', false, PARAM_BOOL);
+$unregistration = optional_param('unregistration', 0, PARAM_INT);
 
 if ($unregistration && \core\hub\registration::is_registered()) {
-    if ($confirm) {
-        require_sesskey();
-        \core\hub\registration::unregister(false, false);
+    $siteunregistrationform = new \core\hub\site_unregistration_form();
 
+    if ($siteunregistrationform->is_cancelled()) {
+        redirect(new moodle_url('/admin/registration/index.php'));
+    } else if ($data = $siteunregistrationform->get_data()) {
+        \core\hub\registration::unregister($data->unpublishalladvertisedcourses,
+            $data->unpublishalluploadedcourses);
         if (!\core\hub\registration::is_registered()) {
             redirect(new moodle_url('/admin/registration/index.php'));
         }
     }
 
     echo $OUTPUT->header();
-    echo $OUTPUT->confirm(
-        get_string('registerwithmoodleorgremove', 'core_hub'),
-        new moodle_url(new moodle_url('/admin/registration/index.php', ['unregistration' => 1, 'confirm' => 1])),
-        new moodle_url(new moodle_url('/admin/registration/index.php'))
-    );
+    echo $OUTPUT->heading(get_string('registerwithmoodleorgremove', 'core_hub'), 3, 'main');
+    $siteunregistrationform->display();
     echo $OUTPUT->footer();
     exit;
 }
@@ -120,9 +119,8 @@ $siteregistrationform->display();
 if (\core\hub\registration::is_registered()) {
     // Unregister link.
     $unregisterhuburl = new moodle_url("/admin/registration/index.php", ['unregistration' => 1]);
-    echo html_writer::div(html_writer::link($unregisterhuburl, get_string('unregister', 'hub')), 'unregister mt-2');
+    echo html_writer::div(html_writer::link($unregisterhuburl, get_string('unregister', 'hub')), 'unregister');
 } else if ($isinitialregistration) {
-    echo html_writer::div(html_writer::link(new moodle_url($returnurl), get_string('skipregistration', 'hub')),
-        'skipregistration mt-2');
+    echo html_writer::div(html_writer::link(new moodle_url($returnurl), get_string('skipregistration', 'hub')), 'skipregistration');
 }
 echo $OUTPUT->footer();

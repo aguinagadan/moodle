@@ -95,9 +95,9 @@ class behat_question extends behat_question_base {
      * @param string $questionname the question name.
      */
     public function i_action_the_question($action, $questionname) {
-        // Open the menu.
-        $this->execute("behat_general::i_click_on_in_the",
-                [get_string('edit'), 'link', $questionname, 'table_row']);
+        if ($action == 'Edit question') {
+            $action = 'Edit';
+        }
 
         // Click the action from the menu.
         $this->execute("behat_general::i_click_on_in_the",

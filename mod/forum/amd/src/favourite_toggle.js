@@ -42,10 +42,8 @@ define([
      * Register event listeners for the subscription toggle.
      *
      * @param {object} root The discussion list root element
-     * @param {boolean} preventDefault Should the default action of the event be prevented
-     * @param {function} callback Success callback
      */
-    var registerEventListeners = function(root, preventDefault, callback) {
+    var registerEventListeners = function(root) {
         root.on('click', Selectors.favourite.toggle, function(e) {
             var toggleElement = $(this);
             var forumId = toggleElement.data('forumid');
@@ -54,7 +52,10 @@ define([
 
             Repository.setFavouriteDiscussionState(forumId, discussionId, subscriptionState)
                 .then(function(context) {
-                    return callback(toggleElement, context);
+                    return Templates.render('mod_forum/discussion_favourite_toggle', context);
+                })
+                .then(function(html, js) {
+                    return Templates.replaceNode(toggleElement, html, js);
                 })
                 .then(function() {
                     return String.get_string("favouriteupdated", "forum")
@@ -67,13 +68,13 @@ define([
                 })
                 .catch(Notification.exception);
 
-            if (preventDefault) {
-                e.preventDefault();
-            }
+            e.preventDefault();
         });
     };
 
     return {
-        init: registerEventListeners
+        init: function(root) {
+            registerEventListeners(root);
+        }
     };
 });

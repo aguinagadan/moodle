@@ -57,19 +57,19 @@ trait eventtype {
         $options = [];
 
         if (!empty($eventtypes['user'])) {
-            $options['user'] = get_string('user', 'calendar');
+            $options['user'] = get_string('user');
         }
         if (!empty($eventtypes['group'])) {
-            $options['group'] = get_string('group', 'calendar');
+            $options['group'] = get_string('group');
         }
         if (!empty($eventtypes['course'])) {
-            $options['course'] = get_string('course', 'calendar');
+            $options['course'] = get_string('course');
         }
         if (!empty($eventtypes['category'])) {
-            $options['category'] = get_string('category', 'calendar');
+            $options['category'] = get_string('category');
         }
         if (!empty($eventtypes['site'])) {
-            $options['site'] = get_string('site', 'calendar');
+            $options['site'] = get_string('site');
         }
 
         // If we only have one event type and it's 'user' event then don't bother

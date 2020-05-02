@@ -133,7 +133,6 @@ function core_competency_comment_add($comment, $params) {
         $message->contexturlname = $urlname;
 
         $userpicture = new \user_picture($user);
-        $userpicture->size = 1; // Use f1 size.
         // Message each recipient.
         foreach ($recipients as $recipient) {
             $msgcopy = clone($message);
@@ -209,7 +208,6 @@ function core_competency_comment_add($comment, $params) {
         $message->contexturlname = $urlname;
 
         $userpicture = new \user_picture($user);
-        $userpicture->size = 1; // Use f1 size.
         // Message each recipient.
         foreach ($recipients as $recipient) {
             $msgcopy = clone($message);

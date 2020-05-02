@@ -50,12 +50,10 @@ class main implements renderable, templatable {
         global $USER;
 
         $nocoursesurl = $output->image_url('courses', 'block_starredcourses')->out();
-        $config = get_config('block_starredcourses');
 
         return [
             'userid' => $USER->id,
-            'nocoursesimg' => $nocoursesurl,
-            'displaycategories' => !empty($config->displaycategories)
+            'nocoursesimg' => $nocoursesurl
         ];
     }
 }

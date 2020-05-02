@@ -75,9 +75,7 @@ class mod_forum_entities_discussion_testcase extends advanced_testcase {
             0,
             false,
             false,
-            false,
-            null,
-            null
+            false
         );
         $notfirstpost = new post_entity(
             1,
@@ -95,9 +93,7 @@ class mod_forum_entities_discussion_testcase extends advanced_testcase {
             0,
             false,
             false,
-            false,
-            null,
-            null
+            false
         );
 
         $this->assertEquals(1, $discussion->get_id());

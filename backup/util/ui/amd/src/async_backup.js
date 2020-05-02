@@ -39,16 +39,13 @@ define(['jquery', 'core/ajax', 'core/str', 'core/notification', 'core/templates'
      * Module level variables.
      */
     var Asyncbackup = {};
-    var checkdelayoriginal = 15000; // This is the default time to use.
-    var checkdelay = 15000; // How often we should check for progress updates.
-    var checkdelaymultipler = 1.5; // If a request fails this multiplier will be used to increase the checkdelay value
+    var checkdelay = 15000; //  How often we check for progress updates.
     var backupid; //  The backup id to get the progress for.
     var contextid; //  The course this backup progress is for.
     var restoreurl; //  The URL to view course restores.
     var typeid; //  The type of operation backup or restore.
     var backupintervalid; //  The id of the setInterval function.
     var allbackupintervalid; //  The id of the setInterval function.
-    var timeout = 2000; // Timeout for ajax requests.
 
     /**
      * Helper function to update UI components.
@@ -65,19 +62,6 @@ define(['jquery', 'core/ajax', 'core/str', 'core/notification', 'core/templates'
         elementbar.attr('aria-valuenow', percentagewidth);
         elementbar.css('width', percentagewidth);
         elementbar.text(percentagetext);
-    }
-
-    /**
-     * Updates the interval we use to check for backup progress.
-     *
-     * @param {Number} intervalid The id of the interval
-     * @param {Function} callback The function to use in setInterval
-     * @param {Number} value The specified interval (in milliseconds)
-     * @returns {Number}
-     */
-    function updateInterval(intervalid, callback, value) {
-        clearInterval(intervalid);
-        return setInterval(callback, value);
     }
 
     /**
@@ -364,14 +348,9 @@ define(['jquery', 'core/ajax', 'core/str', 'core/notification', 'core/templates'
                 'backupids': [backupid],
                 'contextid': contextid
             },
-        }], true, true, false, timeout)[0].done(function(response) {
+        }])[0].done(function(response) {
             // We have the progress now update the UI.
             updateProgress(response[0]);
-            checkdelay = checkdelayoriginal;
-            backupintervalid = updateInterval(backupintervalid, getBackupProgress, checkdelayoriginal);
-        }).fail(function() {
-            checkdelay = checkdelay * checkdelaymultipler;
-            backupintervalid = updateInterval(backupintervalid, getBackupProgress, checkdelay);
         });
     }
 
@@ -394,13 +373,8 @@ define(['jquery', 'core/ajax', 'core/str', 'core/notification', 'core/templates'
                     'backupids': backupids,
                     'contextid': contextid
                 },
-            }], true, true, false, timeout)[0].done(function(response) {
+            }])[0].done(function(response) {
                 updateProgressAll(response);
-                checkdelay = checkdelayoriginal;
-                allbackupintervalid = updateInterval(allbackupintervalid, getAllBackupProgress, checkdelayoriginal);
-            }).fail(function() {
-                checkdelay = checkdelay * checkdelaymultipler;
-                allbackupintervalid = updateInterval(allbackupintervalid, getAllBackupProgress, checkdelay);
             });
         } else {
             clearInterval(allbackupintervalid); // No more progress bars to update, stop checking.

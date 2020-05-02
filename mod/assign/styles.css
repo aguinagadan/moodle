@@ -182,10 +182,6 @@
     background-color: #fc9;
 }
 
-.path-mod-assign .gradingtable .commentscontainer .comment-ctrl .comment-area textarea {
-    resize: both;
-}
-
 .path-mod-assign td.submissioneditable {
     color: red;
 }

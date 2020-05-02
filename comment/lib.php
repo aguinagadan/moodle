@@ -537,10 +537,9 @@ class comment {
      * Return matched comments
      *
      * @param  int $page
-     * @param  str $sortdirection sort direction, ASC or DESC
      * @return array
      */
-    public function get_comments($page = '', $sortdirection = 'DESC') {
+    public function get_comments($page = '') {
         global $DB, $CFG, $USER, $OUTPUT;
         if (!$this->can_view()) {
             return false;
@@ -558,7 +557,6 @@ class comment {
             $params['component'] = $component;
         }
 
-        $sortdirection = ($sortdirection === 'ASC') ? 'ASC' : 'DESC';
         $sql = "SELECT $ufields, c.id AS cid, c.content AS ccontent, c.format AS cformat, c.timecreated AS ctimecreated
                   FROM {comments} c
                   JOIN {user} u ON u.id = c.userid
@@ -566,7 +564,7 @@ class comment {
                        c.commentarea = :commentarea AND
                        c.itemid = :itemid AND
                        $componentwhere
-              ORDER BY c.timecreated $sortdirection, c.id $sortdirection";
+              ORDER BY c.timecreated DESC, c.id DESC";
         $params['contextid'] = $this->contextid;
         $params['commentarea'] = $this->commentarea;
         $params['itemid'] = $this->itemid;

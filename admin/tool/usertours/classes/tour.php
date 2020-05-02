@@ -357,15 +357,6 @@ class tour {
     }
 
     /**
-     * The link to duplicate this tour.
-     *
-     * @return  moodle_url
-     */
-    public function get_duplicate_link() {
-        return helper::get_duplicate_tour_link($this->id);
-    }
-
-    /**
      * The link to remove this tour.
      *
      * @return  moodle_url

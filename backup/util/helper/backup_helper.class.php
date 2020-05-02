@@ -287,15 +287,7 @@ abstract class backup_helper {
             $config = get_config('backup');
             $dir = $config->backup_auto_destination;
             if ($config->backup_auto_storage == 1 and $dir and is_dir($dir) and is_writable($dir)) {
-                $filedest = $dir.'/'
-                        .backup_plan_dbops::get_default_backup_filename(
-                                $format,
-                                $backuptype,
-                                $courseid,
-                                $hasusers,
-                                $isannon,
-                                !$config->backup_shortname,
-                                (bool)$config->backup_auto_files);
+                $filedest = $dir.'/'.backup_plan_dbops::get_default_backup_filename($format, $backuptype, $courseid, $hasusers, $isannon, !$config->backup_shortname);
                 // first try to move the file, if it is not possible copy and delete instead
                 if (@rename($filepath, $filedest)) {
                     return null;

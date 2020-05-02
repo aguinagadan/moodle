@@ -240,7 +240,8 @@ class calendar_day_exporter extends exporter {
      * @return string The html code for the course filter selector.
      */
     protected function get_course_filter_selector(renderer_base $output) {
-        return $output->course_filter_selector($this->url, '', $this->calendar->course->id);
+        $langstr = get_string('dayviewfor', 'calendar');
+        return $output->course_filter_selector($this->url, $langstr, $this->calendar->course->id);
     }
 
     /**

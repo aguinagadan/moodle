@@ -43,21 +43,6 @@ abstract class periodic extends base {
     abstract protected function periodicity();
 
     /**
-     * Gets the next range with start on the provided time.
-     *
-     * @param  \DateTimeImmutable $time
-     * @return array
-     */
-    abstract protected function get_next_range(\DateTimeImmutable $time);
-
-    /**
-     * Get the start of the first time range.
-     *
-     * @return int A timestamp.
-     */
-    abstract protected function get_first_start();
-
-    /**
      * Returns whether the analysable can be processed by this time splitting method or not.
      *
      * @param \core_analytics\analysable $analysable
@@ -82,42 +67,25 @@ abstract class periodic extends base {
         if ($this->analysable->get_end()) {
             $end = (new \DateTimeImmutable())->setTimestamp($this->analysable->get_end());
         }
-        $nexttime = (new \DateTimeImmutable())->setTimestamp($this->get_first_start());
+        $next = (new \DateTimeImmutable())->setTimestamp($this->get_first_start());
 
         $now = new \DateTimeImmutable('now', \core_date::get_server_timezone_object());
 
-        $range = $this->get_next_range($nexttime);
-        if (!$range) {
-            $nexttime = $nexttime->add($periodicity);
-            $range = $this->get_next_range($nexttime);
-
-            if (!$range) {
-                throw new \coding_exception('The get_next_range implementation is broken. The difference between two consecutive
-                    ranges can not be more than the periodicity.');
-            }
-        }
-
         $ranges = [];
-        $endreached = false;
-        while (($this->ready_to_predict($range) || $this->ready_to_train($range)) && !$endreached) {
-            $ranges[] = $range;
-            $nexttime = $nexttime->add($periodicity);
-            $range = $this->get_next_range($nexttime);
-
-            $endreached = (!empty($end) && $nexttime > $end);
+        while ($next < $now &&
+                (empty($end) || $next < $end)) {
+            $range = $this->get_next_range($next);
+            if ($range) {
+                $ranges[] = $range;
+            }
+            $next = $next->add($periodicity);
         }
 
-        if ($ranges && !$endreached) {
-            // If this analysable is not finished we adjust the start and end of the last element in $ranges
-            // so that it ends in time().The reason is that the start of these ranges is based on the analysable
-            // start and the end is calculated based on the start. This is to prevent the same issue we had in MDL-65348.
-            //
-            // An example of the situation we want to avoid is:
-            // A course started on a Monday, in 2015. It has no end date. Now the system is upgraded to Moodle 3.8, which
-            // includes this code. This happens on Wednesday. Periodic ranges (e.g. weekly) will be calculated from a Monday
-            // so the data provided by the time-splitting method would be from Monday to Monday, when we really want to
-            // provide data from Wednesday to the past Wednesday.
-            $ranges = $this->update_last_range($ranges);
+        $nextrange = $this->get_next_range($next);
+        if ($this->ready_to_predict($nextrange) && (empty($end) || $next < $end)) {
+            // Add the next one if we have not reached the analysable end yet.
+            // It will be used to get predictions.
+            $ranges[] = $nextrange;
         }
 
         return $ranges;
@@ -151,12 +119,34 @@ abstract class periodic extends base {
     }
 
     /**
-     * Allows child classes to update the last range provided.
+     * The next range is based on the past period.
      *
-     * @param  array  $ranges
+     * @param  \DateTimeImmutable $next
      * @return array
      */
-    protected function update_last_range(array $ranges) {
-        return $ranges;
+    protected function get_next_range(\DateTimeImmutable $next) {
+
+        $end = $next->getTimestamp();
+        $start = $next->sub($this->periodicity())->getTimestamp();
+
+        if ($start < $this->analysable->get_start()) {
+            // We skip the first range generated as its start is prior to the analysable start.
+            return false;
+        }
+
+        return [
+            'start' => $start,
+            'end' => $end,
+            'time' => $end
+        ];
+    }
+
+    /**
+     * Get the start of the first time range.
+     *
+     * @return int A timestamp.
+     */
+    protected function get_first_start() {
+        return $this->analysable->get_start();
     }
 }

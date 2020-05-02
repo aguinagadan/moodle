@@ -98,7 +98,7 @@ class user_filter_courserole extends user_filter_type {
         $role     = $field .'_rl';
         $category = $field .'_ct';
 
-        if (property_exists($formdata, $field)) {
+        if (array_key_exists($field, $formdata)) {
             if (empty($formdata->$field) and empty($formdata->$role) and empty($formdata->$category)) {
                 // Nothing selected.
                 return false;

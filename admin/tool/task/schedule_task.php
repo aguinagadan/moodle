@@ -44,8 +44,9 @@ function tool_task_mtrace_wrapper($message, $eol) {
 $taskname = required_param('task', PARAM_RAW_TRIMMED);
 
 // Basic security checks.
-require_admin();
+require_login();
 $context = context_system::instance();
+require_capability('moodle/site:config', $context);
 
 if (!get_config('tool_task', 'enablerunnow')) {
     print_error('nopermissions', 'error', '', get_string('runnow', 'tool_task'));

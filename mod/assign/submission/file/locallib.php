@@ -637,12 +637,4 @@ class assign_submission_file extends assign_submission_plugin {
 
         return $sets;
     }
-
-    /**
-     * Determine if the plugin allows image file conversion
-     * @return bool
-     */
-    public function allow_image_conversion() {
-        return true;
-    }
 }

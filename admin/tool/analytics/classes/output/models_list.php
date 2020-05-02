@@ -97,9 +97,16 @@ class models_list implements \renderable, \templatable {
         }
 
         // Evaluation options.
-        $timesplittingsforevaluation = \core_analytics\manager::get_time_splitting_methods_for_evaluation(true);
+        $timesplittingmethods = [
+            ['id' => 'all', 'text' => get_string('alltimesplittingmethods', 'tool_analytics')],
+        ];
+        foreach (\core_analytics\manager::get_time_splitting_methods_for_evaluation(true) as $timesplitting) {
+            $timesplittingmethods[] = [
+                'id' => \tool_analytics\output\helper::class_to_option($timesplitting->get_id()),
+                'text' => $timesplitting->get_name()->out(),
+            ];
+        }
 
-        $misconfiguredmodels = [];
         $data->models = array();
         foreach ($this->models as $model) {
             $modeldata = $model->export($output);
@@ -114,10 +121,6 @@ class models_list implements \renderable, \templatable {
                 // We really want to encourage developers to add help to their targets.
                 debugging("The target '{$modeldata->target}' should include a '{$identifier}_help' string to
                     describe its purpose.", DEBUG_DEVELOPER);
-            }
-
-            if ($model->invalid_timesplitting_selected()) {
-                $misconfiguredmodels[$model->get_id()] = $model->get_name();
             }
 
             // Check if there is a help icon for the indicators to show.
@@ -153,7 +156,7 @@ class models_list implements \renderable, \templatable {
                     $modeldata->timesplittinghelp = $helpicon->export_for_template($output);
                 } else {
                     // We really want to encourage developers to add help to their time splitting methods.
-                    debugging("The analysis interval '{$modeldata->timesplitting}' should include a '{$identifier}_help'
+                    debugging("The time splitting method '{$modeldata->timesplitting}' should include a '{$identifier}_help'
                         string to describe its purpose.", DEBUG_DEVELOPER);
                 }
             } else {
@@ -163,20 +166,36 @@ class models_list implements \renderable, \templatable {
 
             // Has this model generated predictions?.
             $predictioncontexts = $model->get_predictions_contexts();
-            $anypredictionobtained = $model->any_prediction_obtained();
 
             // Model predictions list.
             if (!$model->is_enabled()) {
                 $modeldata->noinsights = get_string('disabledmodel', 'analytics');
             } else if ($model->uses_insights()) {
                 if ($predictioncontexts) {
-                    $url = new \moodle_url('/report/insights/insights.php', array('modelid' => $model->get_id()));
-                    $modeldata->insights = \tool_analytics\output\helper::prediction_context_selector($predictioncontexts,
-                        $url, $output);
+
+                    foreach ($predictioncontexts as $contextid => $unused) {
+                        // We prepare this to be used as single_select template options.
+                        $context = \context::instance_by_id($contextid);
+
+                        // Special name for system level predictions as showing "System is not visually nice".
+                        if ($contextid == SYSCONTEXTID) {
+                            $contextname = get_string('allpredictions', 'tool_analytics');
+                        } else {
+                            $contextname = shorten_text($context->get_context_name(false, true), 40);
+                        }
+                        $predictioncontexts[$contextid] = $contextname;
+                    }
+                    \core_collator::asort($predictioncontexts);
+
+                    if (!empty($predictioncontexts)) {
+                        $url = new \moodle_url('/report/insights/insights.php', array('modelid' => $model->get_id()));
+                        $singleselect = new \single_select($url, 'contextid', $predictioncontexts);
+                        $modeldata->insights = $singleselect->export_for_template($output);
+                    }
                 }
 
                 if (empty($modeldata->insights)) {
-                    if ($anypredictionobtained) {
+                    if ($model->any_prediction_obtained()) {
                         $modeldata->noinsights = get_string('noinsights', 'analytics');
                     } else {
                         $modeldata->noinsights = get_string('nopredictionsyet', 'analytics');
@@ -197,11 +216,10 @@ class models_list implements \renderable, \templatable {
 
             // Get predictions.
             if (!$onlycli && $modeldata->enabled && !empty($modeldata->timesplitting)) {
-                $urlparams['action'] = 'scheduledanalysis';
-                $url = new \moodle_url('/admin/tool/analytics/model.php', $urlparams);
-                $icon = new \action_menu_link_secondary($url,
-                    new \pix_icon('i/notifications', get_string('executescheduledanalysis', 'tool_analytics')),
-                    get_string('executescheduledanalysis', 'tool_analytics'));
+                $urlparams['action'] = 'getpredictions';
+                $url = new \moodle_url('model.php', $urlparams);
+                $icon = new \action_menu_link_secondary($url, new \pix_icon('i/notifications',
+                    get_string('getpredictions', 'tool_analytics')), get_string('getpredictions', 'tool_analytics'));
                 $actionsmenu->add($icon);
             }
 
@@ -213,29 +231,26 @@ class models_list implements \renderable, \templatable {
 
                 $actionid = 'evaluate-' . $model->get_id();
 
-                // Evaluation options.
-                $modeltimesplittingmethods = $this->timesplittings_options_for_evaluation($model, $timesplittingsforevaluation);
-
+                $modeltimesplittingmethods = $timesplittingmethods;
                 // Include the current time-splitting method as the default selection method the model already have one.
                 if ($model->get_model_obj()->timesplitting) {
                     $currenttimesplitting = ['id' => 'current', 'text' => get_string('currenttimesplitting', 'tool_analytics')];
                     array_unshift($modeltimesplittingmethods, $currenttimesplitting);
                 }
 
-                $evaluateparams = [$actionid, $trainedonlyexternally];
+                $evaluateparams = [$actionid, $trainedonlyexternally, $modeltimesplittingmethods];
                 $PAGE->requires->js_call_amd('tool_analytics/model', 'selectEvaluationOptions', $evaluateparams);
                 $urlparams['action'] = 'evaluate';
-                $url = new \moodle_url('/admin/tool/analytics/model.php', $urlparams);
+                $url = new \moodle_url('model.php', $urlparams);
                 $icon = new \action_menu_link_secondary($url, new \pix_icon('i/calc', get_string('evaluate', 'tool_analytics')),
-                    get_string('evaluate', 'tool_analytics'), ['data-action-id' => $actionid,
-                    'data-timesplitting-methods' => json_encode($modeltimesplittingmethods)]);
+                    get_string('evaluate', 'tool_analytics'), ['data-action-id' => $actionid]);
                 $actionsmenu->add($icon);
             }
 
             // Machine-learning-based models evaluation log.
             if (!$model->is_static() && $model->get_logs()) {
                 $urlparams['action'] = 'log';
-                $url = new \moodle_url('/admin/tool/analytics/model.php', $urlparams);
+                $url = new \moodle_url('model.php', $urlparams);
                 $icon = new \action_menu_link_secondary($url, new \pix_icon('i/report', get_string('viewlog', 'tool_analytics')),
                     get_string('viewlog', 'tool_analytics'));
                 $actionsmenu->add($icon);
@@ -243,7 +258,7 @@ class models_list implements \renderable, \templatable {
 
             // Edit model.
             $urlparams['action'] = 'edit';
-            $url = new \moodle_url('/admin/tool/analytics/model.php', $urlparams);
+            $url = new \moodle_url('model.php', $urlparams);
             $icon = new \action_menu_link_secondary($url, new \pix_icon('t/edit', get_string('edit')), get_string('edit'));
             $actionsmenu->add($icon);
 
@@ -260,7 +275,7 @@ class models_list implements \renderable, \templatable {
                     $icontype = 'i/checked';
                 }
                 $urlparams['action'] = $action;
-                $url = new \moodle_url('/admin/tool/analytics/model.php', $urlparams);
+                $url = new \moodle_url('model.php', $urlparams);
                 $icon = new \action_menu_link_secondary($url, new \pix_icon($icontype, $text), $text);
                 $actionsmenu->add($icon);
             }
@@ -273,7 +288,7 @@ class models_list implements \renderable, \templatable {
 
                 if ($fullysetup || $istrained) {
 
-                    $url = new \moodle_url('/admin/tool/analytics/model.php', $urlparams);
+                    $url = new \moodle_url('model.php', $urlparams);
                     // Clear the previous action param from the URL, we will set it in JS.
                     $url->remove_params('action');
 
@@ -288,31 +303,22 @@ class models_list implements \renderable, \templatable {
                 }
             }
 
-            // Insights report.
-            if (!empty($anypredictionobtained) && $model->uses_insights()) {
-                $urlparams['action'] = 'insightsreport';
-                $url = new \moodle_url('/admin/tool/analytics/model.php', $urlparams);
-                $pix = new \pix_icon('i/report', get_string('insightsreport', 'tool_analytics'));
-                $icon = new \action_menu_link_secondary($url, $pix, get_string('insightsreport', 'tool_analytics'));
-                $actionsmenu->add($icon);
-            }
-
             // Invalid analysables.
             $analyser = $model->get_analyser(['notimesplitting' => true]);
             if (!$analyser instanceof \core_analytics\local\analyser\sitewide) {
                 $urlparams['action'] = 'invalidanalysables';
-                $url = new \moodle_url('/admin/tool/analytics/model.php', $urlparams);
+                $url = new \moodle_url('model.php', $urlparams);
                 $pix = new \pix_icon('i/report', get_string('invalidanalysables', 'tool_analytics'));
                 $icon = new \action_menu_link_secondary($url, $pix, get_string('invalidanalysables', 'tool_analytics'));
                 $actionsmenu->add($icon);
             }
 
             // Clear model.
-            if (!empty($anypredictionobtained) || $model->is_trained()) {
+            if (!empty($predictioncontexts) || $model->is_trained()) {
                 $actionid = 'clear-' . $model->get_id();
                 $PAGE->requires->js_call_amd('tool_analytics/model', 'confirmAction', [$actionid, 'clear']);
                 $urlparams['action'] = 'clear';
-                $url = new \moodle_url('/admin/tool/analytics/model.php', $urlparams);
+                $url = new \moodle_url('model.php', $urlparams);
                 $icon = new \action_menu_link_secondary($url, new \pix_icon('e/cleanup_messy_code',
                     get_string('clearpredictions', 'tool_analytics')), get_string('clearpredictions', 'tool_analytics'),
                     ['data-action-id' => $actionid]);
@@ -323,7 +329,7 @@ class models_list implements \renderable, \templatable {
             $actionid = 'delete-' . $model->get_id();
             $PAGE->requires->js_call_amd('tool_analytics/model', 'confirmAction', [$actionid, 'delete']);
             $urlparams['action'] = 'delete';
-            $url = new \moodle_url('/admin/tool/analytics/model.php', $urlparams);
+            $url = new \moodle_url('model.php', $urlparams);
             $icon = new \action_menu_link_secondary($url, new \pix_icon('t/delete',
                 get_string('delete', 'tool_analytics')), get_string('delete', 'tool_analytics'),
                 ['data-action-id' => $actionid]);
@@ -334,10 +340,10 @@ class models_list implements \renderable, \templatable {
             $data->models[] = $modeldata;
         }
 
-        $data->warnings = [];
-        $data->infos = [];
         if (!$onlycli) {
-            $data->warnings[] = (object)array('message' => get_string('bettercli', 'tool_analytics'), 'closebutton' => true);
+            $data->warnings = array(
+                (object)array('message' => get_string('bettercli', 'tool_analytics'), 'closebutton' => true)
+            );
         } else {
             $url = new \moodle_url('/admin/settings.php', array('section' => 'analyticssettings'),
                 'id_s_analytics_onlycli');
@@ -346,43 +352,12 @@ class models_list implements \renderable, \templatable {
             if (is_siteadmin()) {
                 $langstrid = 'clievaluationandpredictions';
             }
-            $data->infos[] = (object)array('message' => get_string($langstrid, 'tool_analytics', $url->out()),
-                'closebutton' => true);
-        }
-
-        if ($misconfiguredmodels) {
-            $warningstr = get_string('invalidtimesplittinginmodels', 'tool_analytics', implode(', ', $misconfiguredmodels));
-            $data->warnings[] = (object)array('message' => $warningstr, 'closebutton' => true);
+            $data->infos = array(
+                (object)array('message' => get_string($langstrid, 'tool_analytics', $url->out()),
+                    'closebutton' => true)
+            );
         }
 
         return $data;
-    }
-
-    /**
-     * Returns the list of time splitting methods that are available for evaluation.
-     *
-     * @param  \core_analytics\model $model
-     * @param  array                 $timesplittingsforevaluation
-     * @return array
-     */
-    private function timesplittings_options_for_evaluation(\core_analytics\model $model,
-            array $timesplittingsforevaluation): array {
-
-        $modeltimesplittingmethods = [
-            ['id' => 'all', 'text' => get_string('alltimesplittingmethods', 'tool_analytics')],
-        ];
-        $potentialtimesplittingmethods = $model->get_potential_timesplittings();
-        foreach ($timesplittingsforevaluation as $timesplitting) {
-            if (empty($potentialtimesplittingmethods[$timesplitting->get_id()])) {
-                // This time-splitting method can not be used for this model.
-                continue;
-            }
-            $modeltimesplittingmethods[] = [
-                'id' => \tool_analytics\output\helper::class_to_option($timesplitting->get_id()),
-                'text' => $timesplitting->get_name()->out(),
-            ];
-        }
-
-        return $modeltimesplittingmethods;
     }
 }

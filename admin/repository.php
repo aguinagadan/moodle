@@ -123,13 +123,13 @@ if (($action == 'edit') || ($action == 'new')) {
             }
             $instanceoptionnames = repository::static_function($repository, 'get_instance_option_names');
             if (!empty($instanceoptionnames)) {
-                if (property_exists($fromform, 'enablecourseinstances')) {
+                if (array_key_exists('enablecourseinstances', $fromform)) {
                     $settings['enablecourseinstances'] = $fromform->enablecourseinstances;
                 }
                 else {
                     $settings['enablecourseinstances'] = 0;
                 }
-                if (property_exists($fromform, 'enableuserinstances')) {
+                if (array_key_exists('enableuserinstances', $fromform)) {
                     $settings['enableuserinstances'] = $fromform->enableuserinstances;
                 }
                 else {

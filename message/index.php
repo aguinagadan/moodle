@@ -57,7 +57,9 @@ if ($userid) {
 }
 
 if ($userid) {
-    if (!\core_message\api::can_send_message($userid, $USER->id)) {
+    $recipient = new stdClass();
+    $recipient->id = $userid;
+    if (!\core_message\api::can_post_message($recipient)) {
         throw new moodle_exception('Can not contact user');
     }
 }

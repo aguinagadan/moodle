@@ -53,18 +53,14 @@
         </span>
     {{/coursename}}
     {{$coursecategory}}
-        {{#showcoursecategory}}
-            <span class="sr-only">
-                {{#str}}aria:coursecategory, core_course{{/str}}
-            </span>
-            <span class="categoryname text-truncate">
-                {{{coursecategory}}}
-            </span>
-        {{/showcoursecategory}}
+        <span class="sr-only">
+            {{#str}}aria:coursecategory, core_course{{/str}}
+        </span>
+        <span class="categoryname text-truncate">
+            {{{coursecategory}}}
+        </span>
     {{/coursecategory}}
     {{$divider}}
-        {{#showcoursecategory}}
-            <div class="pl-1 pr-1">|</div>
-        {{/showcoursecategory}}
+        <div class="pl-1 pr-1">|</div>
     {{/divider}}
 {{/ core_course/coursecards }}

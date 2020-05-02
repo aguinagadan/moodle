@@ -73,9 +73,7 @@ if (empty($time)) {
     $time = time();
 }
 
-$iscoursecalendar = $courseid != SITEID;
-
-if ($iscoursecalendar) {
+if ($courseid != SITEID) {
     $url->param('course', $courseid);
 }
 
@@ -94,7 +92,7 @@ $PAGE->set_url($url);
 
 $course = get_course($courseid);
 
-if ($iscoursecalendar && !empty($courseid)) {
+if ($courseid != SITEID && !empty($courseid)) {
     navigation_node::override_active_url(new moodle_url('/course/view.php', array('id' => $course->id)));
 } else if (!empty($categoryid)) {
     core_course_category::get($categoryid); // Check that category exists and can be accessed.
@@ -129,10 +127,7 @@ switch($view) {
 // Print title and header
 $PAGE->set_pagelayout('standard');
 $PAGE->set_title("$course->shortname: $strcalendar: $pagetitle");
-
-$headingstr = ($iscoursecalendar) ? get_string('coursecalendar', 'core_calendar', $COURSE->shortname) :
-        get_string('calendar', 'core_calendar');
-$PAGE->set_heading($headingstr);
+$PAGE->set_heading($COURSE->fullname);
 
 $renderer = $PAGE->get_renderer('core_calendar');
 $calendar->add_sidecalendar_blocks($renderer, true, $view);
@@ -140,7 +135,7 @@ $calendar->add_sidecalendar_blocks($renderer, true, $view);
 echo $OUTPUT->header();
 echo $renderer->start_layout();
 echo html_writer::start_tag('div', array('class'=>'heightcontainer'));
-
+echo $OUTPUT->heading(get_string('calendar', 'calendar'));
 
 
 list($data, $template) = calendar_get_view($calendar, $view, true, false, $lookahead);

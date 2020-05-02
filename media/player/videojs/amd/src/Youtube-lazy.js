@@ -1,13 +1,17 @@
 /* The MIT License (MIT)
+
 Copyright (c) 2014-2015 Benoit Tremblay <trembl.ben@gmail.com>
+
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights
 to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 copies of the Software, and to permit persons to whom the Software is
 furnished to do so, subject to the following conditions:
+
 The above copyright notice and this permission notice shall be included in
 all copies or substantial portions of the Software.
+
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -18,8 +22,7 @@ THE SOFTWARE. */
 /*global define, YT*/
 (function (root, factory) {
   if(typeof exports==='object' && typeof module!=='undefined') {
-    var videojs = require('video.js');
-    module.exports = factory(videojs.default || videojs);
+    module.exports = factory(require('video.js'));
   } else if(typeof define === 'function' && define.amd) {
     define(['media_videojs/video-lazy'], function(videojs){
       return (root.Youtube = factory(videojs));
@@ -30,7 +33,7 @@ THE SOFTWARE. */
 }(this, function(videojs) {
   'use strict';
 
-  var _isOnMobile = videojs.browser.IS_IOS || videojs.browser.IS_NATIVE_ANDROID;
+  var _isOnMobile = videojs.browser.IS_IOS || videojs.browser.IS_ANDROID;
   var Tech = videojs.getTech('Tech');
 
   var Youtube = videojs.extend(Tech, {
@@ -142,6 +145,10 @@ THE SOFTWARE. */
         playerVars.disablekb = this.options_.disablekb;
       }
 
+      if (typeof this.options_.end !== 'undefined') {
+        playerVars.end = this.options_.end;
+      }
+
       if (typeof this.options_.color !== 'undefined') {
         playerVars.color = this.options_.color;
       }
@@ -151,11 +158,6 @@ THE SOFTWARE. */
         playerVars.fs = 0;
       } else if (typeof this.options_.fs !== 'undefined') {
         playerVars.fs = this.options_.fs;
-      }
-
-      if (this.options_.source.src.indexOf('end=') !== -1) {
-        var srcEndTime = this.options_.source.src.match(/end=([0-9]*)/);
-        this.options_.end = parseInt(srcEndTime[1]);
       }
 
       if (typeof this.options_.end !== 'undefined') {
@@ -203,11 +205,6 @@ THE SOFTWARE. */
         playerVars.showinfo = this.options_.showinfo;
       }
 
-      if (this.options_.source.src.indexOf('start=') !== -1) {
-        var srcStartTime = this.options_.source.src.match(/start=([0-9]*)/);
-        this.options_.start = parseInt(srcStartTime[1]);
-      }
-
       if (typeof this.options_.start !== 'undefined') {
         playerVars.start = this.options_.start;
       }
@@ -227,7 +224,7 @@ THE SOFTWARE. */
       this.activeVideoId = this.url ? this.url.videoId : null;
       this.activeList = playerVars.list;
 
-      var playerConfig = {
+      this.ytPlayer = new YT.Player(this.options_.techId, {
         videoId: this.activeVideoId,
         playerVars: playerVars,
         events: {
@@ -238,13 +235,7 @@ THE SOFTWARE. */
           onVolumeChange: this.onPlayerVolumeChange.bind(this),
           onError: this.onPlayerError.bind(this)
         }
-      };
-
-      if (typeof this.options_.enablePrivacyEnhancedMode !== 'undefined' && this.options_.enablePrivacyEnhancedMode) {
-        playerConfig.host = 'https://www.youtube-nocookie.com';
-      }
-
-      this.ytPlayer = new YT.Player(this.options_.techId, playerConfig);
+      });
     },
 
     onPlayerReady: function() {
@@ -626,40 +617,9 @@ THE SOFTWARE. */
     preload: function() {},
     load: function() {},
     reset: function() {},
-    networkState: function () {
-      if (!this.ytPlayer) {
-        return 0; //NETWORK_EMPTY
-      }
-      switch (this.ytPlayer.getPlayerState()) {
-        case -1: //unstarted
-          return 0; //NETWORK_EMPTY
-        case 3: //buffering
-          return 2; //NETWORK_LOADING
-        default:
-          return 1; //NETWORK_IDLE
-      }
-    },
-    readyState: function () {
-      if (!this.ytPlayer) {
-        return 0; //HAVE_NOTHING
-      }
-      switch (this.ytPlayer.getPlayerState()) {
-        case -1: //unstarted
-          return 0; //HAVE_NOTHING
-        case 5: //video cued
-          return 1; //HAVE_METADATA
-        case 3: //buffering
-          return 2; //HAVE_CURRENT_DATA
-        default:
-          return 4; //HAVE_ENOUGH_DATA
-      }
-    },
 
     supportsFullScreen: function() {
-      return document.fullscreenEnabled ||
-             document.webkitFullscreenEnabled ||
-             document.mozFullScreenEnabled ||
-             document.msFullscreenEnabled;
+      return true;
     },
 
     // Tries to get the highest resolution thumbnail available for the video

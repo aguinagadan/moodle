@@ -46,8 +46,4 @@ class core_role_allow_assign_page extends core_role_allow_role_page {
     public function get_intro_text() {
         return get_string('configallowassign', 'core_admin');
     }
-
-    protected function get_eventclass() {
-        return \core\event\role_allow_assign_updated::class;
-    }
 }

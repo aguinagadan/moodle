@@ -27,8 +27,6 @@
 
 defined('MOODLE_INTERNAL') || die;
 
-use \core_grades\component_gradeitems;
-
 require_once($CFG->dirroot.'/course/lib.php');
 
 /**
@@ -72,11 +70,7 @@ function add_moduleinfo($moduleinfo, $course, $mform = null) {
     $completion = new completion_info($course);
     if ($completion->is_enabled()) {
         $newcm->completion                = $moduleinfo->completion;
-        if ($moduleinfo->completiongradeitemnumber === '') {
-            $newcm->completiongradeitemnumber = null;
-        } else {
-            $newcm->completiongradeitemnumber = $moduleinfo->completiongradeitemnumber;
-        }
+        $newcm->completiongradeitemnumber = $moduleinfo->completiongradeitemnumber;
         $newcm->completionview            = $moduleinfo->completionview;
         $newcm->completionexpected        = $moduleinfo->completionexpected;
     }
@@ -219,63 +213,49 @@ function edit_module_post_actions($moduleinfo, $course) {
     $hasgrades = plugin_supports('mod', $moduleinfo->modulename, FEATURE_GRADE_HAS_GRADE, false);
     $hasoutcomes = plugin_supports('mod', $moduleinfo->modulename, FEATURE_GRADE_OUTCOMES, true);
 
-    $items = grade_item::fetch_all([
-        'itemtype' => 'mod',
-        'itemmodule' => $moduleinfo->modulename,
-        'iteminstance' => $moduleinfo->instance,
-        'courseid' => $course->id,
-    ]);
+    // Sync idnumber with grade_item.
+    if ($hasgrades && $grade_item = grade_item::fetch(array('itemtype'=>'mod', 'itemmodule'=>$moduleinfo->modulename,
+                 'iteminstance'=>$moduleinfo->instance, 'itemnumber'=>0, 'courseid'=>$course->id))) {
+        $gradeupdate = false;
+        if ($grade_item->idnumber != $moduleinfo->cmidnumber) {
+            $grade_item->idnumber = $moduleinfo->cmidnumber;
+            $gradeupdate = true;
+        }
+        if (isset($moduleinfo->gradepass) && $grade_item->gradepass != $moduleinfo->gradepass) {
+            $grade_item->gradepass = $moduleinfo->gradepass;
+            $gradeupdate = true;
+        }
+        if ($gradeupdate) {
+            $grade_item->update();
+        }
+    }
+
+    if ($hasgrades) {
+        $items = grade_item::fetch_all(array('itemtype'=>'mod', 'itemmodule'=>$moduleinfo->modulename,
+                                         'iteminstance'=>$moduleinfo->instance, 'courseid'=>$course->id));
+    } else {
+        $items = array();
+    }
 
     // Create parent category if requested and move to correct parent category.
-    $component = "mod_{$moduleinfo->modulename}";
-    if ($items) {
-        foreach ($items as $item) {
-            $update = false;
-
-            // Sync idnumber with grade_item.
-            // Note: This only happens for itemnumber 0 at this time.
-            if ($item->itemnumber == 0 && ($item->idnumber != $moduleinfo->cmidnumber)) {
-                $item->idnumber = $moduleinfo->cmidnumber;
-                $update = true;
+    if ($items and isset($moduleinfo->gradecat)) {
+        if ($moduleinfo->gradecat == -1) {
+            $grade_category = new grade_category();
+            $grade_category->courseid = $course->id;
+            $grade_category->fullname = $moduleinfo->name;
+            $grade_category->insert();
+            if ($grade_item) {
+                $parent = $grade_item->get_parent_category();
+                $grade_category->set_parent($parent->id);
             }
+            $moduleinfo->gradecat = $grade_category->id;
+        }
 
-            // Determine the grade category.
-            $gradecatfieldname = component_gradeitems::get_field_name_for_itemnumber($component, $item->itemnumber, 'gradecat');
-            if (property_exists($moduleinfo, $gradecatfieldname)) {
-                $gradecat = $moduleinfo->$gradecatfieldname;
-                if ($gradecat == -1) {
-                    $gradecategory = new grade_category();
-                    $gradecategory->courseid = $course->id;
-                    $gradecategory->fullname = $moduleinfo->name;
-                    $gradecategory->insert();
-
-                    $parent = $item->get_parent_category();
-                    $gradecategory->set_parent($parent->id);
-                    $gradecat = $gradecategory->id;
-                }
-
-                $oldgradecat = null;
-                if ($parent = $item->get_parent_category()) {
-                    $oldgradecat = $parent->id;
-                }
-                if ($oldgradecat != $gradecat) {
-                    $item->set_parent($gradecat);
-                    $update = true;
-                }
-            }
-
-            // Determine the gradepass.
-            $gradepassfieldname = component_gradeitems::get_field_name_for_itemnumber($component, $item->itemnumber, 'gradepass');
-            if (isset($moduleinfo->{$gradepassfieldname})) {
-                $gradepass = $moduleinfo->{$gradepassfieldname};
-                if (null !== $gradepass && $gradepass != $item->gradepass) {
-                    $item->gradepass = $gradepass;
-                    $update = true;
-                }
-            }
-
-            if ($update) {
-                $item->update();
+        foreach ($items as $itemid=>$unused) {
+            $items[$itemid]->set_parent($moduleinfo->gradecat);
+            if ($itemid == $grade_item->id) {
+                // Use updated grade_item.
+                $grade_item = $items[$itemid];
             }
         }
     }
@@ -283,6 +263,8 @@ function edit_module_post_actions($moduleinfo, $course) {
     require_once($CFG->libdir.'/grade/grade_outcome.php');
     // Add outcomes if requested.
     if ($hasoutcomes && $outcomes = grade_outcome::fetch_all_available($course->id)) {
+        $grade_items = array();
+
         // Outcome grade_item.itemnumber start at 1000, there is nothing above outcomes.
         $max_itemnumber = 999;
         if ($items) {
@@ -297,7 +279,7 @@ function edit_module_post_actions($moduleinfo, $course) {
             $elname = 'outcome_'.$outcome->id;
 
             if (property_exists($moduleinfo, $elname) and $moduleinfo->$elname) {
-                // Check if this is a new outcome grade item.
+                // So we have a request for new outcome grade item?
                 if ($items) {
                     $outcomeexists = false;
                     foreach($items as $item) {
@@ -313,25 +295,25 @@ function edit_module_post_actions($moduleinfo, $course) {
 
                 $max_itemnumber++;
 
-                $outcomeitem = new grade_item();
-                $outcomeitem->courseid     = $course->id;
-                $outcomeitem->itemtype     = 'mod';
-                $outcomeitem->itemmodule   = $moduleinfo->modulename;
-                $outcomeitem->iteminstance = $moduleinfo->instance;
-                $outcomeitem->itemnumber   = $max_itemnumber;
-                $outcomeitem->itemname     = $outcome->fullname;
-                $outcomeitem->outcomeid    = $outcome->id;
-                $outcomeitem->gradetype    = GRADE_TYPE_SCALE;
-                $outcomeitem->scaleid      = $outcome->scaleid;
-                $outcomeitem->insert();
+                $outcome_item = new grade_item();
+                $outcome_item->courseid     = $course->id;
+                $outcome_item->itemtype     = 'mod';
+                $outcome_item->itemmodule   = $moduleinfo->modulename;
+                $outcome_item->iteminstance = $moduleinfo->instance;
+                $outcome_item->itemnumber   = $max_itemnumber;
+                $outcome_item->itemname     = $outcome->fullname;
+                $outcome_item->outcomeid    = $outcome->id;
+                $outcome_item->gradetype    = GRADE_TYPE_SCALE;
+                $outcome_item->scaleid      = $outcome->scaleid;
+                $outcome_item->insert();
 
-                if ($items) {
-                    // Move the new outcome into the same category and immediately after the first grade item.
-                    $item = reset($items);
-                    $outcomeitem->set_parent($item->categoryid);
-                    $outcomeitem->move_after_sortorder($item->sortorder);
+                // Move the new outcome into correct category and fix sortorder if needed.
+                if ($grade_item) {
+                    $outcome_item->set_parent($grade_item->categoryid);
+                    $outcome_item->move_after_sortorder($grade_item->sortorder);
+
                 } else if (isset($moduleinfo->gradecat)) {
-                    $outcomeitem->set_parent($moduleinfo->gradecat);
+                    $outcome_item->set_parent($moduleinfo->gradecat);
                 }
             }
         }
@@ -371,6 +353,7 @@ function edit_module_post_actions($moduleinfo, $course) {
 
     return $moduleinfo;
 }
+
 
 /**
  * Set module info default values for the unset module attributs.
@@ -415,7 +398,7 @@ function set_moduleinfo_defaults($moduleinfo) {
     // Convert the 'use grade' checkbox into a grade-item number: 0 if checked, null if not.
     if (isset($moduleinfo->completionusegrade) && $moduleinfo->completionusegrade) {
         $moduleinfo->completiongradeitemnumber = 0;
-    } else if (!isset($moduleinfo->completiongradeitemnumber)) {
+    } else {
         $moduleinfo->completiongradeitemnumber = null;
     }
 
@@ -528,11 +511,7 @@ function update_moduleinfo($cm, $moduleinfo, $course, $mform = null) {
         // the activity may be locked; if so, these should not be updated.
         if (!empty($moduleinfo->completionunlocked)) {
             $cm->completion = $moduleinfo->completion;
-            if ($moduleinfo->completiongradeitemnumber === '') {
-                $cm->completiongradeitemnumber = null;
-            } else {
-                $cm->completiongradeitemnumber = $moduleinfo->completiongradeitemnumber;
-            }
+            $cm->completiongradeitemnumber = $moduleinfo->completiongradeitemnumber;
             $cm->completionview = $moduleinfo->completionview;
         }
         // The expected date does not affect users who have completed the activity,
@@ -692,7 +671,6 @@ function get_moduleinfo_data($cm, $course) {
     $data->completionview     = $cm->completionview;
     $data->completionexpected = $cm->completionexpected;
     $data->completionusegrade = is_null($cm->completiongradeitemnumber) ? 0 : 1;
-    $data->completiongradeitemnumber = $cm->completiongradeitemnumber;
     $data->showdescription    = $cm->showdescription;
     $data->tags               = core_tag_tag::get_item_tags_array('core', 'course_modules', $cm->id);
     if (!empty($CFG->enableavailability)) {
@@ -724,43 +702,34 @@ function get_moduleinfo_data($cm, $course) {
         }
     }
 
-    $component = "mod_{$data->modulename}";
-    $items = grade_item::fetch_all([
-        'itemtype' => 'mod',
-        'itemmodule' => $data->modulename,
-        'iteminstance' => $data->instance,
-        'courseid' => $course->id,
-    ]);
-
-    if ($items) {
+    if ($items = grade_item::fetch_all(array('itemtype'=>'mod', 'itemmodule'=>$data->modulename,
+                                             'iteminstance'=>$data->instance, 'courseid'=>$course->id))) {
         // Add existing outcomes.
         foreach ($items as $item) {
             if (!empty($item->outcomeid)) {
                 $data->{'outcome_' . $item->outcomeid} = 1;
             } else if (isset($item->gradepass)) {
-                $gradepassfieldname = component_gradeitems::get_field_name_for_itemnumber($component, $item->itemnumber, 'gradepass');
-                $data->{$gradepassfieldname} = format_float($item->gradepass, $item->get_decimals());
+                $decimalpoints = $item->get_decimals();
+                $data->gradepass = format_float($item->gradepass, $decimalpoints);
             }
-
         }
 
         // set category if present
-        $gradecat = [];
+        $gradecat = false;
         foreach ($items as $item) {
-            if (!isset($gradecat[$item->itemnumber])) {
-                $gradecat[$item->itemnumber] = $item->categoryid;
+            if ($gradecat === false) {
+                $gradecat = $item->categoryid;
+                continue;
             }
-            if ($gradecat[$item->itemnumber] != $item->categoryid) {
-                // Mixed categories.
-                $gradecat[$item->itemnumber] = false;
+            if ($gradecat != $item->categoryid) {
+                //mixed categories
+                $gradecat = false;
+                break;
             }
         }
-        foreach ($gradecat as $itemnumber => $cat) {
-            if ($cat !== false) {
-                $gradecatfieldname = component_gradeitems::get_field_name_for_itemnumber($component, $itemnumber, 'gradecat');
-                // Do not set if mixed categories present.
-                $data->{$gradecatfieldname} = $cat;
-            }
+        if ($gradecat !== false) {
+            // do not set if mixed categories present
+            $data->gradecat = $gradecat;
         }
     }
     return array($cm, $context, $module, $data, $cw);

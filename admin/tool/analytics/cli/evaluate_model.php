@@ -33,7 +33,8 @@ Options:
 --modelid              Model id
 --list                 List models
 --non-interactive      Not interactive questions
---analysisinterval     Restrict the evaluation to 1 single analysis interval (Optional)
+--timesplitting        Restrict the evaluation to 1 single time splitting method (Optional)
+--filter               Analyser dependant. e.g. A courseid would evaluate the model using a single course (Optional)
 --mode                 'configuration' or 'trainedmodel'. You can only use mode=trainedmodel when the trained" .
     " model was imported" . "
 --reuse-prev-analysed  Reuse recently analysed courses instead of analysing the whole site. Set it to false while" .
@@ -41,7 +42,7 @@ Options:
 -h, --help             Print out this help
 
 Example:
-\$ php admin/tool/analytics/cli/evaluate_model.php --modelid=1 --analysisinterval='\\core\\analytics\\time_splitting\\quarters'
+\$ php admin/tool/analytics/cli/evaluate_model.php --modelid=1 --timesplitting='\\core\\analytics\\time_splitting\\quarters' --filter=123,321
 ";
 
 // Now get cli options.
@@ -50,10 +51,11 @@ list($options, $unrecognized) = cli_get_params(
         'help'                  => false,
         'modelid'               => false,
         'list'                  => false,
-        'analysisinterval'      => false,
+        'timesplitting'         => false,
         'mode'                  => 'configuration',
         'reuse-prev-analysed'   => true,
         'non-interactive'       => false,
+        'filter'                => false
     ),
     array(
         'h' => 'help',
@@ -62,11 +64,6 @@ list($options, $unrecognized) = cli_get_params(
 
 if ($options['help']) {
     echo $help;
-    exit(0);
-}
-
-if (!\core_analytics\manager::is_analytics_enabled()) {
-    echo get_string('analyticsdisabled', 'analytics') . PHP_EOL;
     exit(0);
 }
 
@@ -81,12 +78,17 @@ if ($options['modelid'] === false) {
     exit(0);
 }
 
+// Reformat them as an array.
+if ($options['filter'] !== false) {
+    $options['filter'] = explode(',', $options['filter']);
+}
+
 if ($options['mode'] !== 'configuration' && $options['mode'] !== 'trainedmodel') {
     cli_error('Error: The provided mode is not supported');
 }
 
-if ($options['mode'] == 'trainedmodel' && $options['analysisinterval']) {
-    cli_error('Sorry, no analysis interval can be specified when using \'trainedmodel\' mode.');
+if ($options['mode'] == 'trainedmodel' && $options['timesplitting']) {
+    cli_error('Sorry, no time splitting method can be specified when using \'trainedmodel\' mode.');
 }
 
 // We need admin permissions.
@@ -103,7 +105,8 @@ if ($options['reuse-prev-analysed']) {
 $renderer = $PAGE->get_renderer('tool_analytics');
 
 $analyseroptions = array(
-    'timesplitting' => $options['analysisinterval'],
+    'filter' => $options['filter'],
+    'timesplitting' => $options['timesplitting'],
     'reuseprevanalysed' => $options['reuse-prev-analysed'],
     'mode' => $options['mode'],
 );

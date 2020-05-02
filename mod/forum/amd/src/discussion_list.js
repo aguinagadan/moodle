@@ -29,34 +29,16 @@ define([
     'mod_forum/subscription_toggle',
     'mod_forum/selectors',
     'mod_forum/repository',
-    'core/pubsub',
-    'mod_forum/forum_events',
 ], function(
     $,
     Templates,
-    Str,
+    String,
     Notification,
     SubscriptionToggle,
     Selectors,
-    Repository,
-    PubSub,
-    ForumEvents
+    Repository
 ) {
     var registerEventListeners = function(root) {
-        PubSub.subscribe(ForumEvents.SUBSCRIPTION_TOGGLED, function(data) {
-            var discussionId = data.discussionId;
-            var subscribed = data.subscriptionState;
-            var discussionListItem = root.find(Selectors.discussion.item + '[data-discussionid= ' + discussionId + ']');
-            var subscribedLabel = discussionListItem.find(Selectors.discussion.subscribedLabel);
-            if (subscribed) {
-                discussionListItem.addClass('subscribed');
-                subscribedLabel.removeAttr('hidden');
-            } else {
-                discussionListItem.removeClass('subscribed');
-                subscribedLabel.attr('hidden', true);
-            }
-        });
-
         root.on('click', Selectors.favourite.toggle, function() {
             var toggleElement = $(this);
             var forumId = toggleElement.data('forumid');
@@ -91,13 +73,10 @@ define([
             Repository.setDiscussionLockState(forumId, discussionId, state)
                 .then(function(context) {
                     var icon = toggleElement.parents(Selectors.summary.actions).find(Selectors.lock.icon);
-                    var lockedLabel = toggleElement.parents(Selectors.discussion.item).find(Selectors.discussion.lockedLabel);
                     if (context.locked) {
                         icon.removeClass('hidden');
-                        lockedLabel.removeAttr('hidden');
                     } else {
                         icon.addClass('hidden');
-                        lockedLabel.attr('hidden', true);
                     }
                     return context;
                 })
@@ -109,7 +88,7 @@ define([
                     return Templates.replaceNode(toggleElement, html, js);
                 })
                 .then(function() {
-                    return Str.get_string('lockupdated', 'forum')
+                    return String.get_string('lockupdated', 'forum')
                         .done(function(s) {
                             return Notification.addNotification({
                                 message: s,
@@ -125,18 +104,7 @@ define([
 
     return {
         init: function(root) {
-            SubscriptionToggle.init(root, false, function(toggleElement, context) {
-                var toggleId = toggleElement.attr('id');
-                var newTargetState = context.userstate.subscribed ? 0 : 1;
-                toggleElement.data('targetstate', newTargetState);
-
-                var stringKey = context.userstate.subscribed ? 'unsubscribediscussion' : 'subscribediscussion';
-                return Str.get_string(stringKey, 'mod_forum')
-                    .then(function(string) {
-                        toggleElement.closest('td').find('label[for="' + toggleId + '"]').text(string);
-                        return string;
-                    });
-            });
+            SubscriptionToggle.init(root);
             registerEventListeners(root);
         }
     };

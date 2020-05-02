@@ -49,10 +49,8 @@ define([
      * Registery event listeners for the pin toggle.
      *
      * @param {object} root The calendar root element
-     * @param {boolean} preventDefault Should the default action of the event be prevented
-     * @param {function} callback Success callback
      */
-    var registerEventListeners = function(root, preventDefault, callback) {
+    var registerEventListeners = function(root) {
         root.on('click', Selectors.pin.toggle, function(e) {
             var toggleElement = $(this);
             var forumid = toggleElement.data('forumid');
@@ -60,7 +58,10 @@ define([
             var pinstate = toggleElement.data('targetstate');
             Repository.setPinDiscussionState(forumid, discussionid, pinstate)
                 .then(function(context) {
-                    return callback(toggleElement, context);
+                    return Templates.render('mod_forum/discussion_pin_toggle', context);
+                })
+                .then(function(html, js) {
+                    return Templates.replaceNode(toggleElement, html, js);
                 })
                 .then(function() {
                     return String.get_string("pinupdated", "forum")
@@ -73,13 +74,13 @@ define([
                 })
                 .fail(Notification.exception);
 
-            if (preventDefault) {
-                e.preventDefault();
-            }
+            e.preventDefault();
         });
     };
 
     return {
-        init: registerEventListeners
+        init: function(root) {
+            registerEventListeners(root);
+        }
     };
 });

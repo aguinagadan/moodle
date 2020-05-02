@@ -101,7 +101,6 @@ class core_competency_lib_testcase extends advanced_testcase {
         $this->assertObjectHasAttribute('notificationiconurl', $customdata);
         $this->assertContains('tokenpluginfile.php', $customdata->notificationiconurl);
         $userpicture = new \user_picture($u1);
-        $userpicture->size = 1; // Use f1 size.
         $userpicture->includetoken = $u2->id;
         $this->assertEquals($userpicture->get_url($PAGE)->out(false), $customdata->notificationiconurl);
 

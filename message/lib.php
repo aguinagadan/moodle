@@ -353,7 +353,6 @@ function message_post_message($userfrom, $userto, $message, $format) {
     $eventdata->notification    = 0;
     // User image.
     $userpicture = new user_picture($userfrom);
-    $userpicture->size = 1; // Use f1 size.
     $userpicture->includetoken = $userto->id; // Generate an out-of-session token for the user receiving the message.
     $eventdata->customdata = [
         'notificationiconurl' => $userpicture->get_url($PAGE)->out(false),
@@ -488,15 +487,15 @@ function get_message_output_default_preferences() {
 function translate_message_default_setting($plugindefault, $processorname) {
     // Preset translation arrays
     $permittedvalues = array(
-        MESSAGE_DISALLOWED => 'disallowed',
-        MESSAGE_PERMITTED  => 'permitted',
-        MESSAGE_FORCED     => 'forced',
+        0x04 => 'disallowed',
+        0x08 => 'permitted',
+        0x0c => 'forced',
     );
 
     $loggedinstatusvalues = array(
         0x00 => null, // use null if loggedin/loggedoff is not defined
-        MESSAGE_DEFAULT_LOGGEDIN  => 'loggedin',
-        MESSAGE_DEFAULT_LOGGEDOFF => 'loggedoff',
+        0x01 => 'loggedin',
+        0x02 => 'loggedoff',
     );
 
     // define the default setting
