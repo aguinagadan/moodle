@@ -27478,16 +27478,16 @@ body.full-sidebar #nav-drawer.closed {
 }
 
 [data-region="drawer"].dark {
-    background-color: ##184A7D
+    background-color: #184A7D
 }
 
 [data-region="drawer"].dark .list-group {
-    border-color: ##184A7D !important;
+    border-color: #184A7D !important;
     background-color: ##184A7D
 }
 
 [data-region="drawer"].dark .list-group .list-group-item {
-    background-color: ##184A7D;
+    background-color: #184A7D;
     color: rgba(163, 175, 183, 0.9)
 }
 
