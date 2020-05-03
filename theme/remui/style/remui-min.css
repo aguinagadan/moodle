@@ -5,10 +5,10 @@
 
 
 /* NO BORRAR */
-.page-site-index {
+#page-site-index {
     margin-left: 260px !important;
 }
-.page-site-index #nav-drawer{
+#page-site-index #nav-drawer{
     display: none;
 }
 
