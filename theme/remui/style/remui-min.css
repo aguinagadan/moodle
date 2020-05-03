@@ -4883,7 +4883,7 @@ table.collection td,
 table.flexible td,
 .generaltable td {
     padding: .572rem;
-    vertical-align: top;
+    vertical-align: middle;
     border-top: 1px solid #e4eaec
 }
 
@@ -39119,8 +39119,8 @@ ul.panel-actions>li:first-child {
 .initialbar .page-item.active .page-link {
     border-radius: 1.7em;
     color: #fff;
-    border-color: #3e8ef7;
-    background-color: #3e8ef7
+    border-color: #184a7d;
+    background-color: #184a7d
 }
 
 @media (max-width: 480px) {
@@ -39943,7 +39943,7 @@ fieldset div.fcontainer {
 
 .generaltable thead th,
 .collection thead th {
-    background: #3e8ef7;
+    background: #184a7d;
     color: white;
     height: 50px;
     font-weight: normal;
