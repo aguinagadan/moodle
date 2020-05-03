@@ -3370,13 +3370,13 @@ sup {
 }
 
 a {
-    color: #62a8eb;
+    color: #5cbdeb;
     text-decoration: none;
     background-color: transparent
 }
 
 a:hover {
-    color: #589ffc;
+    color: #76A140;
     text-decoration: underline
 }
 
@@ -24211,6 +24211,10 @@ ul {
 body:not(.pagelayout-login) #page-footer a {
     color: #fff;
     text-decoration: none
+}
+
+body:not(.pagelayout-login) #page-footer a:hover {
+    color: #76A140
 }
 
 body:not(.pagelayout-login) #page-footer a .icon {
