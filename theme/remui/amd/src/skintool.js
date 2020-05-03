@@ -23,7 +23,7 @@ define([
     const DEFAULTHEX = '1177d1';
     let colorhex;
     const COLORTOHEX = [
-        //{color: 'primary', hex: '62a8ea'},
+        {color: 'primary', hex: '62a8ea'},
         {color: 'primary', hex: '184a7d'},
         {color: 'brown', hex: '8d6658'},
         {color: 'cyan', hex: '57c7d4'},
