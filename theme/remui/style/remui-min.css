@@ -25425,7 +25425,7 @@ body.h5p-embed .h5pmessages {
     height: 44px;
     border-top-left-radius: 100px;
     border-bottom-left-radius: 100px;
-    background: #3e8ef7;
+    background: #184A7D;
     z-index: 1;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     -webkit-transition: right 0.5s ease, left 0.5s ease;
@@ -27528,13 +27528,13 @@ body.full-sidebar #nav-drawer.closed {
 }
 
 [data-region="drawer"] .list-group-item.active {
-    background: rgba(11, 105, 227, 0.07);
+    background: rgba(92,189,235,.07);
     border: none;
-    color: #3e8ef7
+    color: #5CBDEB
 }
 
 [data-region="drawer"] .list-group-item.active .icon {
-    color: #3e8ef7
+    color: #5CBDEB
 }
 
 [data-region="drawer"] .list-group-item .media-body {
@@ -39741,8 +39741,8 @@ body #page-wrapper {
 }
 
 .nav-tabs .nav-link.active {
-    color: #3e8ef7 !important;
-    border-color: #3e8ef7 !important
+    color: #5CBDEB !important;
+    border-color: #5CBDEB !important
 }
 
 .nav-tabs .nav-link.active .fa,
@@ -39754,7 +39754,7 @@ body #page-wrapper {
 .block_settings .block_tree .nav-tabs .nav-link.active [aria-expanded="false"]:before,
 .nav-tabs .nav-link.active .block_navigation .block_tree [aria-expanded="false"]:before,
 .block_navigation .block_tree .nav-tabs .nav-link.active [aria-expanded="false"]:before {
-    color: #3e8ef7 !important
+    color: #5CBDEB !important
 }
 
 .nav-pills .nav-link {
@@ -40271,7 +40271,7 @@ fieldset div.fcontainer {
 .navbar.nav-inverse .usermenu,
 .navbar.nav-inverse .login a,
 .navbar.nav-inverse .dropdown {
-    color: rgba(163,175,183,.9)!important;
+    color: #76838f!important;
     border-radius: 0 !important
 }
 
