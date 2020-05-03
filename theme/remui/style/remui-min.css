@@ -27514,11 +27514,11 @@ body.full-sidebar #nav-drawer.closed {
 }
 
 [data-region="drawer"].dark .site-menubar-footer a {
-    background-color: #21292e
+    background-color: #124273
 }
 
 [data-region="drawer"].dark .site-menubar-footer a:hover {
-    background-color: #1e2427
+    background-color: rgba(255, 255, 255, 0.02)
 }
 
 [data-region="drawer"] .list-group-item {
@@ -27574,7 +27574,7 @@ body.full-sidebar #nav-drawer.closed {
 .block_settings .block_tree [data-region="drawer"] .site-menubar-footer a [aria-expanded="false"]:before,
 [data-region="drawer"] .site-menubar-footer a .block_navigation .block_tree [aria-expanded="false"]:before,
 .block_navigation .block_tree [data-region="drawer"] .site-menubar-footer a [aria-expanded="false"]:before {
-    color: #526069
+    color: rgba(163,175,183,.9)
 }
 
 #nav-drawer {
