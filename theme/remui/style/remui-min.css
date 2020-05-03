@@ -4,6 +4,13 @@
 }
 
 
+/* NO BORRAR */
+.page-footer .card-text{
+    font-size: 14px;
+}
+
+
+/* THEME */
 .btn-floating {
     width: 4rem;
     height: 4rem;
