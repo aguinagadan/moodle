@@ -40941,8 +40941,7 @@ ul.hidden-links li:hover {
 }
 
 .footer-bottom {
-    border-top: 1px solid rgba(255, 255, 255, 0.15)
-    font-size: 12px;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
     color: #ffffff;
     background-color: #124273
 }
