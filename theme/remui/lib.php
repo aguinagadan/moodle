@@ -295,17 +295,16 @@ function theme_remui_process_css($css, $theme) {
     $css = str_replace($tag, $loginbg, $css);
     $colorhex = get_config('theme_remui', 'sitecolorhex');
     if ($colorhex != "" || $colorhex != null) {
-        $colorhex = 'ffffff';
         $colorhex = '#'.$colorhex;
         $colorobj = new \theme_remui\Color($colorhex);
-        $css = str_replace('#1177d1', $colorhex, $css);
-        $css = str_replace('#62a8ea', $colorhex, $css);
-        $css = str_replace('#3e8ef7', $colorhex, $css);
-        $css = str_replace('#589ffc', '#'.$colorobj->darken(3), $css); // on hover
-        $css = str_replace('#0e63ae', '#'.$colorobj->darken(3), $css);
-        $css = str_replace('#55a1e8', '#'.$colorobj->darken(3), $css); // On Hover.
-        $css = str_replace('#4c9ce7', '#'.$colorobj->darken(5), $css); // On Hover.
-        $css = str_replace('#0d5ca2', '#'.$colorobj->darken(5), $css); // On Focus.
+        //$css = str_replace('#1177d1', $colorhex, $css);
+        //$css = str_replace('#62a8ea', $colorhex, $css);
+        //$css = str_replace('#3e8ef7', $colorhex, $css);
+        //$css = str_replace('#589ffc', '#'.$colorobj->darken(3), $css); // on hover
+        //$css = str_replace('#0e63ae', '#'.$colorobj->darken(3), $css);
+        //$css = str_replace('#55a1e8', '#'.$colorobj->darken(3), $css); // On Hover.
+        //$css = str_replace('#4c9ce7', '#'.$colorobj->darken(5), $css); // On Hover.
+        //$css = str_replace('#0d5ca2', '#'.$colorobj->darken(5), $css); // On Focus.
     }
 
     return $css;
