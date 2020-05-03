@@ -10848,7 +10848,7 @@ a.close.disabled,
 }
 
 .bg-primary {
-    background-color: #1177d1 !important
+    background-color: #184A7D !important
 }
 
 a.bg-primary:hover,
@@ -40934,6 +40934,9 @@ ul.hidden-links li:hover {
 
 .footer-bottom {
     border-top: 1px solid rgba(255, 255, 255, 0.15)
+    font-size: 12px;
+    color: #ffffff;
+    background-color: #124273
 }
 
 #page-mod-quiz-attempt #region-main>.card,
