@@ -3218,7 +3218,8 @@
     --white: #fff;
     --gray: #868e96;
     --gray-dark: #373a3c;
-    --primary: #1177d1;
+    /*--primary: #1177d1;*/
+    --primary: #fff;
     --secondary: #ced4da;
     --success: #5cb85c;
     --info: #5bc0de;
