@@ -23,7 +23,7 @@
  */
 
 // Plugin Name.
-$string['pluginname'] = 'Edwiser course formats';
+$string['pluginname'] = 'Formato TASA';
 
 // Settings.
 $string['defaultcoursedisplay'] = 'Course display default';
