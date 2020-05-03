@@ -9651,7 +9651,7 @@ a.badge:focus {
     z-index: auto;
     color: #526069;
     text-decoration: none;
-    background-color: #f3f7f9
+    background-color: rgba(92,189,235,.07)
 }
 
 .list-group-item-action:active {
@@ -40262,7 +40262,7 @@ fieldset div.fcontainer {
 }
 
 .navbar.nav-inverse .nav-item:hover {
-    background-color: rgba(0, 0, 0, 0.1) !important
+    background-color: rgba(92,189,235,.07) !important
 }
 
 .navbar.nav-inverse .nav-link,
@@ -40313,7 +40313,7 @@ fieldset div.fcontainer {
 }
 
 .navbar.nav-inverse div[data-region="drawer-toggle"] button:hover {
-    background-color: rgba(0, 0, 0, 0.1) !important
+    background-color: rgba(92,189,235,.07)!important
 }
 
 .navbar div[data-region="drawer-toggle"] button:focus {
