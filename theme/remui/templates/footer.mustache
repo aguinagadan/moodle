@@ -33,7 +33,7 @@
                 {{# sections }}
                 <div class="{{ classes }} text-xs-center">
                     <div class="p-2">
-                        <h4 class="card-title mt-1 text-white font-weight-normal font-size-18">{{{ title }}}</h4>
+                        <h4 class="card-title mt-1 text-white font-weight-normal font-size-18 text-uppercase">{{{ title }}}</h4>
                         <div class="card-text text-white">{{{ content }}}</div>
                     </div>
                 </div>
@@ -74,14 +74,13 @@
 
         <div class="footer-bottom row mx-3 px-0 py-2">
             <div class="site-footer-legal pt-2 col-md-12 text-center">
-                <nav class="nav navbar-nav d-none" aria-label="{{#str}}custommenu, admin{{/str}}">
-                    {{# output.custom_menu_flat }}
-                        <ul class="list-unstyled pt-3">
-                            {{> theme_remui/custom_menu_footer }}
-                        </ul>
-                    {{/ output.custom_menu_flat }}
-                </nav>
-                <a href="{{ bottomlink }}">{{{ bottomtext }}}</a>
+                <div class="site-footer-right pt-2 col-md-12 text-center">
+                    {{{ output.login_info }}}
+                    <div class="tool_usertours-resettourcontainer"></div>
+                </div>
+                <div class="pt-2 col-md-12 text-center">
+                    <a href="{{ bottomlink }}">{{{ bottomtext }}}</a>
+                </div>
             </div>
             
         </div>
