@@ -20,7 +20,7 @@ define([
     $,
     Ajax,
 ) {
-    const DEFAULTHEX = '1177d1';
+    const DEFAULTHEX = '184A7D';
     let colorhex;
     const COLORTOHEX = [
         {color: 'primary', hex: '62a8ea'},
