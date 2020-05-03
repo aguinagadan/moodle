@@ -73,7 +73,7 @@
         </div>
 
         <div class="footer-bottom row mx-3 px-0 py-2">
-            <div class="site-footer-legal pt-2 col-md-6">
+            <div class="site-footer-legal pt-2 col-md-12">
                 <nav class="nav navbar-nav d-none" aria-label="{{#str}}custommenu, admin{{/str}}">
                     {{# output.custom_menu_flat }}
                         <ul class="list-unstyled pt-3">
@@ -83,14 +83,7 @@
                 </nav>
                 <a href="{{ bottomlink }}">{{{ bottomtext }}}</a>
             </div>
-            <div class="site-footer-right pt-2 col-md-6 text-right">
-                {{# poweredby }}
-                    <a href="https://edwiser.org/remui/" rel="nofollow" target="_blank" >{{# str }} poweredby, theme_remui {{/ str }}</a>
-                {{/ poweredby }}
-                {{{ output.login_info }}}
-                <div class="tool_usertours-resettourcontainer"></div>
-                {{{ output.standard_footer_html }}}
-            </div>
+            
         </div>
         <div id="course-footer">{{{ output.course_footer }}}</div>
         {{{ output.standard_end_of_body_html }}}
