@@ -40235,7 +40235,7 @@ fieldset div.fcontainer {
 
 @media screen and (max-width: 480px) {
     .navbar {
-        background: #3e8ef7
+        background: #ffffff
     }
     .navbar span.username,
     .navbar #toggleFullscreen {
@@ -40250,7 +40250,7 @@ fieldset div.fcontainer {
 }
 
 .navbar.nav-inverse {
-    background: #3e8ef7
+    background: #ffffff
 }
 
 .navbar.nav-inverse .nav-item:hover {
