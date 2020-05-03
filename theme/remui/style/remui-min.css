@@ -40271,7 +40271,7 @@ fieldset div.fcontainer {
 .navbar.nav-inverse .usermenu,
 .navbar.nav-inverse .login a,
 .navbar.nav-inverse .dropdown {
-    color: white !important;
+    color: rgba(163,175,183,.9)!important;
     border-radius: 0 !important
 }
 
