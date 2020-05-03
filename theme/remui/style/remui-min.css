@@ -3205,7 +3205,8 @@
 }
 
 :root {
-    --blue: #1177d1;
+    /*--blue: #1177d1;*/
+    --blue: #184A7D;
     --indigo: #6610f2;
     --purple: #613d7c;
     --pink: #e83e8c;
@@ -3218,8 +3219,7 @@
     --white: #fff;
     --gray: #868e96;
     --gray-dark: #373a3c;
-    /*--primary: #1177d1;*/
-    --primary: #fff;
+    --primary: #1177d1;
     --secondary: #ced4da;
     --success: #5cb85c;
     --info: #5bc0de;
