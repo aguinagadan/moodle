@@ -123,7 +123,7 @@ $string['cardbackgroundcolor'] = 'Set the section background color in card forma
 $string['defaultcardbackgroundcolordesc'] = 'Card background color Description';
 
 // GDPR.
-$string['privacy:metadata'] = 'The Edwiser Course Formats plugin does not store any personal data.';
+$string['privacy:metadata'] = 'The TASA Course Formats plugin does not store any personal data.';
 
 // Validation.
 $string['coursedisplay_error'] = 'Please choose correct combination of layout.';
