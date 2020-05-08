@@ -12,6 +12,15 @@
     display: none;
 }
 
+
+#page-local-terminologia-index {
+    margin-left: 0px !important;
+}
+#page-local-terminologia-index #nav-drawer{
+    display: none;
+}
+
+
 .pl-footer {
     padding-left: 12rem !important
 }
