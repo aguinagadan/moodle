@@ -5,6 +5,7 @@
 
 
 /* NO BORRAR */
+/* - ocultar panel izquierdo de home - */
 #page-site-index {
     margin-left: 0px !important;
 }
@@ -12,7 +13,7 @@
     display: none;
 }
 
-
+/* - ocultar panel izquierdo de terminología - */
 #page-local-terminologia-index {
     margin-left: 0px !important;
 }
@@ -20,7 +21,7 @@
     display: none;
 }
 
-
+/* - centrar visualmente footer - */
 .pl-footer {
     padding-left: 12rem !important
 }
