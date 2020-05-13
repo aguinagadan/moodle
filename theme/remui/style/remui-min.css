@@ -18,7 +18,7 @@
     margin-left: 0px !important;
 }
 #page-local-terminologia-index #nav-drawer{
-    display: none;
+    display: none !important;
 }
 
 /* - centrar visualmente footer - */
