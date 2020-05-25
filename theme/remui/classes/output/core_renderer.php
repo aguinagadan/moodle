@@ -697,7 +697,7 @@ class core_renderer extends \core_renderer {
         $html = html_writer::start_tag('header', array('id' => 'page-header', 'class' => 'row'));
         $html .= html_writer::start_tag('div', array('class' => 'col-12'));
         $html .= html_writer::start_tag('div', array('class' => 'card'));
-        $html .= html_writer::start_tag('div', array('class' => 'card-body d-flex justify-content-between flex-wrap'));
+        $html .= html_writer::start_tag('div', array('class' => 'card-body d-flex justify-content-between flex-wrap padding-0'));
         $html .= $this->context_header();
         $html .= html_writer::end_tag('div');
         $html .= html_writer::end_tag('div');

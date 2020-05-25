@@ -64,11 +64,11 @@
             <div>
         {{/homepage}}
         {{^homepage}}
-            <div class="container">
+            <div class="container padding-0 max-width-100">
             {{{ output.full_header }}}
         {{/homepage}}
         <div id="page-content" class="row {{^homepage}}pb-3{{/homepage}} {{#homepage}}m-0 w-p10 pb-0{{/homepage}}">
-            <div id="region-main-box" class="col-12">
+            <div id="region-main-box" class="col-12 padding-0">
                 {{#hasregionmainsettingsmenu}}
                 <div id="region-main-settings-menu" class="d-print-none {{#hasblocks}}has-blocks{{/hasblocks}}">
                     <div> {{{ output.region_main_settings_menu }}} </div>
