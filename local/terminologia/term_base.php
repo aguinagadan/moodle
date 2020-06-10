@@ -7,6 +7,9 @@ $role = 'admin';
 if(!$isManager) {
 	$role = 'guest';
 }
+
+$idUsuario = $USER->id;
+$terminoController->AgregarUsuarioActivo($idUsuario);
 ?>
 
 <input type="hidden" class="role" value="<?php echo $role; ?>"/>
@@ -18,18 +21,24 @@ if(!$isManager) {
 	</div>
 </div>
 <div class="body-basic-container">
-    <div class="alphabet-container">
-        <ul class="pagination">
+    <div class="alphabet-container d-none d-lg-block d-lg-block d-xl-block">
+        <ul class="pagination pagination d-flex justify-content-center">
 					<?php foreach ($alphabetArr as $a) {?>
               <li><a class="page-link-terminologia" href="#"><?php echo $a; ?></a></li>
 					<?php } ?>
         </ul>
     </div>
+    <div class="alphabet-container-select d-sm-none d-sm-block d-md-block d-lg-none d-xl-none d-xl-none">
+        <select class="form-control" id="alphabetSelectControl">
+                <?php foreach ($alphabetArr as $a) {?>
+              <option class="page-link-terminologia"><?php echo $a; ?></option>
+                <?php } ?>
+        </select>
+    </div>
     <div class="search-container">
         <div class="search-input-container input-group my-4 col-6 mx-auto">
-            <input style="width: 75% !important; margin-top: 9% !important;
-    margin-left: 8%; border: 0;" class="form-control search-input" type="search" placeholder="¿Qué estás buscando?" id="example-search-input">
-            <span style="margin-top: 9%;height: 25%;background-color: white;margin-right:8%;" class="input-group-append">
+            <input class="form-control search-input" type="search" placeholder="¿Qué estás buscando?" id="example-search-input">
+            <span style="margin-top: 8.5%;height: 100%;background-color: white;margin-right:8%;" class="input-group-append">
                 <button class="btn btn-outline-primary search-button search-button-term" type="button">
                     <i style="color: #184A7D !important" class="fa fa-search"></i>
                 </button>

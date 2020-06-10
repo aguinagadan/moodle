@@ -59,7 +59,7 @@ if ($categoryid) {
     throw new moodle_exception('cannotviewcategory');
 }
 
-$PAGE->set_pagelayout('coursecategory');
+$PAGE->set_pagelayout('frontpage');
 $courserenderer = $PAGE->get_renderer('core', 'course');
 
 $PAGE->set_heading($heading);

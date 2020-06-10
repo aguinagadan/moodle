@@ -1,5 +1,5 @@
 define(['jquery', 'theme_remui/bootstrap-select', 'core/templates', 'theme_remui/jquery-toolbar', 'core/ajax'], function(jQuery, bsselect, templates, toolbar, Ajax) {
-
+    alert('aaa');
     // Globals
     var filterobj;
 
@@ -133,7 +133,7 @@ define(['jquery', 'theme_remui/bootstrap-select', 'core/templates', 'theme_remui
             page: _pageobj, // This object consist of page number that is currently active, has mycourses and all courses tab page number
             pagination :true, // if True, regenerate the pagination on any action performed
             view : null, // initially it is null to detect initial change in view, String grid - view in grid format, String list - list format
-            isFilterModified: true  // This filterModified true will tell that we need to fetch the courses otherwise show old fetched data, 
+            isFilterModified: true  // This filterModified true will tell that we need to fetch the courses otherwise show old fetched data,
         };
 
         _obj.initAttributes = function(){
@@ -195,7 +195,7 @@ define(['jquery', 'theme_remui/bootstrap-select', 'core/templates', 'theme_remui
             updateCards(response['latest_card']);
 
             var courses = response['courses'];
-    
+
             if (courses.length > 0) {
                 for (var i = 0; i < courses.length; i++) {
                     // This will call the function to load and render our template.
@@ -249,7 +249,7 @@ define(['jquery', 'theme_remui/bootstrap-select', 'core/templates', 'theme_remui
         window.location = jQuery(this).attr('href');
     });
 
-    // Category filter 
+    // Category filter
     jQuery(categoryfilter).on('changed.bs.select', function (e) {
         filterobj.category   = e.target.value;
         filterobj.initPagination();

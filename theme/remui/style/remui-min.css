@@ -26,7 +26,342 @@
     padding-left: 12rem !important
 }
 
+/* catalogo de cursos */
+.cc-container {
+    max-width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
 
+.cc-main-table-container {
+    padding: 2%;
+    margin: auto;
+    width: fit-content;
+    overflow: hidden;
+}
+
+.cc-category-background-color-blue {
+    background: #184A7D 0 0 no-repeat padding-box;
+}
+
+.cc-category-background-color-skyblue {
+    background: #5CBDEB 0 0 no-repeat padding-box;
+}
+
+.cc-category-background-color-green {
+    background: #76A140 0 0 no-repeat padding-box;
+}
+
+.cc-category-header h2{
+    text-align: center;
+    letter-spacing: 0;
+    padding: 1% 0 1% 0;
+    font-weight: 500;
+    font-size: 45px;
+    color: #154A7D;
+    opacity: 1;
+}
+
+.cc-big-header {
+    color: #154a7d;
+    padding: 1% 0 1% 0;
+    text-align: center;
+    font-size: 45px;
+}
+
+.cc-category-table {
+    margin: auto;
+}
+
+.cc-category-table-td {
+    width: 400px !important;
+}
+
+.cc-category-div-box {
+    height: 230px;
+    width: 400px;
+    padding: 4% 0% 6% 3.5%;
+    border-radius: 6px 6px 0 0;
+}
+
+.cc-category-box {
+text-align: center;
+}
+
+.cc-category-course-box {
+text-align: center;
+}
+
+.cc-category-box h3{
+text-align: center;
+width: 370px !important;
+height: 200px;
+color: white;
+font-weight: bold;
+border-radius: 6px;
+box-shadow: 2px 2px 4px #00000029;
+}
+
+.cc-category-box-dinamic h3{
+text-align: center;
+height: 235px;
+color: white;
+font-weight: bold;
+border-radius: 6px;
+}
+
+.cc-category-box-secundary {
+height: 488px;
+width: 370px;
+position: relative;
+overflow: hidden;
+box-shadow: 2px 2px 4px #00000029;
+}
+
+.cc-category-box-secundary h3{
+text-align: center;
+height: 208px;
+color: white;
+font-weight: bold;
+background-size: cover !important;
+border-radius: 6px 6px 0 0 !important;
+}
+
+.cc-category-background {
+opacity: 0.75;
+height: 100%;
+width: 100%;
+border-radius: 6px;
+}
+
+.cc-category-label-container {
+padding: 20%;
+}
+
+.cc-categoryname {
+font-weight: bold;
+font-size: x-large;
+text-shadow: 0 1px 3px #00000059;
+overflow: hidden;
+color: white;
+opacity: 1;
+}
+
+.cc-course-table-container {
+background-color: #ececec;
+}
+
+.cc-course-div-box {
+width: 260px;
+}
+
+.cc-search-box {
+width: 500px !important;
+background-color: #78a4b6 !important;
+color: black !important;
+opacity: 0.5 !important;
+border: 0 !important;
+}
+
+.cc-search-box::placeholder {
+color: white !important;
+}
+
+.cc-shrink-category {
+transform: scale(0.8);
+}
+
+.search-button-cc {
+font-size: 1.5375rem !important;
+}
+
+.fa-search-cc {
+color: white !important;
+}
+
+/* dinamico */
+.cc-course-cat-container-div {margin: 2%;}
+.cc-course-cat-table {margin-top: -2px; background-color: #ececec; width: 100%; position: absolute; left: 0; right: 0; float: left;}
+.cc-course-cat-table-2 {margin-left: 17.5%; width: 20%;position: relative;}
+.cc-category-name {font-size: xx-large;}
+.cc-number-of-course {font-size: medium;}
+
+.cc-category-div-box-dinamic {
+    width: 285px;
+    height: 370px;
+    padding: 0% 3% 0 0%;
+    border-radius: 6px 6px 0 0;
+}
+
+.cc-h3-courses-info {
+    height: 180px;
+    box-shadow: 2px 2px 4px #00000029;
+    border-radius: 4px 4px 0 0;
+    margin-bottom: 0;
+    padding-right: 4%;
+}
+
+.cc-h3-courses-info-dinamic {
+    height: 160px !important;
+}
+
+.cc-courses-div-container {
+    background-color: white;
+    height: 180px;
+    text-align: left;
+    box-shadow: 2px 2px 4px #00000029;
+    border-radius:0 0 4px 4px;
+}
+.cc-courses-cat-name {
+    padding: 7% 4% 0 7%;
+    color:#A3AFB7;
+    word-wrap: break-word;}
+
+.cc-courses-course-name {
+    width: 100%;
+    height: 50%;
+    padding: 2% 4% 0 7%;
+    overflow: hidden;
+    font-size: x-large;
+    word-wrap: break-word;
+}
+
+.cc-courses-button {
+    margin: 0 4% 0 6%;
+    background: #5CBDEB;
+    border-radius: 4px;
+    opacity: 1;
+    color: white;
+    padding: 2% 6% 2% 6%;
+    border: 0;
+    text-decoration: none !important;
+}
+
+.cc-courses-button a:hover{
+    color: white !important;
+}
+
+.cc-subcategory-title {
+    margin-left: 18%;
+    font-size: xx-large;
+    color: #154A7D;
+    width: 30%;
+    font-weight: 600;
+}
+
+/* ultimos cursos */
+
+.cc-ultimos-cursos-list {
+    width: fit-content;
+    height: 63%;
+    margin: auto;
+}
+
+.cc-ultimos-cursos-list td{
+   padding: 1%;
+}
+
+.cc-ultimos-desc {
+    height: 280px !important;
+}
+
+.cc-ultimos-cursos-container {
+    width: 100%;
+    margin: auto;
+}
+
+.cc-ultimos-cursos-button-div {
+    text-align: center;
+    padding: 2%;
+}
+
+.cc-ultimos-image {
+    height: 179px;
+}
+
+.cc-ultimos-cursos-button {
+    background: #A8A9AD 0 0 no-repeat padding-box;
+    border-radius: 4px;
+    opacity: 1;
+    border: 0;
+    width: 154px;
+    height: 35px;
+    color: #ffffff !important;
+    padding: 8px;
+}
+
+/* ultimos cursos end */
+
+/* todos los cursos */
+.cc-all-cursos-list {
+    height: 75%;
+    margin: auto;
+    width: fit-content;
+}
+
+.cc-all-cursos-list td{
+    width: 33%;
+    height: 75%;
+    margin: auto;
+    padding: 1%;
+}
+
+/* todos los cursos end */
+
+/*media queries - catalogo cursos*/
+@media only screen and (max-device-width: 768px) {
+    .cc-category-table {
+        margin: auto;
+        table-layout: fixed !important;
+        width: 100% !important;
+        margin-top: -2px;
+    }
+    .cc-ultimos-cursos-list {
+        width: 100% !important;
+        height: 75%;
+        margin: auto;
+    }
+    .cc-courses-cat-name {padding: 14% 7% 7% 7%; color:#A3AFB7; font-size: 3vw !important;}
+    .cc-courses-course-name {padding-left: 7%; height: 55%; font-size: 2vw !important; width: 100%; word-wrap: break-word;}
+    .cc-courses-button {font-size:8px!important;}
+}
+/*media queries - catalogo cursos end*/
+
+/* search */
+.cc-search-result-div {
+    padding-top: 3% !important;
+    float: none;
+}
+
+.offset-17-2 {
+    margin-left: 17.2%;
+}
+
+/* progress bar */
+.bg-green-600-cc {
+    background-color:  #76A140 !important;
+    opacity: 1;
+}
+
+.bg-red-600-cc {
+    background-color:  #FF2300 !important;
+    opacity: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    -webkit-transition: width .6s ease;
+    -o-transition: width .6s ease;
+    transition: width .6s ease;
+}
+
+.progress {
+    background-color: #FF644C !important;
+}
+
+/* catalogo de cursos end*/
 
 /* THEME */
 .btn-floating {

@@ -3,9 +3,33 @@ global $terminoController;
 
 $alphabetArr = range('A', 'Z');
 $mostSearchedArr = $terminoController->GetMasBuscados();
+
+$nuevosTerminos = $terminoController->GetNuevosTerminos();
+$palabrasBuscadas = $terminoController->GetPalabrasBuscadas();
+$usuariosActivos = $terminoController->GetUsuariosActivos();
+
 $count = 1;
 ?>
 <div class="main-page-container-guest">
+    <div class="big-title resumen-titulo">
+        Esta semana en Terminología
+    </div>
+    <div class="container mt-3 mb-5">
+        <div class="row" style="margin: auto; width: 65%;">
+            <div class="col-sm text-md-center resumen-box mr-4">
+                <div class="font-size-70 number-text"><?php echo $nuevosTerminos; ?></div>
+                <div>nuevos términos</div>
+            </div>
+            <div class="col-sm text-md-center resumen-box mr-4">
+                <div class="font-size-70 number-text"><?php echo $palabrasBuscadas; ?></div>
+                <div>palabras buscadas</div>
+            </div>
+            <div class="col-sm text-md-center resumen-box mr-4">
+                <div class="font-size-70 number-text"><?php echo $usuariosActivos; ?></div>
+                <div>usuarios activos</div>
+            </div>
+        </div>
+    </div>
     <div class="buscados-container">
         <div class="big-title">
             Los términos más buscados

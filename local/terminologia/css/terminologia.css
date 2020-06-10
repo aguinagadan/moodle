@@ -10,21 +10,22 @@ body {
     position: relative;
     height: 310px;
     background: url('../img/img-cabecera.png');
-    background-repeat: no-repeat;
-    background-size: 2067px 310px;
 }
 
 .title-container-terminologia {
     position: absolute;
-    left: 20%;
+    left: 7%;
     top: 50%;
 }
 
 .title-terminologia {
     font-size: 48px;
-    font-weight: bold;
     color: white;
     height: 0;
+}
+
+.title-link {
+   font-weight: bold;
 }
 
 .subtitle-terminologia {
@@ -35,25 +36,104 @@ body {
 
 .pagination {
     margin: 20px 0;
-    width: 69%;
+}
+
+@media only screen and (max-device-width : 640px) {
+    .pagination {
+        margin: 20px 0;
+        display: table;
+    }
+    .list-letter-results-table {
+        margin: auto;
+        table-layout: fixed !important;
+        width: 80% !important;
+        border-collapse: unset;
+        border-spacing: 20px;
+    }
+    .sugerir-btn {
+        width: 30% !important;
+    }
+    .buscados-table {
+        border-collapse: unset;
+        border-spacing: 20px;
+        padding-bottom: 2%;
+        margin: 0 auto;
+        table-layout: fixed !important;
+        width: 80%;
+    }
+    .buscados-table div{
+        position: relative;
+        padding-top: 6%;
+        padding-left: 7%;
+        width: 100% !important;
+        height: 75px;
+        background: #4DB8E8 0% 0% no-repeat padding-box;
+        box-shadow: 2px 2px 4px #00000029;
+        border-radius: 6px;
+        opacity: 1;
+        color: #ffffff;
+        border: 0;
+        text-align: left;
+        font-weight: bold;
+    }
+}
+
+@media only screen and (max-device-width: 768px) {
+    .pagination {
+        margin: 20px 0;
+        display: table;
+    }
+    .list-letter-results-table {
+        margin: auto;
+        table-layout: fixed !important;
+        width: 80% !important;
+        border-collapse: unset;
+        border-spacing: 20px;
+    }
+    .sugerir-btn {
+        width: 30% !important;
+    }
+    .buscados-table {
+        border-collapse: unset;
+        border-spacing: 20px;
+        padding-bottom: 2%;
+        margin: 0 auto;
+        table-layout: fixed !important;
+        width: 80%;
+    }
+    .buscados-table div{
+        position: relative;
+        padding-top: 6%;
+        padding-left: 7%;
+        width: 100% !important;
+        height: 75px;
+        background: #4DB8E8 0% 0% no-repeat padding-box;
+        box-shadow: 2px 2px 4px #00000029;
+        border-radius: 6px;
+        opacity: 1;
+        color: #ffffff;
+        border: 0;
+        text-align: left;
+        font-weight: bold;
+    }
 }
 
 .alphabet-container {
     position: relative;
     text-align: center;
-    margin-top: 5%;
-    margin-bottom: 5%;
-    margin-left: 23%;
+    margin-top: 3%;
+    margin-bottom: 3%;
     font-family: Catamaran , Regular;
 }
 
-.search-container {
-    margin-bottom: 7%;
+.alphabet-container-select {
+    width: 50%;
+    margin: auto;
+    padding-top: 5%;
 }
 
 .search-input-container {
     width: 500px;
-    height: 120px;
     background: #F8F8F8 0% 0% no-repeat padding-box;
     box-shadow: 2px 2px 6px #00000029;
     border-radius: 6px;
@@ -63,10 +143,13 @@ body {
 .search-input {
     margin: auto;
     position: relative;
+    margin-top: 8.5% !important;
+    margin-bottom: 9% !important;;
+    margin-left: 8% !important;;
+    border: 0 !important;;
     width: 400px;
-    height: 30px;
+    height: 32.5px;
     background: #FFFFFF 0% 0% no-repeat padding-box;
-    border: 1px solid #DDDDDD;
     border-radius: 4px;
     opacity: 1;
 }
@@ -87,7 +170,7 @@ body {
 .big-title {
     font-size: 44px;
     text-align: center;
-    padding: 3%;
+    padding: 2%;
     letter-spacing: 0px;
     color: #154A7D;
     opacity: 1;
@@ -101,6 +184,7 @@ body {
 .buscados-table {
     border-collapse: unset;
     border-spacing: 20px;
+    padding-bottom: 2%;
     margin: 0 auto;
 }
 
@@ -126,23 +210,28 @@ body {
     font-size: 100px;
     font-weight: bold;
 }
-
 .list-letter-results-table {
     margin: auto;
+    width: 40%;
     border-collapse: unset;
     border-spacing: 20px;
 }
 
 .list-letter-results-table div{
     position: relative;
+    margin: auto;
     padding: 8px;
     height: 75px;
-    width: 240px;
+    width: 100%;
     background: #4DB8E8 0% 0% no-repeat padding-box;
     box-shadow: 2px 2px 4px #00000029;
     border-radius: 6px;
     opacity: 1;
     color: #FFFFFF;
+}
+
+.list-letter-results-table td{
+    width: 33%;
 }
 
 .result-value {
@@ -176,7 +265,7 @@ body {
 }
 
 .sugerir-btn {
-    width: 10% !important;
+    width: 10%;
 }
 
 .sugerencia-input {
@@ -201,18 +290,25 @@ body {
 .termino-detail-container-origin {
     position: relative;
     margin-top: 1%;
-    width: 86%;
     height: 22px;
+    width: 80%;
     text-align: left;
-    letter-spacing: 0px;
+    letter-spacing: 0;
     font-weight: bold;
     color: #373A3C;
     opacity: 1;
+    float: left;
 }
+
+.termino-detail-container-action {
+    float:right;
+    width: 20%;
+}
+
 .termino-detail-container-description {
     position: relative;
     margin-top: 1%;
-    width: 90%;
+    width: 80%;
     text-align: left;
     letter-spacing: 0px;
     color: #373A3C;
@@ -236,13 +332,16 @@ body {
 .terminos-sugeridos-list {
     margin: auto;
     width: 65%;
+    padding-bottom: 1%;
     text-align: center;
 }
 
 .terminos-sugeridos-button-container {
-    margin-top: 2%;
-    margin-bottom: 2%;
     text-align: center;
+    width: 80%;
+    margin: auto;
+    padding-bottom: 2%;
+
 }
 
 .body-maintenance-title {
@@ -256,7 +355,7 @@ body {
 .body-maintenance-content {
     padding-top: 1%;
     margin: auto;
-    width: 920px;
+    width: 50%;
     background: #F8F8F8 0% 0% no-repeat padding-box;
     box-shadow: 0px 3px 6px #00000029;
     border-radius: 4px;
@@ -291,6 +390,8 @@ body {
 .body-maintenance-content-button {
     text-align: center;
     padding: 3%;
+    margin: auto;
+    width: 30%;
 }
 
 .body-maintenance-content-button-cancel {
@@ -306,7 +407,7 @@ body {
 .search-dropdown {
     float: left;
     top: 56% !important;
-    left: 52px !important;
+    left: 10% !important;
     display: block !important;
 }
 
@@ -356,7 +457,10 @@ li:last-child a{border-top-right-radius: 4px; border-bottom-right-radius: 4px;}
     border-radius: 5px;
     opacity: 1;
     color: white;
-    width: 300px;
+    width: 25%;
+}
+.confirm-term-button {
+    width: 100% !important;
 }
 
 .search-button-term {
@@ -439,4 +543,24 @@ input[type="file"] {
 
 .body-maintenance-content-images > input {
     display: none;
+}
+
+.resumen-titulo {
+    padding: 1% !important;
+}
+
+.number-text {
+    line-height: 5rem !important;
+    font-weight: 500;
+    margin-top: 7%;
+}
+
+.resumen-box {
+    text-align: center;
+    height: 140px;
+    background: #F8F8F8 0 0 no-repeat padding-box;
+    box-shadow: 2px 2px 6px #00000029;
+    border-radius: 6px;
+    color: #154A7D;
+    opacity: 1;
 }

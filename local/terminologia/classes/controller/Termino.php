@@ -125,5 +125,32 @@ class Termino {
 		return $this->getTerminoModel()->AgregarTerminoVisita($id);
 	}
 
+	/**
+	 * @return integer
+	 */
+	public function GetNuevosTerminos() {
+		return $this->getTerminoModel()->GetNuevosTerminos();
+	}
 
+	/**
+	 * @return integer
+	 */
+	public function GetPalabrasBuscadas() {
+		return $this->getTerminoModel()->GetPalabrasBuscadas();
+	}
+
+	/**
+	 * @param integer $idUsuario
+	 * @return integer
+	 */
+	public function AgregarUsuarioActivo($idUsuario) {
+		return $this->getTerminoModel()->AgregarUsuarioActivo(intval($idUsuario));
+	}
+
+	/**
+	 * @return integer
+	 */
+	public function GetUsuariosActivos() {
+		return $this->getTerminoModel()->GetUsuariosActivos();
+	}
 }

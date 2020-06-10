@@ -18,6 +18,13 @@ $title = 'Terminologia';
 $url = new moodle_url("/local/terminologia/index.php", array('component' => $component, 'search' => $search));
 $PAGE->set_url($url);
 
+$PAGE->requires->css(new moodle_url('css/terminologia.css'));
+
+$PAGE->requires->jquery();
+$PAGE->requires->js(new moodle_url('js/terminologia_base.js'));
+$PAGE->requires->js(new moodle_url('js/terminologia_admin.js'));
+$PAGE->requires->js(new moodle_url('js/terminologia_guest.js'));
+
 echo $OUTPUT->header();
 
 include('term_base.php');

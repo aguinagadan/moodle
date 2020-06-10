@@ -83,6 +83,7 @@ class Termino {
 		$termino->nombre = $params['termino-nombre'];
 		$termino->origen = $params['termino-origen'];
 		$termino->descripcion = $params['termino-descripcion'];
+		$termino->creado = time();
 		if(!empty($filesArr['files']['name'])) {
 			$termino->imageurl = $this->saveImage($filesArr);
 		}
@@ -202,13 +203,61 @@ class Termino {
 	 */
 	public function AgregarTerminoVisita($id) {
 		global $DB;
+
+		$terminoBuscadoInsert = new stdClass();
+		$terminoBuscadoInsert->id_termino = $id;
+		$terminoBuscadoInsert->creado = time();
+
+		$DB->insert_record('termino_buscado', $terminoBuscadoInsert);
+
 		$terminoObj = $DB->get_record_sql("SELECT * FROM {termino} WHERE id = ?", array($id));
 
 		if (!empty($terminoObj)) {
 			$terminoObj->visitas++;
 			return $DB->update_record('termino', $terminoObj);
 		}
+
 		return null;
+	}
+
+	/**
+	 * @return integer
+	 */
+	public function GetNuevosTerminos() {
+		global $DB;
+		$data = $DB->get_records_sql("SELECT * FROM {termino} WHERE from_unixtime(creado) between date_sub(now(),INTERVAL 1 WEEK) and now()");
+		return count($data);
+	}
+
+	/**
+	 * @return integer
+	 */
+	public function GetPalabrasBuscadas() {
+		global $DB;
+		$data = $DB->get_records_sql("SELECT * FROM {termino_buscado} WHERE from_unixtime(creado) between date_sub(now(),INTERVAL 1 WEEK) and now() GROUP BY id_termino");
+		return count($data);
+	}
+
+	/**
+	 * @param integer $idUsuario
+	 * @return integer
+	 */
+	public function AgregarUsuarioActivo($idUsuario) {
+		global $DB;
+		$usuarioActivoInsert = new stdClass();
+		$usuarioActivoInsert->id_usuario = $idUsuario;
+		$usuarioActivoInsert->creado = time();
+
+		return $DB->insert_record('termino_usuario_log', $usuarioActivoInsert);
+	}
+
+	/**
+	 * @return integer
+	 */
+	public function GetUsuariosActivos() {
+		global $DB;
+		$data = $DB->get_records_sql("SELECT * FROM {termino_usuario_log} WHERE from_unixtime(creado) between date_sub(now(),INTERVAL 1 WEEK) and now() GROUP BY id_usuario");
+		return count($data);
 	}
 
 }
