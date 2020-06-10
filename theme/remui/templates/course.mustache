@@ -64,14 +64,14 @@
         {{{ output.main_content }}}
         {{{ output.activity_navigation }}}
         {{{ output.course_content_footer }}}
-    </div> 
+    </div>
 </section>
 
 {{> theme_remui/common_end }}
 {{#js}}
     require(['jquery', 'core/ajax', 'theme_remui/loader'], function ($, Ajax) {
         Breakpoints();
-        // Topics click in sidebar 
+        // Topics click in sidebar
         window.addEventListener("hashchange", function () {
             window.scrollTo(window.scrollX, window.scrollY - 80);
         });
