@@ -55,7 +55,7 @@ class course_renderer extends \core_course_renderer {
 
 		if($percentage === 0) {
 			$div = '<div class="progress progress-square mb-0">
-									<div class="progress-bar bg-red-600-cc" style="height: 100%; width: 100%; background-color: #FF2300;" role="progressbar">
+									<div class="progress-bar bg-red-600-cc" style="height: 100%; width: 100%; background-color: #FF644C !important;" role="progressbar">
 											<span>' . $percentage . '%' . '</span>
 									</div>
 							</div>';
@@ -113,7 +113,7 @@ class course_renderer extends \core_course_renderer {
 																	<h3 class="cc-h3-courses-info cc-h3-courses-info-dinamic" style="background: url('. \theme_remui\utility::get_course_image($c, 1) .'); background-size: cover;'.$h3Height.'"></h3>
 																	'. $this->progressBarHTML($c) .' 
 																	<div class="cc-courses-div-container" style="background-color: white;'.$detailDivHeight.'">
-																		<div class="cc-courses-cat-name">'. strtoupper($coursecat->get_formatted_name()) .'</div>
+																		<div class="cc-courses-cat-name">'. 'Fecha de lanzamiento: ' . date('d-m-Y', $c->startdate) .'</div>
 																		<div class="cc-courses-course-name">'. $c->fullname .'</div>
 																		<a class="cc-courses-button" type="button" href="'. new moodle_url("/course/view.php",array("id" => $c->id)). '">Acceder al curso</a>
 																	</div>
@@ -170,7 +170,7 @@ class course_renderer extends \core_course_renderer {
 																	<h3 class="cc-h3-courses-info cc-h3-courses-info-dinamic" style="background: url('. \theme_remui\utility::get_course_image($c, 1) .'); background-size: cover;'.$h3Height.'"></h3>
 																	'. $this->progressBarHTML($c) .' 
 																	<div class="cc-courses-div-container" style="background-color: white;'.$detailDivHeight.'">
-																		<div class="cc-courses-cat-name">'. strtoupper($coursecat->get_formatted_name()) .'</div>
+																		<div class="cc-courses-cat-name">'. 'Fecha de lanzamiento: ' . date('d-m-Y', $c->startdate) .'</div>
 																		<div class="cc-courses-course-name">'. $c->fullname .'</div>
 																		<a class="cc-courses-button" type="button" href="'. new moodle_url("/course/view.php",array("id" => $c->id)). '">Acceder al curso</a>
 																	</div>
@@ -413,7 +413,7 @@ class course_renderer extends \core_course_renderer {
 										<h3 class="cc-h3-courses-info cc-ultimos-image" style="background: url('. \theme_remui\utility::get_course_image($courseElement, 1) .');"></h3>
 										'. $this->progressBarHTML($courseElement) .'
 										<div class="cc-courses-div-container cc-ultimos-desc">
-											<div class="cc-courses-cat-name">'. strtoupper(core_course_category::get($courseElement->category)->name) .'</div>
+											<div class="cc-courses-cat-name">'. 'Fecha de lanzamiento: ' . date('d-m-Y',$courseElement->startdate) .'</div>
 											<div class="cc-courses-course-name">'. $courseElement->fullname .'</div>
 											<a class="cc-courses-button" type="button" href="'. new moodle_url("/course/view.php",array("id" => $courseElement->id)). '">Acceder al curso</a>
 				</div>
@@ -762,7 +762,7 @@ class course_renderer extends \core_course_renderer {
 										<div class="cc-category-box cc-category-box-secundary">
 										<h3 class="cc-h3-courses-info cc-ultimos-image" style="background: url('. \theme_remui\utility::get_course_image($courseElement, 1) .');"></h3>
 											<div class="cc-courses-div-container cc-ultimos-desc">
-												<div class="cc-courses-cat-name">'. strtoupper(core_course_category::get($courseElement->category)->name)  .'</div>
+													<div class="cc-courses-cat-name">'. 'Fecha de lanzamiento: ' . date('d-m-Y',$courseElement->startdate) .'</div>
 												<div class="cc-courses-course-name">'. $courseElement->fullname .'</div>
 												<a class="cc-courses-button" type="button" href="'. new moodle_url("/course/view.php",array("id" => $courseElement->id)). '">Acceder al curso</a>
 											</div>
