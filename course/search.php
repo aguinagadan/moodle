@@ -65,7 +65,7 @@ if (!empty($page)) {
 }
 $PAGE->set_url('/course/search.php', $searchcriteria + $urlparams);
 $PAGE->set_context(context_system::instance());
-$PAGE->set_pagelayout('standard');
+$PAGE->set_pagelayout('frontpage');
 $courserenderer = $PAGE->get_renderer('core', 'course');
 
 if ($CFG->forcelogin) {
@@ -105,7 +105,7 @@ if (empty($searchcriteria)) {
     $event->trigger();
 }
 
-$PAGE->set_heading($site->fullname);
+//$PAGE->set_heading($site->fullname);
 
 echo $OUTPUT->header();
 echo $courserenderer->search_courses($searchcriteria);

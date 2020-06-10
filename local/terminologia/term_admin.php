@@ -7,8 +7,7 @@ $alphabetArr = range('A', 'Z');
 
 function formatCurrentTime($time) {
 	if (isset($time)) {
-		$time =
-			strtotime(date('Y-m-d H:i', $time));
+		$time = strtotime(date('Y-m-d H:i', $time));
 	}
 	return $time;
 }
@@ -108,7 +107,7 @@ function timeSince($original) {
                     </div>
                 </div>
                 <div class="body-maintenance-content-button">
-                    <input form="termino-add-form" class="btn btn-primary process-button" type="submit" value="Agregar el término"/>
+                    <input form="termino-add-form" class="btn btn-primary process-button confirm-term-button" type="submit" value="Agregar el término"/>
                 </div>
             </form>
         </div>
@@ -147,7 +146,7 @@ function timeSince($original) {
                     </div>
                 </div>
                 <div class="body-maintenance-content-button">
-                    <input form="termino-edit-form" type="submit" class="btn btn-primary process-button" value="Guardar cambios"/>
+                    <input style="width: 100%" form="termino-edit-form" type="submit" class="btn btn-primary process-button confirm-term-button" value="Guardar cambios"/>
                 </div>
             </form>
         </div>

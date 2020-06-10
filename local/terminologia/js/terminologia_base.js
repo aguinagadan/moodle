@@ -183,6 +183,11 @@ $(document).ready(function(){
         $(this).addClass('selected');
     });
 
+    $('#alphabetSelectControl').change(function(e) {
+        e.preventDefault();
+        showLetterResults($(this).val(), role, true);
+    });
+
     //Escribir Termino y Buscar término
     $('.search-input').bind('click keyup', function(e){
 

@@ -54,7 +54,7 @@
 
 {{> theme_remui/common_start }}
 
-<section id="region-main" {{#hasblocks}}class="has-blocks"{{/hasblocks}} aria-label="{{#str}}content{{/str}}">
+<section id="region-main" {{#hasblocks}}class="has-blocks"{{/hasblocks}} aria-label="{{#str}}content{{/str}}" class="pr-0 pl-0">
 
     {{#customhomepage}}
         {{{customhomepage}}}
@@ -102,7 +102,15 @@
             <div class="cover card card-inverse rem-staticimage border-0">
                 <img class="card-img w-full" src="{{staticimage}}" alt="Card image">
                 <div class="carousel-caption cover-background centered card-img-overlay w-p75 white">
-                {{{addtxt}}}
+                    {{{addtxt}}}
+                    <form action="{{searchURL}}" id="coursesearch" method="get" class="form-inline" style="margin-left: 10%;margin-top: 0;">
+                        <input id="shortsearchbox" name="q" type="text" size="12" value="" class="form-control mb-1 mb-sm-0 cc-search-box" placeholder="¿Qué curso estás buscando?">
+                        <span style="margin-left: -4%;" class="input-group-append">
+                            <button class="btn search-button search-button-cc" type="submit">
+                                <i style="color: white !important" class="fa fa-search fa-search-cc"></i>
+                            </button>
+                         </span>
+                    </form>
                 </div>
             </div>
             {{/ isimage }}
@@ -115,7 +123,7 @@
 
         {{/ slider }}
 
-        <div class="page-content py-0 pt-3 bg-white px-3">
+        <div class="page-content py-0 pt-3 bg-white px-0">
             <!-- marketing spots -->
             <div class="container mb-4 {{#aboutus_hide}} {{aboutus_hide}} {{/aboutus_hide}}">
                 {{{! output.full_header }}}
@@ -164,7 +172,7 @@
 
             <!-- main content -->
             <div class="container-wrapper pt-2">
-                <div class="container">
+                <div class="container cc-container pr-0 pl-0">
                     <div id="region-main-box">
                         {{#hasregionmainsettingsmenu}}
                             <div id="region-main-settings-menu" class="hidden-print {{#hasblocks}}has-blocks{{/hasblocks}}">
@@ -172,7 +180,7 @@
                             </div>
                         {{/hasregionmainsettingsmenu}}
 
-                        <section id="region-main" class="float-none">
+                        <section id="region-main" class="float-none pr-0 pl-0">
                             {{#hasregionmainsettingsmenu}}
                                 <div class="region_main_settings_menu_proxy"></div>
                             {{/hasregionmainsettingsmenu}}

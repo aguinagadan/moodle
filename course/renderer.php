@@ -103,7 +103,7 @@ class core_course_renderer extends plugin_renderer_base {
      */
     public final function course_category_tree(array $ignored) {
         debugging('Function core_course_renderer::course_category_tree() is deprecated, please use frontpage_combo_list()', DEBUG_DEVELOPER);
-        return $this->frontpage_combo_list();
+        return '';
     }
 
     /**
@@ -1389,7 +1389,7 @@ class core_course_renderer extends plugin_renderer_base {
         }
 
         foreach ($subcategories as $subcategory) {
-            $content .= $this->coursecat_category($chelper, $subcategory, $depth + 1);
+            $content .= $this->coursecat_category($chelper, $subcategory, $depth + 1, $key=0);
         }
 
         if (!empty($pagingbar)) {
@@ -1473,7 +1473,7 @@ class core_course_renderer extends plugin_renderer_base {
      * @param int $depth depth of this category in the current tree
      * @return string
      */
-    protected function coursecat_category(coursecat_helper $chelper, $coursecat, $depth) {
+    protected function coursecat_category(coursecat_helper $chelper, $coursecat, $depth, $boxColor="blue") {
         // open category tag
         $classes = array('category');
         if (empty($coursecat->visible)) {
@@ -1699,7 +1699,6 @@ class core_course_renderer extends plugin_renderer_base {
             ob_end_clean();
         }
         $output .= $this->container_end();
-
         return $output;
     }
 
