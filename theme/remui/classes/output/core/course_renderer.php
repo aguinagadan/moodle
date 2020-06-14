@@ -83,9 +83,9 @@ class course_renderer extends \core_course_renderer {
 							</div>';
 
 			if(empty($courses)) {
-				$html .= '<div><div style="text-align: center; font-size: large" class="cc-course-cat-container-div">Aún no existen cursos para esta categoría</div></div>';
+				$html .= '<div><div style="text-align: center; font-size: large" class="cc-block-container">Aún no existen cursos para esta categoría</div></div>';
 			} elseif (!empty($courses)) {
-				$html .= '<div><div class="cc-course-cat-container-div"><table class="cc-course-cat-table-2"><tbody>';
+				$html .= '<div><div class="row ml-0">';
 
 				$current = 0;
 				$rowCount = 0;
@@ -94,42 +94,30 @@ class course_renderer extends \core_course_renderer {
 
 				foreach($courses as $c) {
 					$countForColor++;
-					if($current === 0 ||  $current%$groupedNumber === 0) {
-						$html .= '<tr>';
-					}
-
 					$h3Height = '';
-					$detailDivHeight = '';
 
 					if($this->progressBarHTML($c) == '') {
 						$h3Height = 'height: 174px !important;';
-						$detailDivHeight = 'height: 180px;';
 					}
 
-					$html .= '<td>
-												<div id="cc-block-container">
+					$html .= '<div id="cc-block-container" class="cc-block-container-min">
 													<div class="cc-category-div-box-dinamic" data-categoryid="1" data-depth="1" data-showcourses="5" data-type="0">
 														<div class="cc-courses-info">
 																	<h3 class="cc-h3-courses-info cc-h3-courses-info-dinamic" style="background: url('. \theme_remui\utility::get_course_image($c, 1) .'); background-size: cover;'.$h3Height.'"></h3>
 																	'. $this->progressBarHTML($c) .' 
-																	<div class="cc-courses-div-container" style="background-color: white;'.$detailDivHeight.'">
+																	<div class="cc-courses-div-container" style="background-color: white;">
 																		<div class="cc-courses-cat-name">'. 'Fecha de lanzamiento: ' . date('d-m-Y', $c->startdate) .'</div>
 																		<div class="cc-courses-course-name">'. $c->fullname .'</div>
 																		<a class="cc-courses-button" type="button" href="'. new moodle_url("/course/view.php",array("id" => $c->id)). '">Acceder al curso</a>
 																	</div>
 														</div>
 													</div>
-												</div>
-											</td>';
+												</div>';
 					$rowCount++;
-					if($rowCount%$groupedNumber === 0) {
-						$html .= '</tr>';
-						$countForColor = 0;
-					}
 					$current++;
 				}
 
-				$html .= '</tbody></table></div></div>';
+				$html .= '</div></div>';
 			}
 		}
 		return $html;
@@ -141,53 +129,36 @@ class course_renderer extends \core_course_renderer {
 
 		$html = '';
 		if (!empty($courses)) {
-			$html = '<div data-categoryid="'. $catId .'" class="cc-course-cat-table hidden">
-<div class="cc-course-cat-container-div"><table class="cc-course-cat-table-2"><tbody>';
-
 			$current = 0;
 			$rowCount = 0;
 			$countForColor = 0;
-			$groupedNumber = 4;
 
 			foreach($courses as $c) {
 				$countForColor++;
-				if($current === 0 ||  $current%$groupedNumber === 0) {
-					$html .= '<tr>';
-				}
 
 				$h3Height = '';
-				$detailDivHeight = '';
 
 				if($this->progressBarHTML($c) == '') {
 					$h3Height = 'height: 174px !important;';
-					$detailDivHeight = 'height: 180px;';
 				}
 
-				$html .= '<td>
-												<div id="cc-block-container">
+				$html .= '<div id="cc-block-container" class="cc-block-container-min">
 													<div class="cc-category-div-box-dinamic" data-categoryid="1" data-depth="1" data-showcourses="5" data-type="0">
 														<div class="cc-courses-info">
 																	<h3 class="cc-h3-courses-info cc-h3-courses-info-dinamic" style="background: url('. \theme_remui\utility::get_course_image($c, 1) .'); background-size: cover;'.$h3Height.'"></h3>
 																	'. $this->progressBarHTML($c) .' 
-																	<div class="cc-courses-div-container" style="background-color: white;'.$detailDivHeight.'">
+																	<div class="cc-courses-div-container" style="background-color: white;">
 																		<div class="cc-courses-cat-name">'. 'Fecha de lanzamiento: ' . date('d-m-Y', $c->startdate) .'</div>
 																		<div class="cc-courses-course-name">'. $c->fullname .'</div>
 																		<a class="cc-courses-button" type="button" href="'. new moodle_url("/course/view.php",array("id" => $c->id)). '">Acceder al curso</a>
 																	</div>
 														</div>
 													</div>
-												</div>
-											</td>';
+												</div>';
 				$rowCount++;
-				if($rowCount%$groupedNumber === 0) {
-					$html .= '</tr>';
-					$countForColor = 0;
-				}
 				$current++;
 			}
-			$html .= '</tbody></table></div>';
 			$html .= $this->getChildCoursesHTML($coursecat->get_children());
-			$html .= '</div>';
 		}
 		return $html;
 	}
@@ -392,22 +363,16 @@ class course_renderer extends \core_course_renderer {
 						<div>
 							<h2 class="cc-big-header">'.$titulo.'</h2>
 						</div>
-						<div class="'.$divClassList.'">';
+						<div class="'.$divClassList.' row">';
 
 		$current = 0;
 		$rowCount = 0;
 		$countForColor = 0;
 		$groupedNumber = 3;
 
-		$content .= '<table style="width: 80%; position: relative; margin:auto;">';
-
 		foreach($allcourses as $courseElement) {
 			$countForColor++;
 
-			if($current === 0 ||  $current%$groupedNumber === 0) {
-				$content .= '<tr>';
-			}
-			$content .= '<td>';
 			$content .=	'<div class="cc-courses-info">
 										<div class="cc-category-box cc-category-box-secundary">
 										<h3 class="cc-h3-courses-info cc-ultimos-image" style="background: url('. \theme_remui\utility::get_course_image($courseElement, 1) .');"></h3>
@@ -421,13 +386,10 @@ class course_renderer extends \core_course_renderer {
 			</div>';
 
 			$rowCount++;
-			if($rowCount%$groupedNumber === 0) {
-				$content .= '</tr>';
-				$countForColor = 0;
-			}
 			$current++;
 		}
-		$content .= '</table>';
+
+		$content .= '</div>';
 
 		if($all) {
 			$content .=
@@ -519,46 +481,41 @@ class course_renderer extends \core_course_renderer {
 		$boxColor = "blue";
 		$tableNumber = 1;
 
-		$content .= '<div class="moved-background" style="
-										background-color: transparent;
-										position: absolute;
-										height: 230px;
-										width: 400px;
-										top: 604.958px;
-    								left: 629.667px;"></div>';
+		$content .= '<div class="moved-background"></div>';
 
 		$content .= '<div class="cc-main-table-container pr-0 pl-0">';
+		$coursesDivs = '';
 
 		foreach ($subcategories as $key=>$subcategory) {
 			$countForColor++;
 
 			if($countForColor === 1) {
 				$boxColor = "blue";
-			}else if($countForColor === 2) {
+			} else if($countForColor === 2) {
 				$boxColor = "skyblue";
-			}else if($countForColor === 3) {
+			} else if($countForColor === 3) {
 				$boxColor = "green";
 			}
-
-			if($current === 0 ||  $current%$groupedNumber === 0) {
-				$content .= '<table class="cc-category-table" data-table-number="'.$tableNumber.'"><tr>';
-				$tableNumber++;
-			}
-			$content .= '<td class="cc-category-table-td">';
-			$content .= '<div id="cc-block-container">';
+			$content .= '<div id="cc-block-container" category-id="'.$key.'" class="col-sm cc-block-container" style="display:inline-block; width: 400px; vertical-align:top;">';
 
 			$content .= $this->coursecat_category($chelper, $subcategory, $depth + 1, $boxColor, $key);
 			$content .= '</div>';
-			$content .= '</td>';
 			$rowCount++;
-
-			if($rowCount%$groupedNumber === 0 || $rowCount >= count($subcategories)) {
-				$content .= '</tr></table>';
+			if($rowCount%$groupedNumber === 0) {
 				$countForColor = 0;
 			}
 			$current++;
 		}
 
+		foreach ($subcategories as $key=>$subcategory) {
+			if(count($subcategory->get_courses()) > 0) {
+				$coursesDivs .= '<div class="cc-courses-div-detail row cc-ml-courses" category-id="'.$key.'">'.$this->getCoursesHTML($subcategory).'</div>';
+			}
+		}
+
+		$content .= '</div>';
+		$content .= '<div class="cc-courses-div" style="position:relative; vertical-align:top; width:100%; background: #ececec; display:none;">';
+		$content .= $coursesDivs;
 		$content .= '</div>';
 
 		$content .= '<input id="cc-total-cursos" type="hidden" value="'.$current.'">';
@@ -655,7 +612,6 @@ class course_renderer extends \core_course_renderer {
 		// Make sure JS file to expand category content is included.
 		$this->coursecat_include_js();
 
-		$content = $this->getCoursesHTML($coursecat);
 		$content .= html_writer::start_tag('div', array(
 			'class' => join(' ', $classes) . ' cc-category-div-box',
 			'data-categoryid' => $coursecat->id,
@@ -751,14 +707,11 @@ class course_renderer extends \core_course_renderer {
 			$countForColor = 0;
 			$groupedNumber = 3;
 
-			$courseslist .= '<div class="cc-all-cursos-list"><table style="margin:auto;">';
+			$courseslist .= '<div class="cc-all-cursos-list row">';
 
 			foreach($courses as $courseElement) {
 				$countForColor++;
-				if($current === 0 ||  $current%$groupedNumber === 0) {
-					$courseslist .= '<tr>';
-				}
-				$courseslist .=	'<td><div" class="cc-courses-info cc-search-result-div">
+				$courseslist .=	'<div class="cc-courses-info cc-search-result-div">
 										<div class="cc-category-box cc-category-box-secundary">
 										<h3 class="cc-h3-courses-info cc-ultimos-image" style="background: url('. \theme_remui\utility::get_course_image($courseElement, 1) .');"></h3>
 											<div class="cc-courses-div-container cc-ultimos-desc">
@@ -767,15 +720,11 @@ class course_renderer extends \core_course_renderer {
 												<a class="cc-courses-button" type="button" href="'. new moodle_url("/course/view.php",array("id" => $courseElement->id)). '">Acceder al curso</a>
 											</div>
 										</div>
-									</div></td>';
+									</div>';
 				$rowCount++;
-				if($rowCount%$groupedNumber === 0) {
-					$courseslist .= '</tr>';
-					$countForColor = 0;
-				}
 				$current++;
 			}
-			$courseslist .= '</table></div>';
+			$courseslist .= '</div>';
 
 			//catalogo cursos EDIT
 			//$courseslist = $this->coursecat_courses($chelper, $courses, $totalcount);

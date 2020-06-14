@@ -100,16 +100,18 @@
 
             {{# isimage }}
             <div class="cover card card-inverse rem-staticimage border-0">
-                <img class="card-img w-full" src="{{staticimage}}" alt="Card image">
+                <img style="height: 30vh;" class="card-img w-full" src="{{staticimage}}" alt="Card image">
                 <div class="carousel-caption cover-background centered card-img-overlay w-p75 white">
                     {{{addtxt}}}
                     <form action="{{searchURL}}" id="coursesearch" method="get" class="form-inline" style="margin-left: 10%;margin-top: 0;">
-                        <input id="shortsearchbox" name="q" type="text" size="12" value="" class="form-control mb-1 mb-sm-0 cc-search-box" placeholder="¿Qué curso estás buscando?">
-                        <span style="margin-left: -4%;" class="input-group-append">
-                            <button class="btn search-button search-button-cc" type="submit">
-                                <i style="color: white !important" class="fa fa-search fa-search-cc"></i>
-                            </button>
-                         </span>
+                        <div class="search-input-container">
+                            <input style="width: 40vw;" id="shortsearchbox" name="q" type="text" size="12" value="" class="form-control mb-1 mb-sm-0 cc-search-box" placeholder="¿Qué curso estás buscando?">
+                            <span style="margin-top: -0.3vw; width: 0;" class="input-group-append">
+                                <button class="btn search-button search-button-cc" type="submit">
+                                    <i style="color: white !important; margin-left: -71px;" class="fa fa-search fa-search-cc"></i>
+                                </button>
+                             </span>
+                        </div>
                     </form>
                 </div>
             </div>
