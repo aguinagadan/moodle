@@ -24,6 +24,20 @@ function placeAfter($lastBlock, $currentBlock, catId) {
         $('.cc-courses-div').slideUp();
     } else {
         $('.cc-category-div-box').removeClass('cc-shrink-category');
+
+        var position = $currentBlock.find('.cc-main-category').offset();
+        var positionLeft = position.left;
+        var positionTop = position.top - 66;
+
+        $('.moved-background').css('background-color','#ececec');
+
+        var blockWidth = $currentBlock.find('.cc-main-category').width();
+        var blockHeight = $currentBlock.find('.cc-main-category').height();
+
+        $('.moved-background').width(blockWidth);
+        $('.moved-background').height(blockHeight + 20);
+        $('.moved-background').animate({ top: positionTop, left: positionLeft},100);
+
         $currentBlock.find('.cc-category-div-box').addClass('cc-shrink-category');
         $lastBlock.after(contenedorDeCurso.slideDown(function() {
             var cursoActual = $(".cc-courses-div-detail[category-id='"+catId+"']");
@@ -31,9 +45,6 @@ function placeAfter($lastBlock, $currentBlock, catId) {
             $('.cc-block-container').removeClass('active-cat');
             $currentBlock.addClass('active-cat');
         }));
-        var position = $currentBlock.find('.cc-category-div-box').offset();
-        $('.moved-background').css('background-color','#ececec');
-        $('.moved-background').animate({ top: position.top-84, left: position.left-28},100);
     }
 }
 

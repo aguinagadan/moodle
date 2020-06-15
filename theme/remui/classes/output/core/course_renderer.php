@@ -483,7 +483,7 @@ class course_renderer extends \core_course_renderer {
 
 		$content .= '<div class="moved-background"></div>';
 
-		$content .= '<div class="cc-main-table-container pr-0 pl-0">';
+		$content .= '<div class="cc-main-table-container pr-0 pl-0 w-100"><div style="width: 65%;margin: 0 auto;">';
 		$coursesDivs = '';
 
 		foreach ($subcategories as $key=>$subcategory) {
@@ -516,7 +516,7 @@ class course_renderer extends \core_course_renderer {
 		$content .= '</div>';
 		$content .= '<div class="cc-courses-div" style="position:relative; vertical-align:top; width:100%; background: #ececec; display:none;">';
 		$content .= $coursesDivs;
-		$content .= '</div>';
+		$content .= '</div></div>';
 
 		$content .= '<input id="cc-total-cursos" type="hidden" value="'.$current.'">';
 
