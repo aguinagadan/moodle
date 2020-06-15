@@ -35,7 +35,7 @@ function placeAfter($lastBlock, $currentBlock, catId) {
         var blockHeight = $currentBlock.find('.cc-main-category').height();
 
         $('.moved-background').width(blockWidth);
-        $('.moved-background').height(blockHeight + 20);
+        $('.moved-background').height(blockHeight + 22);
         $('.moved-background').animate({ top: positionTop, left: positionLeft},100);
 
         $currentBlock.find('.cc-category-div-box').addClass('cc-shrink-category');
