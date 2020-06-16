@@ -18,15 +18,18 @@ $count = 1;
         <div class="row" style="margin: auto; width: 65%;">
             <div class="col-sm text-md-center resumen-box mr-4">
                 <div class="font-size-70 number-text"><?php echo $nuevosTerminos; ?></div>
-                <div>nuevos términos</div>
+                <div class="font-size-16">nuevos términos</div>
+                <div class="font-size-10">En los últimos 7 días</div>
             </div>
             <div class="col-sm text-md-center resumen-box mr-4">
                 <div class="font-size-70 number-text"><?php echo $palabrasBuscadas; ?></div>
-                <div>palabras buscadas</div>
+                <div class="font-size-16">palabras buscadas</div>
+                <div class="font-size-10">En los últimos 7 días</div>
             </div>
             <div class="col-sm text-md-center resumen-box mr-4">
                 <div class="font-size-70 number-text"><?php echo $usuariosActivos; ?></div>
-                <div>usuarios activos</div>
+                <div class="font-size-16">usuarios activos</div>
+                <div class="font-size-10">En los últimos 7 días</div>
             </div>
         </div>
     </div>
