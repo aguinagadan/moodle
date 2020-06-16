@@ -1,8 +1,8 @@
 <?php
 
-	require_once 'classes/controller/Termino.php';
-	require_once(dirname(__FILE__) . '/../../config.php');
-	use LocalPages\Controller\Termino as TerminoController;
+require_once 'classes/controller/Termino.php';
+require_once(dirname(__FILE__) . '/../../config.php');
+use LocalPages\Controller\Termino as TerminoController;
 
 try {
 	error_reporting(E_ALL);
