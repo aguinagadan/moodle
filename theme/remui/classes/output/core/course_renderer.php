@@ -69,6 +69,11 @@ class course_renderer extends \core_course_renderer {
 		return $div;
 	}
 
+	private function convertDateToSpanish($timestamp) {
+		setlocale(LC_TIME, 'es_ES', 'Spanish_Spain', 'Spanish');
+		return strftime("%d de %B de %Y", $timestamp);
+	}
+
 	private function getChildCoursesHTML($coursecatArr) {
 
 		$html = '';
@@ -106,7 +111,7 @@ class course_renderer extends \core_course_renderer {
 																	<h3 class="cc-h3-courses-info cc-h3-courses-info-dinamic" style="background: url('. \theme_remui\utility::get_course_image($c, 1) .'); background-size: cover;'.$h3Height.'"></h3>
 																	'. $this->progressBarHTML($c) .' 
 																	<div class="cc-courses-div-container" style="background-color: white;">
-																		<div class="cc-courses-cat-name">'. 'Fecha de lanzamiento: ' . date('d-m-Y', $c->startdate) .'</div>
+																		<div class="cc-courses-cat-name">'. 'Lanzamiento: ' . $this->convertDateToSpanish($c->startdate) .'</div>
 																		<div class="cc-courses-course-name">'. $c->fullname .'</div>
 																		<a class="cc-courses-button" type="button" href="'. new moodle_url("/course/view.php",array("id" => $c->id)). '">Acceder al curso</a>
 																	</div>
@@ -148,7 +153,7 @@ class course_renderer extends \core_course_renderer {
 																	<h3 class="cc-h3-courses-info cc-h3-courses-info-dinamic" style="background: url('. \theme_remui\utility::get_course_image($c, 1) .'); background-size: cover;'.$h3Height.'"></h3>
 																	'. $this->progressBarHTML($c) .' 
 																	<div class="cc-courses-div-container" style="background-color: white;">
-																		<div class="cc-courses-cat-name">'. 'Fecha de lanzamiento: ' . date('d-m-Y', $c->startdate) .'</div>
+																		<div class="cc-courses-cat-name">'. 'Lanzamiento: ' . $this->convertDateToSpanish($c->startdate) .'</div>
 																		<div class="cc-courses-course-name">'. $c->fullname .'</div>
 																		<a class="cc-courses-button" type="button" href="'. new moodle_url("/course/view.php",array("id" => $c->id)). '">Acceder al curso</a>
 																	</div>
@@ -378,7 +383,7 @@ class course_renderer extends \core_course_renderer {
 										<h3 class="cc-h3-courses-info cc-ultimos-image" style="background: url('. \theme_remui\utility::get_course_image($courseElement, 1) .');"></h3>
 										'. $this->progressBarHTML($courseElement) .'
 										<div class="cc-courses-div-container cc-ultimos-desc">
-											<div class="cc-courses-cat-name">'. 'Fecha de lanzamiento: ' . date('d-m-Y',$courseElement->startdate) .'</div>
+											<div class="cc-courses-cat-name">'. 'Lanzamiento: ' . $this->convertDateToSpanish($courseElement->startdate) .'</div>
 											<div class="cc-courses-course-name">'. $courseElement->fullname .'</div>
 											<a class="cc-courses-button" type="button" href="'. new moodle_url("/course/view.php",array("id" => $courseElement->id)). '">Acceder al curso</a>
 				</div>
@@ -715,7 +720,7 @@ class course_renderer extends \core_course_renderer {
 										<div class="cc-category-box cc-category-box-secundary">
 										<h3 class="cc-h3-courses-info cc-ultimos-image" style="background: url('. \theme_remui\utility::get_course_image($courseElement, 1) .');"></h3>
 											<div class="cc-courses-div-container cc-ultimos-desc">
-													<div class="cc-courses-cat-name">'. 'Fecha de lanzamiento: ' . date('d-m-Y',$courseElement->startdate) .'</div>
+											<div class="cc-courses-cat-name">'. 'Lanzamiento: ' . $this->convertDateToSpanish($courseElement->startdate) .'</div>
 												<div class="cc-courses-course-name">'. $courseElement->fullname .'</div>
 												<a class="cc-courses-button" type="button" href="'. new moodle_url("/course/view.php",array("id" => $courseElement->id)). '">Acceder al curso</a>
 											</div>
