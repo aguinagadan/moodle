@@ -307,7 +307,7 @@
 
 /* todos los cursos end */
 
-/*media queries - catalogo cursos*/
+/* media queries - catalogo cursos - dashboard */
 @media only screen and (max-device-width: 768px) {
     .cc-category-table {
         margin: auto;
@@ -362,13 +362,35 @@
         height: fit-content !important;
         width: fit-content !important;
     }
-    /*ultimos*/
+
+    /* ultimos */
     .cc-ultimos-desc {
         height: 100% !important;
     }
-    /*all*/
+
+    /* all */
     .cc-all-cursos-list {
         width: 90% !important;
+    }
+
+    /* dashboard */
+    .d-progress-bar-level {
+        width: 100% !important;
+    }
+    .d-course-detail-row-2 {
+        width: 100% !important;
+    }
+    .d-course-detail-row-3 {
+        width: 100% !important;
+    }
+    .d-course-detail-row-3-complete {
+        width: 50vw !important;
+        display: inline-block !important;
+    }
+    .d-progress-bar-level-course {
+        width: 50vw !important;
+        height: 8px !important;
+        background: rgba(15, 74, 124, 0.34) !important;
     }
 }
 /*media queries - catalogo cursos end*/
@@ -28123,6 +28145,244 @@ body {
 #page-my-index {
     background-color: #f3f7f9
 }
+
+/* TASA - Dashboard */
+
+#page-my-index.pagelayout-mydashboard {
+    margin: 0 !important;
+}
+
+.d-number-text {
+    font-size: 41px !important;
+    color: #154A7D !important;
+    overflow: hidden;
+}
+
+.d-progress {
+    width: 135px;
+    height: 135px;
+    background: none;
+    position: relative;
+}
+
+.d-progress::after {
+    content: "";
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 10px solid #ffffff;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.d-progress>span {
+    width: 50%;
+    height: 100%;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    z-index: 1;
+}
+
+.d-progress .d-progress-left {
+    left: 0;
+}
+
+.d-progress .d-progress-bar {
+    width: 100%;
+    height: 100%;
+    background: none;
+    border-width: 10px;
+    border-style: solid;
+    position: absolute;
+    top: 0;
+}
+
+.d-progress .d-progress-left .d-progress-bar {
+    left: 100%;
+    border-top-right-radius: 80px;
+    border-bottom-right-radius: 80px;
+    border-left: 0;
+    -webkit-transform-origin: center left;
+    transform-origin: center left;
+}
+
+.d-progress .d-progress-right {
+    right: 0;
+}
+
+.d-progress .d-progress-right .d-progress-bar {
+    left: -100%;
+    border-top-left-radius: 80px;
+    border-bottom-left-radius: 80px;
+    border-right: 0;
+    -webkit-transform-origin: center right;
+    transform-origin: center right;
+}
+
+.d-progress .d-progress-value {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+/*pending*/
+
+.d-progress-p {
+    width: 135px;
+    height: 135px;
+    background: none;
+    position: relative;
+}
+
+.d-progress-p::after {
+    content: "";
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 10px solid #ffffff;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.d-progress-p>span {
+    width: 50%;
+    height: 100%;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    z-index: 1;
+}
+
+.d-progress-p .d-progress-p-left {
+    left: 0;
+}
+
+.d-progress-p .d-progress-p-bar {
+    width: 100%;
+    height: 100%;
+    background: none;
+    border-width: 10px;
+    border-style: solid;
+    position: absolute;
+    top: 0;
+}
+
+.d-progress-p .d-progress-p-left .d-progress-p-bar {
+    left: 100%;
+    border-top-right-radius: 80px;
+    border-bottom-right-radius: 80px;
+    border-left: 0;
+    -webkit-transform-origin: center left;
+    transform-origin: center left;
+}
+
+.d-progress-p .d-progress-p-right {
+    right: 0;
+}
+
+.d-progress-p .d-progress-p-right .d-progress-p-bar {
+    left: -100%;
+    border-top-left-radius: 80px;
+    border-bottom-left-radius: 80px;
+    border-right: 0;
+    -webkit-transform-origin: center right;
+    transform-origin: center right;
+}
+
+.d-progress-p .d-progress-p-value {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.d-title-container {
+    position: fixed !important;
+}
+
+.d-badge {
+    margin: 0 !important;
+}
+
+.d-badge-img {
+    width: 68px !important;
+    height: 68px !important;
+}
+
+.d-info-level {
+    padding: 3vh 0 0 3%;
+}
+
+.d-progress-bar-level {
+    width: 412px;
+    margin: 0 !important;
+    background-color: rgba(241, 244, 245, 0.55) !important;
+}
+
+.d-progress-bar-level-course {
+    width: 17vw;
+    height: 8px !important;
+    background: rgba(15, 74, 124, 0.34) !important;
+}
+
+.d-xp-bar {
+    background: rgba(255,255,255,1) !important;
+    border: rgb(153, 175, 182) solid 1px;
+}
+
+.d-xp-bar-course {
+    min-width: 0 !important;
+    background: rgba(15,74,124,1);
+    background-image: linear-gradient(to bottom,rgba(15,74,124,1),rgba(15,74,124,1)) !important;
+}
+
+.d-level-text {
+    color: #F1F4F5 !important;
+    opacity: 0.75 !important;
+    font-size: 12px !important;
+}
+
+.d-course-detail-row-1 {
+
+}
+
+.d-course-detail-row-2 {
+    width: 40%;
+    padding: 0.5%;
+    display: inline-block;
+}
+
+.d-course-detail-row-3 {
+    width: 40%;
+    padding: 0.5%;
+    text-align: left;
+}
+
+.d-course-detail-row-3-complete {
+    width: 29vw;
+    margin: 0;
+    padding-bottom: 2.5%;
+    padding-right: 0 !important;
+}
+
+.d-course-detail-row-3-label {
+    width: 22vh;
+    font-size: 12px;
+    padding-right: 2%;
+    color: #A3AFB7;
+}
+
+.border-primary-green {
+    border-color: #76A140;
+}
+
+.border-primary-orange {
+    border-color: #FF7700;
+}
+
+/* TASA - Dashboard end */
 
 .fp-content-center {
     height: 100%;

@@ -48,21 +48,155 @@
         "hasregionmainsettingsmenu": false
     }
 }}
-{{> theme_remui/common_start }}
+{{> theme_remui/head }}
+
+<body {{{ bodyattributes }}}>
+{{> theme_remui/navbar }}
+<div id="page-wrapper">
+{{{ output.standard_top_of_body_html }}}
+<div id="page">
+    <div class="edwiser-notice position-fixed mt-10" style="display: none; z-index: 1500;left: 50%;transform: translateX(-50%);" role="alert">
+    </div>
+{{{ output.render_site_announcement }}}
+{{#homepage}}
+    <div>
+{{/homepage}}
+{{^homepage}}
+    <div class="container p-0 mw-100">
+        <div class="cover card card-inverse rem-staticimage border-0">
+            <img style="height: 30vh;" class="card-img w-full" src="{{URL}}" alt="Card image">
+            <div class="carousel-caption cover-background centered card-img-overlay w-p75 white">
+                <div class="text_to_html">
+                    <div style="text-align:left;font-size:large;">Bienvenido</div>
+                    <div style="text-align:left;">
+                        <div style="font-size:4vw; height: 5vw;">{{username}}</div>
+                    </div>
+                </div>
+                <div class="row" style="margin-left: 0;">
+                    {{{levelbadge}}}
+                    <div class="d-info-level">
+                        <div class="text-left">Nivel: {{levelname}}</div>
+                        <div>{{{progressbar}}}</div>
+                        <div class="text-left d-level-text">{{points}} millas naúticas obtenidas</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+{{/homepage}}
+<div id="page-content" class="row {{^homepage}}pb-3{{/homepage}} {{#homepage}}m-0 w-p10 pb-0{{/homepage}}">
+
+<div style="text-align: center; margin: auto; width: 75%; height: 100%">
+    <div class="container mt-5 mb-5">
+        <div class="row" style="margin: auto; width: 65%;">
+            <div class="col-sm text-md-center resumen-box mr-4">
+                    <!-- progress bar 1 -->
+                    <div class="d-progress mx-auto d-total mb-4" data-value={{totalcourses}}>
+                        <div class="w-100 h-100 rounded-circle d-flex align-items-center justify-content-center">
+                            <div class="h2 d-number-text">{{totalcourses}}</div>
+                        </div>
+                    </div>
+                <div class="font-size-16">Cursos disponibles</div>
+            </div>
+            <div class="col-sm text-md-center resumen-box mr-4">
+                <!-- progress bar 2 -->
+                <div class="d-progress mx-auto mb-4" data-value={{completedcourses}}>
+                      <span class="d-progress-left">
+                        <span class="d-progress-bar border-primary-green"></span>
+                      </span>
+                    <span class="d-progress-right">
+                        <span class="d-progress-bar border-primary-green"></span>
+                      </span>
+                    <div class="d-progress-value w-100 h-100 rounded-circle d-flex align-items-center justify-content-center">
+                        <div class="h2 d-number-text">{{completedcourses}}</div>
+                    </div>
+                </div>
+                <div class="font-size-16">Cursos completados</div>
+            </div>
+            <div class="col-sm text-md-center resumen-box mr-4">
+                <!-- progress bar 3 -->
+                <div class="d-progress-p mx-auto mb-4" data-value={{pendingcourses}}>
+                      <span class="d-progress-p-left">
+                        <span class="d-progress-p-bar border-primary-orange"></span>
+                      </span>
+                    <span class="d-progress-p-right">
+                        <span class="d-progress-p-bar border-primary-orange"></span>
+                      </span>
+                    <div class="d-progress-p-value w-100 h-100 rounded-circle d-flex align-items-center justify-content-center">
+                        <div class="h2 d-number-text">{{pendingcourses}}</div>
+                    </div>
+                </div>
+                <div class="font-size-16">Cursos pendientes</div>
+            </div>
+        </div>
+        <div style="margin-top: 5%;margin-bottom: 5%;">
+            <div style="background-color: white; width: 88%; margin: auto;">
+                <div style="padding: 3%; box-shadow: 2px 2px 4px #00000029; border-radius: 4px;">
+                    <div style="text-align: left; color: #154A7D; padding-bottom: 2%; font-weight: 500; font-size: 17px;">Mis cursos</div>
+                    {{{courseshtml}}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="region-main-box" class="col-12 pr-0 pl-0">
+{{#hasregionmainsettingsmenu}}
+        <div id="region-main-settings-menu" class="d-print-none {{#hasblocks}}has-blocks{{/hasblocks}}">
+            <div> {{{ output.region_main_settings_menu }}} </div>
+        </div>
+{{/hasregionmainsettingsmenu}}
+{{> theme_remui/page_aside}}
 
 <section id="region-main" {{#hasblocks}}class="has-blocks mb-3"{{/hasblocks}} aria-label="{{#str}}content{{/str}}">
-        {{#hasregionmainsettingsmenu}}
-            <div class="region_main_settings_menu_proxy"></div>
-        {{/hasregionmainsettingsmenu}}
-        {{{ output.course_content_header }}}
-        {{{ output.main_content }}}
-        {{{ output.activity_navigation }}}
-        {{{ output.course_content_footer }}}
+    {{#hasregionmainsettingsmenu}}
+        <div class="region_main_settings_menu_proxy"></div>
+    {{/hasregionmainsettingsmenu}}
+    {{{ output.course_content_header }}}
+    {{{ output.main_content }}}
+    {{{ output.activity_navigation }}}
+    {{{ output.course_content_footer }}}
 </section>
 
 {{> theme_remui/common_end }}
 {{#js}}
-require(['theme_remui/loader'], function () {
-  Breakpoints();
-});
+        require(['theme_remui/loader'], function () {
+        Breakpoints();
+        });
+
+        var total = $(".d-total").attr('data-value');
+
+        $(".d-progress").each(function() {
+            var value = ($(this).attr('data-value') / total) * 100;
+            var left  = $(this).find('.d-progress-left .d-progress-bar');
+            var right = $(this).find('.d-progress-right .d-progress-bar');
+
+            if (value > 0) {
+                if (value <= 50) {
+                    right.css('transform', 'rotate(' + percentageToDegrees(value) + 'deg)')
+                } else {
+                    right.css('transform', 'rotate(180deg)')
+                    left.css('transform', 'rotate(' + percentageToDegrees(value - 50) + 'deg)')
+                }
+            }
+        })
+
+        $(".d-progress-p").each(function() {
+            var value = ($(this).attr('data-value') / total) * 100;
+            var left  = $(this).find('.d-progress-p-left .d-progress-p-bar');
+            var right = $(this).find('.d-progress-p-right .d-progress-p-bar');
+
+            if (value > 0) {
+                if (value <= 50) {
+                    left.css('transform', 'rotate(-' + percentageToDegrees(value) + 'deg)')
+                } else {
+                    left.css('transform', 'rotate(180deg)')
+                    right.css('transform', 'rotate(-' + percentageToDegrees(value - 50) + 'deg)')
+                }
+            }
+        })
+
+        function percentageToDegrees(percentage) {
+            return percentage / 100 * 360
+        }
+
 {{/js}}
