@@ -135,6 +135,9 @@
                     {{{courseshtml}}}
                 </div>
             </div>
+            <div class="pt-4 pb-4">
+                <a href="#" id="loadMore">Cargar Más</a>
+            </div>
         </div>
     </div>
 </div>
@@ -198,5 +201,23 @@
         function percentageToDegrees(percentage) {
             return percentage / 100 * 360
         }
+
+        $(function () {
+            var cantidadRows = 10;
+
+            if($(".d-course-row").length > cantidadRows) {
+                $("#loadMore").addClass('display');
+            }
+
+            $(".d-course-row").slice(0, 10).addClass('display');
+                $("#loadMore").on('click', function (e) {
+                    e.preventDefault();
+                    $(".d-course-row:hidden").slice(0, 10).addClass('display');
+                if ($(".d-course-row:hidden").length == 0) {
+                    $("#load").fadeOut('slow');
+                    $("#loadMore").hide();
+                }
+            });
+        });
 
 {{/js}}

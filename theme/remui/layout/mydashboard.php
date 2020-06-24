@@ -154,7 +154,7 @@ function getCoursesHtml($course) {
 		$daysLeftPercentage = getDaysLeftPercentage($course->startdate, $course->enddate);
 		$usersCompletedPercentage = ($course->studentscompleted/getEnrolledUsers($course))*100;
 
-		$html.= '<div class="row" style="margin-left: 0; padding-bottom: 5%">
+		$html.= '<div class="d-course-row row" style="margin-left: 0; padding-bottom: 5%">
 							<div><img height="84" width="149" src="'. \theme_remui\utility::get_course_image($courseObj) .'" style="border-radius: 4px;"></div>
 							<div class="d-course-detail-row-2">
 									<div class="text-left" style="font-size: 13px; color: #A3AFB7">'. getCategoryById($categoryId)->name .'</div>
