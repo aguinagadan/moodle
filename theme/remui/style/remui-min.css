@@ -35,8 +35,9 @@
 
 .cc-main-table-container {
     padding: 2%;
-    margin: auto;
-    width: fit-content;
+    margin: 0 auto;
+    width: 100%;
+    text-align: center;
     overflow: hidden;
 }
 
@@ -71,6 +72,7 @@
 
 .cc-category-table {
     margin: auto;
+    width: 100% !important;
 }
 
 .cc-category-table-td {
@@ -85,112 +87,118 @@
 }
 
 .cc-category-box {
-text-align: center;
+    text-align: center;
 }
 
 .cc-category-course-box {
-text-align: center;
+    text-align: center;
 }
 
 .cc-category-box h3{
-text-align: center;
-width: 370px !important;
-height: 200px;
-color: white;
-font-weight: bold;
-border-radius: 6px;
-box-shadow: 2px 2px 4px #00000029;
+    text-align: center;
+    width: 100%;
+    height: 200px;
+    color: white;
+    font-weight: bold;
+    border-radius: 6px;
+    box-shadow: 2px 2px 4px #00000029;
 }
 
 .cc-category-box-dinamic h3{
-text-align: center;
-height: 235px;
-color: white;
-font-weight: bold;
-border-radius: 6px;
+    text-align: center;
+    height: 235px;
+    color: white;
+    font-weight: bold;
+    border-radius: 6px;
 }
 
 .cc-category-box-secundary {
-height: 488px;
-width: 370px;
-position: relative;
-overflow: hidden;
-box-shadow: 2px 2px 4px #00000029;
+    height: 488px;
+    width: 370px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 2px 2px 4px #00000029;
 }
 
 .cc-category-box-secundary h3{
-text-align: center;
-height: 208px;
-color: white;
-font-weight: bold;
-background-size: cover !important;
-border-radius: 6px 6px 0 0 !important;
+    text-align: center;
+    height: 208px;
+    color: white;
+    font-weight: bold;
+    background-size: cover !important;
+    border-radius: 6px 6px 0 0 !important;
 }
 
 .cc-category-background {
-opacity: 0.75;
-height: 100%;
-width: 100%;
-border-radius: 6px;
+    opacity: 0.75;
+    height: 100%;
+    width: 100%;
+    border-radius: 6px;
+    display: flex;
 }
 
 .cc-category-label-container {
-padding: 20%;
+    margin: auto;
 }
 
 .cc-categoryname {
-font-weight: bold;
-font-size: x-large;
-text-shadow: 0 1px 3px #00000059;
-overflow: hidden;
-color: white;
-opacity: 1;
+    font-weight: bold;
+    font-size: x-large;
+    text-shadow: 0 1px 3px #00000059;
+    overflow: hidden;
+    color: white;
+    opacity: 1;
 }
 
 .cc-course-table-container {
-background-color: #ececec;
+    background-color: #ececec;
 }
 
 .cc-course-div-box {
-width: 260px;
-}
-
-.cc-search-box {
-width: 500px !important;
-background-color: #78a4b6 !important;
-color: black !important;
-opacity: 0.5 !important;
-border: 0 !important;
-}
-
-.cc-search-box::placeholder {
-color: white !important;
+    width: 260px;
 }
 
 .cc-shrink-category {
-transform: scale(0.8);
+    transform: scale(0.8);
 }
 
 .search-button-cc {
-font-size: 1.5375rem !important;
+    font-size: 1.5375rem !important;
+}
+
+.cc-numberofcourse {
+    font-size: .921rem !important;
 }
 
 .fa-search-cc {
-color: white !important;
+    color: white !important;
 }
 
 /* dinamico */
-.cc-course-cat-container-div {margin: 2%;}
-.cc-course-cat-table {margin-top: -2px; background-color: #ececec; width: 100%; position: absolute; left: 0; right: 0; float: left;}
+.cc-course-cat-container-div {margin: 2%; display: flex;}
+.cc-course-cat-table {margin-top: -2px; background-color: #ececec; width: 100%; position: relative; left: 0; right: 0; float: left;}
 .cc-course-cat-table-2 {margin-left: 17.5%; width: 20%;position: relative;}
 .cc-category-name {font-size: xx-large;}
 .cc-number-of-course {font-size: medium;}
 
 .cc-category-div-box-dinamic {
-    width: 285px;
-    height: 370px;
-    padding: 0% 3% 0 0%;
+    width: 288px;
+    padding: 0 3% 5% 0;
     border-radius: 6px 6px 0 0;
+}
+
+.cc-courses-div {
+    width: 100vw !important;
+    margin-left: calc(-1 * ((100vw - 100%) / 2)) !important;
+}
+
+.cc-courses-div-detail {
+    width: 65%;
+    padding: 20px;
+}
+
+.cc-ml-courses {
+    margin-left: 5.9285rem !important;
 }
 
 .cc-h3-courses-info {
@@ -206,8 +214,8 @@ color: white !important;
 }
 
 .cc-courses-div-container {
-    background-color: white;
     height: 180px;
+    background-color: white;
     text-align: left;
     box-shadow: 2px 2px 4px #00000029;
     border-radius:0 0 4px 4px;
@@ -219,7 +227,7 @@ color: white !important;
 
 .cc-courses-course-name {
     width: 100%;
-    height: 50%;
+    height: 45%;
     padding: 2% 4% 0 7%;
     overflow: hidden;
     font-size: x-large;
@@ -227,7 +235,7 @@ color: white !important;
 }
 
 .cc-courses-button {
-    margin: 0 4% 0 6%;
+    margin: 3% 3% 3% 7%;
     background: #5CBDEB;
     border-radius: 4px;
     opacity: 1;
@@ -242,23 +250,24 @@ color: white !important;
 }
 
 .cc-subcategory-title {
-    margin-left: 18%;
+    text-align: left;
+    width: 60%;
+    margin-left: 1%;
     font-size: xx-large;
     color: #154A7D;
-    width: 30%;
     font-weight: 600;
 }
 
 /* ultimos cursos */
 
-.cc-ultimos-cursos-list {
-    width: fit-content;
-    height: 63%;
-    margin: auto;
+.cc-courses-info {
+    margin-right: 2%;
+    margin-bottom: 2%;
 }
-
-.cc-ultimos-cursos-list td{
-   padding: 1%;
+.cc-ultimos-cursos-list {
+    display: flex;
+    width: 64%;
+    margin: auto !important;
 }
 
 .cc-ultimos-desc {
@@ -295,15 +304,15 @@ color: white !important;
 /* todos los cursos */
 .cc-all-cursos-list {
     height: 75%;
-    margin: auto;
-    width: fit-content;
+    width: 67%;
+    display: flex;
+    margin: auto !important;
 }
 
-.cc-all-cursos-list td{
-    width: 33%;
-    height: 75%;
-    margin: auto;
-    padding: 1%;
+.moved-background {
+    background-color: transparent;
+    position: absolute;
+    border-radius: 6px 6px 0 0 !important;
 }
 
 /* todos los cursos end */
@@ -317,17 +326,77 @@ color: white !important;
         margin-top: -2px;
     }
     .cc-ultimos-cursos-list {
-        width: 100% !important;
-        height: 75%;
+        width: 89% !important;
         margin: auto;
     }
-    .cc-courses-cat-name {padding: 14% 7% 7% 7%; color:#A3AFB7; font-size: 3vw !important;}
-    .cc-courses-course-name {padding-left: 7%; height: 55%; font-size: 2vw !important; width: 100%; word-wrap: break-word;}
+    .cc-courses-cat-name {color:#A3AFB7; font-size: 3vw !important;}
+    .cc-courses-course-name {padding-left: 7%; font-size: 2vw !important; width: 100%; height: 30px; word-wrap: break-word;}
     .cc-courses-button {font-size:8px!important;}
+    .cc-category-box h3{
+        text-align: center;
+        width: 100% !important;
+        height: 200px;
+        color: white;
+        font-weight: bold;
+        border-radius: 6px;
+        box-shadow: 2px 2px 4px #00000029;
+    }
+    .cc-category-div-box {
+        width: 66% !important;
+        margin: auto;
+    }
+    .cc-search-box {
+        width: 55vw !important;
+        float: left;
+        background-color: #78a4b6 !important;
+        color: black !important;
+        opacity: 0.5 !important;
+        border: 0 !important;
+    }
+    .cc-block-container {
+        width: 100% !important;
+    }
+    .cc-category-div-box-dinamic {
+        width: 100% !important;
+    }
+    .cc-courses-div-container {
+        height: 100% !important;
+    }
+    .cc-ml-courses {
+        margin-left: 0 !important;
+    }
+    .cc-block-container-min {
+        width: 100% !important;
+    }
+    .cc-category-box-secundary {
+        height: fit-content !important;
+        width: fit-content !important;
+    }
+    /*ultimos*/
+    .cc-ultimos-desc {
+        height: 100% !important;
+    }
+    /*all*/
+    .cc-all-cursos-list {
+        width: 90% !important;
+    }
 }
 /*media queries - catalogo cursos end*/
 
 /* search */
+
+.cc-search-box {
+    float: left;
+    background-color: #78a4b6 !important;
+    color: black !important;
+    opacity: 0.5 !important;
+    border: 0 !important;
+}
+
+.cc-search-box::placeholder {
+    color: white !important;
+}
+
 .cc-search-result-div {
     padding-top: 3% !important;
     float: none;
