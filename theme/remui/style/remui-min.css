@@ -418,7 +418,7 @@
         display: flex !important;
     }
 }
-@media only screen and (max-device-width: 1024px) {
+@media only screen and (max-device-width: 1829px) {
     /* dashboard */
     .d-progress-bar-level {
         width: 100% !important;
@@ -28375,11 +28375,12 @@ body {
 
 .d-badge {
     margin: 0 !important;
+    line-height: 10vh !important;
 }
 
 .d-badge-img {
-    width: 68px !important;
-    height: 68px !important;
+    width: 8vh !important;
+    height: 8vh !important;
 }
 
 .d-info-level {
@@ -28449,7 +28450,7 @@ body {
 .d-level-text {
     color: #F1F4F5 !important;
     opacity: 0.75 !important;
-    font-size: 12px !important;
+    font-size: 1.5vh !important;
     padding-top: 2% !important;
 }
 
