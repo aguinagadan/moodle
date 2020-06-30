@@ -59,7 +59,7 @@ function getLevelBadge($level) {
 			'div',
 			html_writer::empty_tag('img', ['src' => $badgeurl,
 				'alt' => $label, 'class'=> 'd-badge-img']),
-			['class' => $classes . ' level-badge']
+			['class' => $classes . ' level-badge', 'style' => 'height: 75px;']
 		);
 	} else {
 		$html .= html_writer::tag('div', $levelnum, ['class' => $classes, 'aria-label' => $label]);
@@ -107,7 +107,13 @@ function getProgressBar($state) {
 
 	$html .= html_writer::start_tag('div', ['class' => 'xp-bar-wrapper d-progress-bar-level', 'role' => 'progressbar',
 		'aria-valuenow' => round($pc, 1), 'aria-valuemin' => 0, 'aria-valuemax' => 100]);
-	$html .= html_writer::tag('div', '', ['style' => "width: {$pc}%;", 'class' => 'xp-bar d-xp-bar']);
+	if($pc == 0) {
+		$xpBar = 'd-xp-bar-0';
+	} else {
+		$xpBar = 'd-xp-bar';
+	}
+
+	$html .= html_writer::tag('div', '', ['style' => "width: {$pc}%;", 'class' => 'xp-bar '.$xpBar]);
 	$html .= html_writer::end_tag('div');
 	$html .= html_writer::end_tag('div');
 	return $html;
@@ -124,8 +130,8 @@ function getCategoryById($catId) {
 }
 
 function getProgressBarDetail($value) {
-	return '<div class="block_xp-level-progress progress-non-zero" style="padding-top:0.75%;">
-						<div class="xp-bar-wrapper d-progress-bar-level-course" role="progressbar" aria-valuenow="'. $value .'" aria-valuemin="0" aria-valuemax="100">
+	return '<div class="block_xp-level-progress progress-non-zero" style="padding-top:0.75%; width: 70%;">
+						<div class="xp-bar-wrapper d-progress-bar-level-course" role="progressbar" aria-valuenow="'. $value .'" aria-valuemin="0" aria-valuemax="100" style="width: 100%; margin: 0 !important;">
 							<div style="width: ' . $value .'%;" class="xp-bar d-xp-bar-course"></div>
 						</div>
 					</div>';
@@ -157,29 +163,32 @@ function getCoursesHtml($course) {
 		$html.= '<div class="d-course-row row" style="margin-left: 0; padding-bottom: 5%">
 							<div><img height="84" width="149" src="'. \theme_remui\utility::get_course_image($courseObj) .'" style="border-radius: 4px;"></div>
 							<div class="d-course-detail-row-2">
-									<div class="text-left" style="font-size: 13px; color: #A3AFB7">'. getCategoryById($categoryId)->name .'</div>
-									<div class="text-left" style="font-size: 17px;height: 50%;font-weight: 500;display: table-cell;padding-bottom: 5%;">'. $course->fullname .'</div>
-									<div class="text-left" style="font-size: 13px; color: #A3AFB7">Lanzamiento: '. convertDateToSpanish($course->startdate) .'</div>
-							</div>
-							<div class="d-course-detail-row-3">
-									<div class="row d-course-detail-row-3-complete">
-											<div class="d-course-detail-row-3-label">Completaste el '.$coursePercentage.'% del curso</div>';
+									<div class="text-left" style="font-size: 15px; color: #A3AFB7">'. getCategoryById($categoryId)->name .'</div>
+									<div class="text-left" style="font-size: 22px; font-weight: 525; color: #526069; overflow: hidden; line-height: 5vh;">'. $course->fullname .'</div>';
+		//$html.= '<div class="text-left" style="font-size: 13px; color: #A3AFB7">Lanzamiento: '. convertDateToSpanish($course->startdate) .'</div>';
+		$html.= '</div>
+							<div class="d-course-detail-row-3 row">
+									<div class="d-course-detail-row-3-complete">
+											<div class="d-progreso-res">Progreso</div>
+											<div class="d-course-detail-row-3-label">Estás al '.$coursePercentage.'%</div>';
 				 $html.= getProgressBarDetail($coursePercentage);
 				 $html.= '</div>';
 
 				 if(isset($course->enddate) && !empty($course->enddate)) {
-					 $html.=	'<div class="row d-course-detail-row-3-complete">
-											<div class="d-course-detail-row-3-label">El curso cierra en '. $daysLeft .' días</div>';
+					 $html.=	'<div class="d-course-detail-row-3-complete">
+											<div class="d-tiempo-res">Tiempo límite</div>
+											<div class="d-course-detail-row-3-label">Finaliza en '. $daysLeft .' días</div>';
 					 $html.= getProgressBarDetail($daysLeftPercentage);
 					 $html.= '</div>';
 				 } else {
-					 $html.= '<div class="row d-course-detail-row-3-complete">
+					 $html.= '<div class="d-course-detail-row-3-complete">
 											<div class="d-course-detail-row-3-label">-</div>';
 					 $html.= '</div>';
 				 }
 
-				 $html.= '<div class="row d-course-detail-row-3-complete">
-											<div class="d-course-detail-row-3-label">'. $course->studentscompleted .' han completado el curso</div>';
+				 $html.= '<div class="d-course-detail-row-3-complete">
+											<div class="d-comp-res">Mis compañeros</div>
+											<div class="d-course-detail-row-3-label">'. $course->studentscompleted .' han terminado</div>';
 				 $html.= getProgressBarDetail($usersCompletedPercentage);
 				 $html.= '</div>
 							</div>

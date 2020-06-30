@@ -65,17 +65,17 @@
     <div class="container p-0 mw-100">
         <div class="cover card card-inverse rem-staticimage border-0">
             <img style="height: 30vh;" class="card-img w-full" src="{{URL}}" alt="Card image">
-            <div class="carousel-caption cover-background centered card-img-overlay w-p75 white">
+            <div class="carousel-caption cover-background centered card-img-overlay w-p75 white" style="padding-top: 35px !important; left: 14% !important;">
                 <div class="text_to_html">
-                    <div style="text-align:left;font-size:large;">Bienvenido</div>
+                    <div style="text-align:left;font-size:large;padding-left: 2px;">Bienvenido</div>
                     <div style="text-align:left;">
-                        <div style="font-size:4vw; height: 5vw;">{{username}}</div>
+                        <div style="font-size:3.3vw; height: 5vw;">{{username}}</div>
                     </div>
                 </div>
                 <div class="row" style="margin-left: 0;">
                     {{{levelbadge}}}
                     <div class="d-info-level">
-                        <div class="text-left">Nivel: {{levelname}}</div>
+                        <div class="text-left" style="font-size: 18px;">Nivel: {{levelname}}</div>
                         <div>{{{progressbar}}}</div>
                         <div class="text-left d-level-text">{{points}} millas naúticas obtenidas</div>
                     </div>
@@ -95,7 +95,7 @@
                             <div class="h2 d-number-text">{{totalcourses}}</div>
                         </div>
                     </div>
-                <div class="font-size-16">Cursos disponibles</div>
+                <div class="font-size-20" style="color: #154A7D">Cursos disponibles</div>
             </div>
             <div class="col-sm text-md-center resumen-box mr-4">
                 <!-- progress bar 2 -->
@@ -110,7 +110,7 @@
                         <div class="h2 d-number-text">{{completedcourses}}</div>
                     </div>
                 </div>
-                <div class="font-size-16">Cursos completados</div>
+                <div class="font-size-20" style="color: #154A7D">Cursos completados</div>
             </div>
             <div class="col-sm text-md-center resumen-box mr-4">
                 <!-- progress bar 3 -->
@@ -125,24 +125,32 @@
                         <div class="h2 d-number-text">{{pendingcourses}}</div>
                     </div>
                 </div>
-                <div class="font-size-16">Cursos pendientes</div>
+                <div class="font-size-20" style="color: #154A7D">Cursos pendientes</div>
             </div>
         </div>
         <div style="margin-top: 5%;margin-bottom: 5%;">
-            <div style="background-color: white; width: 88%; margin: auto;">
+            <div style="background-color: white; width: 92%; margin: auto;">
                 <div style="padding: 3%; box-shadow: 2px 2px 4px #00000029; border-radius: 4px;">
-                    <div style="text-align: left; color: #154A7D; padding-bottom: 2%; font-weight: 500; font-size: 17px;">Mis cursos</div>
+                    <div class="d-course-row row display">
+                        <div style="text-align: left; color: #154A7D; padding-bottom: 2%; font-weight: 500; font-size: 22px; padding-right: 42.5%; padding-left: 1.8vh;">Mis cursos</div>
+                        <div class="d-progreso">Progreso</div>
+                        <div class="d-tiempo">Tiempo límite</div>
+                        <div class="d-comp">Mis compañeros</div>
+                    </div>
                     {{{courseshtml}}}
                 </div>
             </div>
-            <div class="pt-4 pb-4">
-                <a href="#" id="loadMore">Cargar Más</a>
+            <div class="pt-5 pb-4">
+                <input type="button"
+                       style="background: #A8A9AD 0 0 no-repeat padding-box;border-radius: 4px;color: #FFFFFF;width: 20vh;height: 4vh;vertical-align: center;font-size: 1.5vh;line-height: 2px;" id="loadMore"
+                       class="btn-sm"
+                       value="Cargar más cursos"/>
             </div>
         </div>
     </div>
 </div>
 
-<div id="region-main-box" class="col-12 pr-0 pl-0">
+<div id="region-main-box" style="margin: auto; width: 70%;">
 {{#hasregionmainsettingsmenu}}
         <div id="region-main-settings-menu" class="d-print-none {{#hasblocks}}has-blocks{{/hasblocks}}">
             <div> {{{ output.region_main_settings_menu }}} </div>
@@ -203,16 +211,16 @@
         }
 
         $(function () {
-            var cantidadRows = 10;
+            var cantidadRows = 6;
 
             if($(".d-course-row").length > cantidadRows) {
                 $("#loadMore").addClass('display');
             }
 
-            $(".d-course-row").slice(0, 10).addClass('display');
+            $(".d-course-row").slice(0, 6).addClass('display');
                 $("#loadMore").on('click', function (e) {
                     e.preventDefault();
-                    $(".d-course-row:hidden").slice(0, 10).addClass('display');
+                    $(".d-course-row:hidden").slice(0, 6).addClass('display');
                 if ($(".d-course-row:hidden").length == 0) {
                     $("#load").fadeOut('slow');
                     $("#loadMore").hide();

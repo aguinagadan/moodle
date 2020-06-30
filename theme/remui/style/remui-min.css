@@ -379,9 +379,11 @@
     }
     .d-course-detail-row-2 {
         width: 100% !important;
+        padding: 0.5% 0.5% 0.5% 0 !important;
     }
     .d-course-detail-row-3 {
         width: 100% !important;
+        padding-left: 5% !important;
     }
     .d-course-detail-row-3-complete {
         width: 50vw !important;
@@ -391,6 +393,75 @@
         width: 50vw !important;
         height: 8px !important;
         background: rgba(15, 74, 124, 0.34) !important;
+    }
+
+    .d-progreso {
+        display: none !important;
+    }
+    .d-tiempo {
+        display: none !important;
+    }
+    .d-comp {
+        display: none !important;
+    }
+
+    .d-progreso-res {
+        color: #154a7d !important;
+        display: flex !important;
+    }
+    .d-tiempo-res {
+        color: #154a7d !important;
+        display: flex !important;
+    }
+    .d-comp-res {
+        color: #154a7d !important;
+        display: flex !important;
+    }
+}
+@media only screen and (max-device-width: 1024px) {
+    /* dashboard */
+    .d-progress-bar-level {
+        width: 100% !important;
+    }
+    .d-course-detail-row-2 {
+        width: 100% !important;
+        padding: 0.5% 0.5% 0.5% 0 !important;
+    }
+    .d-course-detail-row-3 {
+        width: 100% !important;
+        padding-left: 5% !important;
+    }
+    .d-course-detail-row-3-complete {
+        width: 50vw !important;
+        display: inline-block !important;
+    }
+    .d-progress-bar-level-course {
+        width: 50vw !important;
+        height: 8px !important;
+        background: rgba(15, 74, 124, 0.34) !important;
+    }
+
+    .d-progreso {
+        display: none !important;
+    }
+    .d-tiempo {
+        display: none !important;
+    }
+    .d-comp {
+        display: none !important;
+    }
+
+    .d-progreso-res {
+        color: #154a7d !important;
+        display: flex !important;
+    }
+    .d-tiempo-res {
+        color: #154a7d !important;
+        display: flex !important;
+    }
+    .d-comp-res {
+        color: #154a7d !important;
+        display: flex !important;
     }
 }
 /*media queries - catalogo cursos end*/
@@ -28312,7 +28383,7 @@ body {
 }
 
 .d-info-level {
-    padding: 3vh 0 0 3%;
+    padding: 2vh 0 0 1.5%;
 }
 
 .d-progress-bar-level {
@@ -28357,8 +28428,16 @@ body {
 
 .d-xp-bar {
     background: rgba(255,255,255,1) !important;
-    border-top: rgb(153, 175, 182) solid 1px;
-    border-bottom: rgb(153, 175, 182) solid 1px;
+    border-top: rgb(153, 175, 182) solid 2px;
+    border-bottom: rgb(153, 175, 182) solid 2px;
+    border-left: rgb(153, 175, 182) solid 2px;
+    border-right: rgb(153, 175, 182) solid 2px;
+}
+
+.d-xp-bar-0 {
+    background: rgba(255,255,255,1) !important;
+    border-top: rgb(153, 175, 182) solid 2px;
+    border-bottom: rgb(153, 175, 182) solid 2px;
 }
 
 .d-xp-bar-course {
@@ -28371,6 +28450,7 @@ body {
     color: #F1F4F5 !important;
     opacity: 0.75 !important;
     font-size: 12px !important;
+    padding-top: 2% !important;
 }
 
 .d-course-detail-row-1 {
@@ -28379,18 +28459,18 @@ body {
 
 .d-course-detail-row-2 {
     width: 40%;
-    padding: 0.5%;
+    padding: 0.5% 0.5% 0.5% 1.5%;
     display: inline-block;
 }
 
 .d-course-detail-row-3 {
-    width: 40%;
-    padding: 0.5%;
+    width: 50%;
     text-align: left;
+    padding-top: 1.8%;
 }
 
 .d-course-detail-row-3-complete {
-    width: 29vw;
+    width: 10vw;
     margin: 0;
     padding-bottom: 2.5%;
     padding-right: 0 !important;
@@ -28398,7 +28478,7 @@ body {
 
 .d-course-detail-row-3-label {
     width: 22vh;
-    font-size: 12px;
+    font-size: 15px;
     padding-right: 2%;
     color: #A3AFB7;
 }
@@ -28409,6 +28489,28 @@ body {
 
 .border-primary-orange {
     border-color: #FF7700;
+}
+
+.d-progreso {
+    text-align: left; color: #154A7D; padding-bottom: 2%; font-weight: 500; font-size: 18px; padding-right: 9.5%; padding-top: 0.5%;
+}
+
+.d-tiempo {
+    text-align: left; color: #154A7D; padding-bottom: 2%; font-weight: 500; font-size: 18px; padding-right: 6.5%; padding-top: 0.5%;
+}
+
+.d-comp {
+    text-align: left; color: #154A7D; padding-bottom: 2%; font-weight: 500; font-size: 18px; padding-top: 0.5%;
+}
+
+.d-progreso-res {
+    display: none;
+}
+.d-tiempo-res {
+    display: none;
+}
+.d-comp-res {
+    display: none;
 }
 
 /* TASA - Dashboard end */
