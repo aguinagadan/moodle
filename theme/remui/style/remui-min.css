@@ -317,7 +317,7 @@
 
 /* todos los cursos end */
 
-/*media queries - catalogo cursos*/
+/* media queries - catalogo cursos - dashboard */
 @media only screen and (max-device-width: 768px) {
     .cc-category-table {
         margin: auto;
@@ -372,13 +372,106 @@
         height: fit-content !important;
         width: fit-content !important;
     }
-    /*ultimos*/
+
+    /* ultimos */
     .cc-ultimos-desc {
         height: 100% !important;
     }
-    /*all*/
+
+    /* all */
     .cc-all-cursos-list {
         width: 90% !important;
+    }
+
+    /* dashboard */
+    .d-progress-bar-level {
+        width: 100% !important;
+    }
+    .d-course-detail-row-2 {
+        width: 100% !important;
+        padding: 0.5% 0.5% 0.5% 0 !important;
+    }
+    .d-course-detail-row-3 {
+        width: 100% !important;
+        padding-left: 5% !important;
+    }
+    .d-course-detail-row-3-complete {
+        width: 50vw !important;
+        display: inline-block !important;
+    }
+    .d-progress-bar-level-course {
+        width: 50vw !important;
+        height: 8px !important;
+        background: rgba(15, 74, 124, 0.34) !important;
+    }
+
+    .d-progreso {
+        display: none !important;
+    }
+    .d-tiempo {
+        display: none !important;
+    }
+    .d-comp {
+        display: none !important;
+    }
+
+    .d-progreso-res {
+        color: #154a7d !important;
+        display: flex !important;
+    }
+    .d-tiempo-res {
+        color: #154a7d !important;
+        display: flex !important;
+    }
+    .d-comp-res {
+        color: #154a7d !important;
+        display: flex !important;
+    }
+}
+@media only screen and (max-device-width: 1829px) {
+    /* dashboard */
+    .d-progress-bar-level {
+        width: 100% !important;
+    }
+    .d-course-detail-row-2 {
+        width: 100% !important;
+        padding: 0.5% 0.5% 0.5% 0 !important;
+    }
+    .d-course-detail-row-3 {
+        width: 100% !important;
+        padding-left: 5% !important;
+    }
+    .d-course-detail-row-3-complete {
+        width: 50vw !important;
+        display: inline-block !important;
+    }
+    .d-progress-bar-level-course {
+        width: 50vw !important;
+        height: 8px !important;
+        background: rgba(15, 74, 124, 0.34) !important;
+    }
+
+    .d-progreso {
+        display: none !important;
+    }
+    .d-tiempo {
+        display: none !important;
+    }
+    .d-comp {
+        display: none !important;
+    }
+
+    .d-progreso-res {
+        color: #154a7d !important;
+        display: flex !important;
+    }
+    .d-tiempo-res {
+        color: #154a7d !important;
+        display: flex !important;
+    }
+    .d-comp-res {
+        color: #154a7d !important;
+        display: flex !important;
     }
 }
 /*media queries - catalogo cursos end*/
@@ -28133,6 +28226,305 @@ body {
 #page-my-index {
     background-color: #f3f7f9
 }
+
+/* TASA - Dashboard */
+
+#page-my-index.pagelayout-mydashboard {
+    margin: 0 !important;
+}
+
+.d-number-text {
+    font-size: 41px !important;
+    color: #154A7D !important;
+    overflow: hidden;
+}
+
+.d-progress {
+    width: 135px;
+    height: 135px;
+    background: none;
+    position: relative;
+}
+
+.d-progress::after {
+    content: "";
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 10px solid #ffffff;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.d-progress>span {
+    width: 50%;
+    height: 100%;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    z-index: 1;
+}
+
+.d-progress .d-progress-left {
+    left: 0;
+}
+
+.d-progress .d-progress-bar {
+    width: 100%;
+    height: 100%;
+    background: none;
+    border-width: 10px;
+    border-style: solid;
+    position: absolute;
+    top: 0;
+}
+
+.d-progress .d-progress-left .d-progress-bar {
+    left: 100%;
+    border-top-right-radius: 80px;
+    border-bottom-right-radius: 80px;
+    border-left: 0;
+    -webkit-transform-origin: center left;
+    transform-origin: center left;
+}
+
+.d-progress .d-progress-right {
+    right: 0;
+}
+
+.d-progress .d-progress-right .d-progress-bar {
+    left: -100%;
+    border-top-left-radius: 80px;
+    border-bottom-left-radius: 80px;
+    border-right: 0;
+    -webkit-transform-origin: center right;
+    transform-origin: center right;
+}
+
+.d-progress .d-progress-value {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+/*pending*/
+
+.d-progress-p {
+    width: 135px;
+    height: 135px;
+    background: none;
+    position: relative;
+}
+
+.d-progress-p::after {
+    content: "";
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 10px solid #ffffff;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.d-progress-p>span {
+    width: 50%;
+    height: 100%;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    z-index: 1;
+}
+
+.d-progress-p .d-progress-p-left {
+    left: 0;
+}
+
+.d-progress-p .d-progress-p-bar {
+    width: 100%;
+    height: 100%;
+    background: none;
+    border-width: 10px;
+    border-style: solid;
+    position: absolute;
+    top: 0;
+}
+
+.d-progress-p .d-progress-p-left .d-progress-p-bar {
+    left: 100%;
+    border-top-right-radius: 80px;
+    border-bottom-right-radius: 80px;
+    border-left: 0;
+    -webkit-transform-origin: center left;
+    transform-origin: center left;
+}
+
+.d-progress-p .d-progress-p-right {
+    right: 0;
+}
+
+.d-progress-p .d-progress-p-right .d-progress-p-bar {
+    left: -100%;
+    border-top-left-radius: 80px;
+    border-bottom-left-radius: 80px;
+    border-right: 0;
+    -webkit-transform-origin: center right;
+    transform-origin: center right;
+}
+
+.d-progress-p .d-progress-p-value {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.d-title-container {
+    position: fixed !important;
+}
+
+.d-badge {
+    margin: 0 !important;
+    line-height: 10vh !important;
+}
+
+.d-badge-img {
+    width: 8vh !important;
+    height: 8vh !important;
+}
+
+.d-info-level {
+    padding: 2vh 0 0 1.5%;
+}
+
+.d-progress-bar-level {
+    width: 412px;
+    margin: 0 !important;
+    background-color: rgba(241, 244, 245, 0.55) !important;
+}
+
+.d-progress-bar-level-course {
+    width: 17vw;
+    height: 8px !important;
+    background: rgba(15, 74, 124, 0.34) !important;
+}
+
+.d-course-row {
+    display: none !important;
+}
+
+.d-course-row.display {
+    display: flex !important;
+}
+
+#loadMore {
+    display: none;
+    width: 15vw;
+    margin: auto;
+    padding: 10px;
+    text-align: center;
+    background-color: #33739E;
+    color: #fff;
+    border-width: 0 1px 1px 0;
+    box-shadow: 0 1px 1px #ccc;
+    transition: all 600ms ease-in-out;
+    -webkit-transition: all 600ms ease-in-out;
+    -moz-transition: all 600ms ease-in-out;
+    -o-transition: all 600ms ease-in-out;
+}
+
+#loadMore.display {
+    display: inherit;
+}
+
+.d-xp-bar {
+    background: rgba(255,255,255,1) !important;
+    border-top: rgb(153, 175, 182) solid 2px;
+    border-bottom: rgb(153, 175, 182) solid 2px;
+    border-left: rgb(153, 175, 182) solid 2px;
+    border-right: rgb(153, 175, 182) solid 2px;
+}
+
+.d-xp-bar-0 {
+    background: rgba(255,255,255,1) !important;
+    border-top: rgb(153, 175, 182) solid 2px;
+    border-bottom: rgb(153, 175, 182) solid 2px;
+}
+
+.d-xp-bar-course {
+    min-width: 0 !important;
+    background: rgba(15,74,124,1);
+    background-image: linear-gradient(to bottom,rgba(15,74,124,1),rgba(15,74,124,1)) !important;
+}
+
+.d-level-text {
+    color: #F1F4F5 !important;
+    opacity: 0.75 !important;
+    font-size: 1.5vh !important;
+    padding-top: 2% !important;
+}
+
+.d-course-detail-row-1 {
+
+}
+
+.d-course-detail-row-2 {
+    width: 40%;
+    padding: 0.5% 0.5% 0.5% 1.5%;
+    display: inline-block;
+}
+
+.d-course-detail-row-3 {
+    width: 50%;
+    text-align: left;
+    padding-top: 1.8%;
+}
+
+.d-course-detail-row-3-complete {
+    width: 10vw;
+    margin: 0;
+    padding-bottom: 2.5%;
+    padding-right: 0 !important;
+}
+
+.d-course-detail-row-3-label {
+    width: 22vh;
+    font-size: 15px;
+    padding-right: 2%;
+    color: #A3AFB7;
+}
+
+.border-primary-green {
+    border-color: #76A140;
+}
+
+.border-primary-orange {
+    border-color: #FF7700;
+}
+
+.d-progreso {
+    text-align: left; color: #154A7D; padding-bottom: 2%; font-weight: 500; font-size: 18px; padding-right: 9.5%; padding-top: 0.5%;
+}
+
+.d-tiempo {
+    text-align: left; color: #154A7D; padding-bottom: 2%; font-weight: 500; font-size: 18px; padding-right: 6.5%; padding-top: 0.5%;
+}
+
+.d-comp {
+    text-align: left; color: #154A7D; padding-bottom: 2%; font-weight: 500; font-size: 18px; padding-top: 0.5%;
+}
+
+.d-progreso-res {
+    display: none;
+}
+.d-tiempo-res {
+    display: none;
+}
+.d-comp-res {
+    display: none;
+}
+
+/* TASA - Dashboard end */
 
 .fp-content-center {
     height: 100%;

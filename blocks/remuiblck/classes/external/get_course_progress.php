@@ -50,14 +50,13 @@ trait get_course_progress {
         );
     }
 
-
-
     /**
      * The function itself
      * @return string welcome message
      */
     public static function get_course_progress($courseid) {
-        global $PAGE;
+        global $PAGE, $USER, $DB, $CFG;
+        require_once($CFG->dirroot.'/user/profile/lib.php');
         $PAGE->set_context(context_system::instance());
         $data = new stdClass;
         $course = get_course($courseid);
@@ -67,9 +66,18 @@ trait get_course_progress {
 
         $coursecontext = context_course::instance($courseid);
         $students      = get_role_users(5, $coursecontext);
+
+        $currentUserArea = $USER->profile['Area'];
+
         $studentcnt   = 0;
         $coursehandler = coursehandler::get_instance();
         foreach ($students as $studentid => $student) {
+            $userObj = $DB->get_record('user', array('id' => $studentid));
+            profile_load_data($userObj);
+            if($currentUserArea != $userObj->profile_field_Area) {
+             continue;
+            }
+
             $studentdata = new stdClass;
             $studentdata->index = ++$studentcnt;
             $studentdata->name = fullname($student);
