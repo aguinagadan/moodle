@@ -164,7 +164,7 @@ function getCoursesHtml($course) {
 							<div><img height="84" width="149" src="'. \theme_remui\utility::get_course_image($courseObj) .'" style="border-radius: 4px;"></div>
 							<div class="d-course-detail-row-2">
 									<div class="text-left" style="font-size: 15px; color: #A3AFB7">'. getCategoryById($categoryId)->name .'</div>
-									<div class="text-left" style="font-size: 22px; font-weight: 525; color: #526069; overflow: hidden; line-height: 5vh;">'. $course->fullname .'</div>';
+									<div class="text-left" style="font-size: 22px; font-weight: 525; color: #526069; overflow: hidden; line-height: 5vh;"><a style="text-decoration: none !important; color: #526069 !important;" type="button" href="'. new moodle_url("/course/view.php",array("id" => $course->id)). '">'. $course->fullname .'</a></div>';
 		//$html.= '<div class="text-left" style="font-size: 13px; color: #A3AFB7">Lanzamiento: '. convertDateToSpanish($course->startdate) .'</div>';
 		$html.= '</div>
 							<div class="d-course-detail-row-3 row">
