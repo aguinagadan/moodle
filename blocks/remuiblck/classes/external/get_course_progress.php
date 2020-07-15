@@ -67,14 +67,15 @@ trait get_course_progress {
         $coursecontext = context_course::instance($courseid);
         $students      = get_role_users(5, $coursecontext);
 
-        $currentUserArea = $USER->profile['Area'];
+        $currentUserRelatedField = $USER->profile['division'];
 
         $studentcnt   = 0;
         $coursehandler = coursehandler::get_instance();
         foreach ($students as $studentid => $student) {
             $userObj = $DB->get_record('user', array('id' => $studentid));
             profile_load_data($userObj);
-            if($currentUserArea != $userObj->profile_field_Area) {
+            //@todo - samuel - validar si en vacios tambien se muestra
+            if($currentUserRelatedField != $userObj->profile_field_division) {
              continue;
             }
 
