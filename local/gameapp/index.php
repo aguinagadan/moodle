@@ -1,6 +1,7 @@
 <?php
-
 require_once(dirname(__FILE__) . '/../../config.php');
+
+require_login();
 
 $title = 'Terminologia';
 // Set up the page.
