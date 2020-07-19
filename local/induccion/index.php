@@ -5,11 +5,11 @@ require_login();
 
 $title = 'Terminologia';
 // Set up the page.
-$url = new moodle_url("/local/gameapp/index.php", array('component' => $component, 'search' => $search));
+$url = new moodle_url("/local/induccion/index.php", array('component' => $component, 'search' => $search));
 $PAGE->set_url($url);
 
 $PAGE->requires->jquery();
-$PAGE->requires->js(new moodle_url('js/gameapp.js'));
+$PAGE->requires->js(new moodle_url('js/induccion.js'));
 
 echo $OUTPUT->header();
 

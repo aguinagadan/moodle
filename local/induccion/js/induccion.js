@@ -7,7 +7,7 @@ $(document).ready(function(){
 
       $.ajax({
          type: "POST",
-         url: "ajax_controller_gameapp.php",
+         url: "ajax_controller_induccion.php",
          data: formValues,
          success: function(res){
             if(res.status) {
