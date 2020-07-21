@@ -216,7 +216,7 @@ class course_renderer extends \core_course_renderer {
 
 				case FRONTPAGECATEGORYNAMES:
 					$output .= $this->frontpage_part('skipcategories', 'frontpage-category-names',
-						'Buscar cursos por ' . strtolower(get_string('categories')), $this->frontpage_categories_list(), 'cc-category-header pr-0 pl-0');
+						'Buscar cursos por ' . strtolower(get_string('categories')), $this->frontpage_categories_list(), 'cc-category-header pr-0 pl-0 pb-0');
 					break;
 
 				case FRONTPAGECATEGORYCOMBO:
@@ -229,7 +229,6 @@ class course_renderer extends \core_course_renderer {
 					break;
 
 			}
-			$output .= '<br />';
 		}
 
 		return $output;
@@ -261,8 +260,6 @@ class course_renderer extends \core_course_renderer {
 
 		// End frontpage part div container.
 		$output .= html_writer::end_tag('div');
-
-		$output .= html_writer::tag('span', '', array('class' => 'skip-block-to', 'id' => $skipdivid));
 		return $output;
 	}
 
@@ -373,12 +370,19 @@ class course_renderer extends \core_course_renderer {
 		$current = 0;
 		$rowCount = 0;
 		$countForColor = 0;
-		$groupedNumber = 3;
 
-		foreach($allcourses as $courseElement) {
+		foreach($allcourses as $key=>$courseElement) {
 			$countForColor++;
 
-			$content .=	'<div class="cc-courses-info">
+			$newClass = '';
+
+			if(!$all) {
+				if($key == 0) {
+					$newClass = 'cc-adjust-margin';
+				}
+			}
+
+			$content .=	'<div class="cc-courses-info '. $newClass .'">
 										<div class="cc-category-box cc-category-box-secundary">
 										<h3 class="cc-h3-courses-info cc-ultimos-image" style="background: url('. \theme_remui\utility::get_course_image($courseElement, 1) .');"></h3>
 										'. $this->progressBarHTML($courseElement) .'

@@ -266,7 +266,7 @@
 }
 .cc-ultimos-cursos-list {
     display: flex;
-    width: 64%;
+    width: 70%;
     margin: auto !important;
 }
 
@@ -427,6 +427,9 @@
         color: #154a7d !important;
         display: flex !important;
     }
+    .cc-adjust-margin {
+        margin-left: 0% !important;
+    }
 }
 @media only screen and (max-device-width: 1829px) {
     /* dashboard */
@@ -472,6 +475,9 @@
     .d-comp-res {
         color: #154a7d !important;
         display: flex !important;
+    }
+    .cc-adjust-margin {
+        margin-left: 0% !important;
     }
 }
 /*media queries - catalogo cursos end*/
@@ -28464,10 +28470,6 @@ body {
     padding-top: 2% !important;
 }
 
-.d-course-detail-row-1 {
-
-}
-
 .d-course-detail-row-2 {
     width: 40%;
     padding: 0.5% 0.5% 0.5% 1.5%;
@@ -28522,6 +28524,10 @@ body {
 }
 .d-comp-res {
     display: none;
+}
+
+.cc-adjust-margin {
+    margin-left: 6.5%;
 }
 
 /* TASA - Dashboard end */
