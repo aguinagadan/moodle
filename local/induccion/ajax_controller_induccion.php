@@ -4,6 +4,7 @@ error_reporting(E_ALL);
 require_once(dirname(__FILE__) . '/../../config.php');
 
 use block_xp\local\xp\level_with_name;
+use core_completion\progress;
 
 try {
 	$details = $_POST;
@@ -22,6 +23,12 @@ try {
 			break;
 		case 'obtenerNivel':
 			$returnArr = obtenerNivel();
+			break;
+		case 'grabarMillas':
+			$returnArr = grabarMillas();
+			break;
+		case 'obtenerUltimasMillasGanadas':
+			$returnArr = obtenerUltimasMillasGanadas();
 			break;
 	}
 } catch (Exception $e) {
@@ -43,23 +50,38 @@ function obtenerUsuario() {
 }
 
 function obtenerCursos() {
-	global $DB;
+	global $DB, $USER;
 
 	$courses = obtenerCursosRaw();
+	$finalizado = 0;
 
 	foreach ($courses as $id=>$course) {
+		//samu - prod - if not inducción
+		if($course->category != 9) {
+			continue;
+		}
+
+		$percentage = progress::get_course_progress_percentage($course, $USER->id);
+
+		if($percentage == 100) {
+			$finalizado = 1;
+		}
+
 		$category = $DB->get_record('course_categories',array('id'=>$course->category));
+
 		$courseDetail['courseId'] = $course->id;
 		$courseDetail['courseShortName'] = $course->shortname;
 		$courseDetail['courseFullName'] = $course->fullname;
 		$courseDetail['isVisible'] = $course->visible;
 		$courseDetail['categoryName'] = $category->name;
+		$courseDetail['percentage'] = round($percentage);
+		$courseDetail['isCompleted'] = $finalizado;
 		$courseDetail['URL'] = obtenerURLCurso($course->id);
 		$allCourses[$id] = $courseDetail;
 	}
 
 	$response['status'] = true;
-	$response['data'] = json_encode($allCourses, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+	$response['data'] = json_encode($allCourses, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
 
 	return $response;
 }
@@ -85,6 +107,32 @@ function obtenerNivel() {
 	$response['status'] = true;
 	$response['data'] = json_encode($levelInfo, JSON_PRETTY_PRINT);
 
+	return $response;
+}
+
+function grabarMillas() {
+	global $DB, $details;
+
+	$data['courseid'] = $details['cursoId'];
+	$data['userid'] = $details['userId'];
+	$data['xp'] = $details['xp'];
+	$data['eventname'] = 'earned_miles';
+	$data['time'] = time();
+
+	$DB->insert_record('block_xp_log', $data);
+
+	$response['status'] = true;
+
+	return $response;
+}
+
+function obtenerUltimasMillasGanadas() {
+	global $DB, $details;
+
+	$xpLogObj = $DB->get_record_sql("SELECT * FROM {block_xp_log} WHERE courseid = ? AND userid = ? AND eventname = ? ORDER BY id DESC", array($details['cursoIdGet'], $details['userIdGet'], 'earned_miles'));
+
+	$response['status'] = true;
+	$response['data'] = $xpLogObj->xp;
 	return $response;
 }
 

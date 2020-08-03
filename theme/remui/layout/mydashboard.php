@@ -26,6 +26,7 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once('common.php');
 
+use moodle_url;
 use block_xp\local\xp\level_with_name;
 use block_xp\local\xp\level_with_badge;
 use core_completion\progress;
@@ -130,11 +131,18 @@ function getCategoryById($catId) {
 }
 
 function getProgressBarDetail($value) {
-	return '<div class="block_xp-level-progress progress-non-zero" style="padding-top:0.75%; width: 70%;">
-						<div class="xp-bar-wrapper d-progress-bar-level-course" role="progressbar" aria-valuenow="'. $value .'" aria-valuemin="0" aria-valuemax="100" style="width: 100%; margin: 0 !important;">
-							<div style="width: ' . $value .'%;" class="xp-bar d-xp-bar-course"></div>
-						</div>
-					</div>';
+	$progressHTML = '
+			<div class="d-progress d-total" data-value='.$value.'>
+				<span class="d-progress-left">
+					<span class="d-progress-bar border-primary-green"></span>
+				</span>
+				<span class="d-progress-right">
+					<span class="d-progress-bar border-primary-green"></span>
+				</span>
+				<div class="w-100 h-100 rounded-circle d-flex align-items-center justify-content-center"></div>
+			</div>';
+
+	return $progressHTML;
 }
 
 function getDaysLeftPercentage($startDate, $endDate) {
@@ -149,50 +157,113 @@ function getDaysLeft($startDate, $endDate) {
 	return $totalDays - $passedDays;
 }
 
+function progressBarHTML($course) {
+	global $USER;
+	$div = '<div style="height: 15px; background-color: white;"></div>';
+
+	$percentage = progress::get_course_progress_percentage($course, $USER->id);
+
+	if($percentage === 0) {
+		$div = '<div class="progress progress-square mb-0">
+									<div class="progress-bar bg-red-600-cc" style="height: 100%; width: 100%; background-color: #FF644C !important;" role="progressbar">
+											<span>' . $percentage . '%' . '</span>
+									</div>
+							</div>';
+	} elseif($percentage > 0) {
+		$percentage = round($percentage);
+		$div = '<div class="progress progress-square mb-0">
+									<div class="progress-bar bg-green-600-cc" style="width: ' . $percentage . '%; height: 100%;" role="progressbar">
+											<span>' . $percentage . '%' . '</span>
+									</div>
+							</div>';
+	}
+	return $div;
+}
+
+function getPendingCoursesHtml($courses) {
+	global $USER;
+	$coursesHtml = '';
+	$totalPending = 0;
+
+	foreach($courses as $key=>$c) {
+		$course = get_course($c->id);
+
+		$percentage = progress::get_course_progress_percentage($course, $USER->id);
+		if($percentage == 100) {
+			continue;
+		}
+
+		$content = '<div class="cc-courses-info">
+										<div class="cc-category-box dd-category-box-secundary">
+										<h3 class="cc-h3-courses-info cc-ultimos-image" style="background: url('. \theme_remui\utility::get_course_image($c) .');"></h3>
+										<div class="cc-courses-div-container cc-ultimos-desc"> '. progressBarHTML($c) .'
+											<div class="text-left" style="font-size: 12px; color: #A3AFB7; padding: 2% 4% 0 7%;">'. getCategoryById($c->id)->name .'</div>
+											<div class="dd-courses-course-name">'. $c->fullname .'</div>
+											<a class="cc-courses-button" type="button" href="'. new moodle_url("/course/view.php",array("id" => $c->id)). '">Acceder al curso</a>
+				</div>
+				</div>
+			</div>';
+
+		$totalPending++;
+		$coursesHtml.= '<div class="slide">'. $content .'</div>';
+	}
+	$coursesHtml.= '<input id="totalPending" type="hidden" value="'.$totalPending.'">';
+	return $coursesHtml;
+}
+
 function getCoursesHtml($course) {
 	$html = '';
 
 	if(!empty($course)) {
 		$categoryId = $course->category;
 		$courseObj = get_course($course->id);
-		$coursePercentage = $course->percentage;
+		$coursePercentage = !empty($course->percentage) ? $course->percentage : 0;
 		$daysLeft = getDaysLeft($course->startdate, $course->enddate);
 		$daysLeftPercentage = getDaysLeftPercentage($course->startdate, $course->enddate);
 		$usersCompletedPercentage = ($course->studentscompleted/getEnrolledUsers($course))*100;
 
-		$html.= '<div class="d-course-row row" style="margin-left: 0; padding-bottom: 5%">
-							<div><img height="84" width="149" src="'. \theme_remui\utility::get_course_image($courseObj) .'" style="border-radius: 4px;"></div>
-							<div class="d-course-detail-row-2">
-									<div class="text-left" style="font-size: 15px; color: #A3AFB7">'. getCategoryById($categoryId)->name .'</div>
-									<div class="text-left" style="font-size: 22px; font-weight: 525; color: #526069; overflow: hidden; line-height: 5vh;"><a style="text-decoration: none !important; color: #526069 !important;" type="button" href="'. new moodle_url("/course/view.php",array("id" => $course->id)). '">'. $course->fullname .'</a></div>';
-		//$html.= '<div class="text-left" style="font-size: 13px; color: #A3AFB7">Lanzamiento: '. convertDateToSpanish($course->startdate) .'</div>';
-		$html.= '</div>
-							<div class="d-course-detail-row-3 row">
-									<div class="d-course-detail-row-3-complete">
-											<div class="d-progreso-res">Progreso</div>
-											<div class="d-course-detail-row-3-label">Estás al '.$coursePercentage.'%</div>';
-				 $html.= getProgressBarDetail($coursePercentage);
-				 $html.= '</div>';
+		$html.= '<div class="column d-course-row" style="height: 149px; width: 610px; background-color: white; box-shadow: 2px 2px 4px #00000029; border-radius: 4px; margin: 0 0 1% 1%; padding: 1%;">
+							<div class="row" style="position: relative; height: 100%;">
+								<div class="col-sm" style="position: relative; max-width: 40% !important; text-align: left; height: 100%;">
+									<img class="dd-image-card" src="'. \theme_remui\utility::get_course_image($courseObj) .'">
+								</div>
+								<div class="col-sm pl-0 pr-0" style="width: 50%;left: 1%;position: relative;text-align: left;">
+									<div class="text-left" style="font-size: 12px; color: #A3AFB7">'. getCategoryById($categoryId)->name .'</div>
+									<div class="text-left dd-line-height-name" style="font-size: 22px; font-weight: 525; color: #526069; overflow: hidden; height: 40px;"><a style="text-decoration: none !important; color: #526069 !important;" type="button" href="'. new moodle_url("/course/view.php",array("id" => $course->id)). '">'. $course->fullname .'</a></div>
+									<div class="row dd-rounded-progress-box" style="width: 100%; height: auto; padding-top: 6%;">
+										<div class="col-sm" style="width: 50%; height: 100%;">
+											<div class="row">
+												 <div class="col-sm" style="max-width: 30% !important;">';
+														$html.= getProgressBarDetail($coursePercentage);
+								$html.= '</div>
+													<div class="col-sm dd-line-height" style="font-size: 13px; color: #A3AFB7">
+														Progreso: '. round($coursePercentage) .' %';
+									$html.= '</div>
+											</div>
+										</div>';
 
-				 if(isset($course->enddate) && !empty($course->enddate)) {
-					 $html.=	'<div class="d-course-detail-row-3-complete">
-											<div class="d-tiempo-res">Tiempo límite</div>
-											<div class="d-course-detail-row-3-label">Finaliza en '. $daysLeft .' días</div>';
-					 $html.= getProgressBarDetail($daysLeftPercentage);
-					 $html.= '</div>';
-				 } else {
-					 $html.= '<div class="d-course-detail-row-3-complete">
-											<div class="d-course-detail-row-3-label">-</div>';
-					 $html.= '</div>';
-				 }
-
-				 $html.= '<div class="d-course-detail-row-3-complete">
-											<div class="d-comp-res">Mis compañeros</div>
-											<div class="d-course-detail-row-3-label">'. $course->studentscompleted .' han terminado</div>';
-				 $html.= getProgressBarDetail($usersCompletedPercentage);
-				 $html.= '</div>
+					if(isset($course->enddate) && !empty($course->enddate)) {
+						$html.= '<div class="col-sm" style="width: 50%; height: 100%;">
+											<div class="row">
+												 <div class="col-sm" style="max-width: 30% !important;">';
+														$html.= getProgressBarDetail($daysLeftPercentage);
+								$html.= '</div>
+													<div class="col-sm dd-line-height pr-0" style="font-size: 13px; color: #A3AFB7">
+														Cierra en '. $daysLeft .' días';
+								$html.= '</div>
+											</div>
+										</div>';
+						} else {
+						$html.= '<div class="col-sm" style="width: 50%">
+											<div class="row">
+												 <div class="col-sm" style="width: 50%">
+											-
+											</div>';
+						}
+					$html.= '</div>
+								</div>
 							</div>
-					</div>';
+						</div>';
 	} else {
 		$html = '<div>No existen cursos</div>';
 	}
@@ -308,6 +379,32 @@ foreach($courses as $key=>$c) {
 $totalCourses = count($courses);
 $pendingCourses = $totalCourses - $completedCourses;
 
+//new Julio - samuel
+$pendingCoursesHtml = getPendingCoursesHtml($courses);
+
+
+function getSeguimientoHtml() {
+	$seguimientoHtml = '';
+	$seguimientoHtml .= '<div class="p-5" style="background-color: white; width: 90%; margin-left: 5%;">
+			<div class="row">
+				<div class="col" style="text-align: left;">Seguimiento de finalización de cursos</div>
+				<div class="col-md-auto">carta</div>
+				<div class="col-md-auto">download</div>
+			</div>
+			<div class="row">
+				<div class="col" style="text-align: left;">Puedes dar clic en cualquier item para desplegar detalles</div>
+			</div>
+			<div class="row">
+				<div class="col" style="text-align: left;">bread</div>
+			</div>
+			<div class="row">
+				<div class="col" style="text-align: left;">content</div>
+			</div>
+</div>';
+
+	return $seguimientoHtml;
+}
+
 $templatecontextDashboard = [
 	//samuel - pendiente al cambiar a produccion
 	'URL' => $CFG->wwwroot . '/pluginfile.php/1/theme_remui/staticimage/1592534572/catalogo-cursos.titulo.png',
@@ -319,7 +416,9 @@ $templatecontextDashboard = [
 	'totalcourses' => $totalCourses,
 	'completedcourses' => $completedCourses,
 	'pendingcourses' => $pendingCourses,
-	'courseshtml' => $coursesHtml
+	'courseshtml' => $coursesHtml,
+	'pendingCoursesHtml' => $pendingCoursesHtml,
+	'seguimientoHtml' => getSeguimientoHtml()
 ];
 
 $templatecontext = array_merge($templatecontext, $templatecontextDashboard);

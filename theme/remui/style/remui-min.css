@@ -224,6 +224,16 @@
     word-wrap: break-word;
 }
 
+.dd-courses-course-name {
+    width: 100%;
+    height: 8vh;
+    padding: 2% 4% 0 7%;
+    overflow: hidden;
+    font-size: x-large;
+    word-wrap: break-word;
+    white-space: nowrap;
+}
+
 .cc-courses-button {
     margin: 3% 3% 3% 7%;
     background: #5CBDEB;
@@ -307,6 +317,72 @@
 
 /* todos los cursos end */
 
+/* dashboard 2 */
+.viewport{
+    margin: auto;
+    overflow: hidden;
+    height: 100%;
+    width: 90.5%;
+}
+.slider{
+    display: flex;
+    height: 100%;
+    width: 100%;
+}
+div.slide{
+    width: 314px;
+    min-width: 314px;
+    height: 360px;
+    -webkit-transform: translateX(0px);
+    -moz-transform: translateX(0px);
+    -ms-transform: translateX(0px);
+    -o-transform: translateX(0px);
+    transform: translateX(0px);
+    transition: all 1s ease;
+}
+
+.dd-fa-disabled {
+    opacity: 0.5;
+}
+
+.dd-image-card {
+    border-radius: 4px;
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.dd-line-height {
+    line-height: 2vw;
+}
+
+.dd-line-height-name {
+    line-height: 2vw;
+}
+
+.dd-category-box-secundary {
+    height: 347px;
+    width: 300px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 2px 2px 4px #00000029;
+}
+
+.dd-category-box-secundary h3{
+    text-align: center;
+    height: 160px;
+    color: white;
+    font-weight: bold;
+    background-size: cover !important;
+    border-radius: 6px 6px 0 0 !important;
+}
+
+.dd-username-label {
+    font-size: 6vh;
+}
+
+/* dashboard 2 end*/
+
 /* media queries - catalogo cursos - dashboard */
 @media only screen and (max-device-width: 768px) {
     .cc-category-table {
@@ -321,6 +397,7 @@
     }
     .cc-courses-cat-name {color:#A3AFB7; font-size: 3vw !important;}
     .cc-courses-course-name {padding-left: 7%; font-size: 2vw !important; width: 100%; height: 30px; word-wrap: break-word;}
+    .dd-courses-course-name {padding-left: 7%; font-size: 2vw !important; width: 100%; height: 8vh; word-wrap: break-word; white-space: nowrap;}
     .cc-courses-button {font-size:8px!important;}
     .cc-category-box h3{
         text-align: center;
@@ -419,6 +496,15 @@
     }
     .cc-adjust-margin {
         margin-left: 0% !important;
+    }
+    .dd-line-height {
+        line-height: 5vw !important;
+    }
+    .dd-line-height-name {
+        line-height: 9vw !important;
+    }
+    .dd-username-label {
+        font-size: 3vh;
     }
 }
 @media only screen and (max-device-width: 1829px) {
@@ -28236,8 +28322,8 @@ body {
 }
 
 .d-progress {
-    width: 135px;
-    height: 135px;
+    width: 38px;
+    height: 38px;
     background: none;
     position: relative;
 }
@@ -28247,7 +28333,7 @@ body {
     width: 100%;
     height: 100%;
     border-radius: 50%;
-    border: 10px solid #ffffff;
+    border: 10px solid #F1F4F5;
     position: absolute;
     top: 0;
     left: 0;
@@ -28318,7 +28404,7 @@ body {
     width: 100%;
     height: 100%;
     border-radius: 50%;
-    border: 10px solid #ffffff;
+    border: 10px solid #F1F4F5;
     position: absolute;
     top: 0;
     left: 0;
@@ -28487,7 +28573,7 @@ body {
 }
 
 .border-primary-green {
-    border-color: #76A140;
+    border-color: #89B063;
 }
 
 .border-primary-orange {

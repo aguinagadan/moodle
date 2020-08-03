@@ -64,12 +64,12 @@
 {{^homepage}}
     <div class="container p-0 mw-100">
         <div class="cover card card-inverse rem-staticimage border-0">
-            <img style="height: 30vh;" class="card-img w-full" src="{{URL}}" alt="Card image">
+            <img style="height: 35vh;" class="card-img w-full" src="{{URL}}" alt="Card image">
             <div class="carousel-caption cover-background centered card-img-overlay w-p75 white" style="padding-top: 35px !important; left: 14% !important;">
                 <div class="text_to_html">
-                    <div style="text-align:left;font-size:large;padding-left: 2px;">Bienvenido</div>
+                    <div style="text-align:left;font-size: 3vh;padding-left: 2px;">Bienvenido</div>
                     <div style="text-align:left;">
-                        <div style="font-size:3.3vw; height: 5vw;">{{username}}</div>
+                        <div class="dd-username-label">{{username}}</div>
                     </div>
                 </div>
                 <div class="row" style="margin-left: 0;">
@@ -87,66 +87,39 @@
 
 <div style="text-align: center; margin: auto; width: 75%; height: 100%">
     <div class="container mt-5 mb-5">
-        <div class="row" style="margin: auto; width: 65%;">
-            <div class="col-sm text-md-center resumen-box mr-4">
-                    <!-- progress bar 1 -->
-                    <div class="d-progress mx-auto d-total mb-4" data-value={{totalcourses}}>
-                        <div class="w-100 h-100 rounded-circle d-flex align-items-center justify-content-center">
-                            <div class="h2 d-number-text">{{totalcourses}}</div>
-                        </div>
-                    </div>
-                <div class="font-size-20" style="color: #154A7D">Cursos disponibles</div>
+        <div class="row" style="padding-bottom: 2%; padding-left: 6%;">
+            <div class="col-sm" style="width: 70%;">
+                <div style="text-align: left;color: #154A7D; font-weight: 500;font-size: 22px;float: left;">Cursos pendientes</div>
             </div>
-            <div class="col-sm text-md-center resumen-box mr-4">
-                <!-- progress bar 2 -->
-                <div class="d-progress mx-auto mb-4" data-value={{completedcourses}}>
-                      <span class="d-progress-left">
-                        <span class="d-progress-bar border-primary-green"></span>
-                      </span>
-                    <span class="d-progress-right">
-                        <span class="d-progress-bar border-primary-green"></span>
-                      </span>
-                    <div class="d-progress-value w-100 h-100 rounded-circle d-flex align-items-center justify-content-center">
-                        <div class="h2 d-number-text">{{completedcourses}}</div>
-                    </div>
-                </div>
-                <div class="font-size-20" style="color: #154A7D">Cursos completados</div>
+            <div class="col-sm" style="width: 20%; max-width: 25%;">
+                <i type="button" class="prev fa fa-chevron-left dd-fa-disabled" style="font-size:24px; color: #154A7D"></i>
+                <i type="button" class="next fa fa-chevron-right" style="font-size:24px; color: #154A7D; padding-left: 5%"></i>
             </div>
-            <div class="col-sm text-md-center resumen-box mr-4">
-                <!-- progress bar 3 -->
-                <div class="d-progress-p mx-auto mb-4" data-value={{pendingcourses}}>
-                      <span class="d-progress-p-left">
-                        <span class="d-progress-p-bar border-primary-orange"></span>
-                      </span>
-                    <span class="d-progress-p-right">
-                        <span class="d-progress-p-bar border-primary-orange"></span>
-                      </span>
-                    <div class="d-progress-p-value w-100 h-100 rounded-circle d-flex align-items-center justify-content-center">
-                        <div class="h2 d-number-text">{{pendingcourses}}</div>
-                    </div>
-                </div>
-                <div class="font-size-20" style="color: #154A7D">Cursos pendientes</div>
+        </div>
+        <div class="viewport">
+            <input type="hidden" id="totalCourses" value="{{{totalcourses}}}">
+            <div class="slider">
+               {{{pendingCoursesHtml}}}
             </div>
         </div>
         <div style="margin-top: 5%;margin-bottom: 5%;">
-            <div style="background-color: white; width: 92%; margin: auto;">
-                <div style="padding: 3%; box-shadow: 2px 2px 4px #00000029; border-radius: 4px;">
-                    <div class="d-course-row row display">
-                        <div style="text-align: left; color: #154A7D; padding-bottom: 2%; font-weight: 500; font-size: 22px; padding-right: 42.5%; padding-left: 1.8vh;">Mis cursos</div>
-                        <div class="d-progreso">Progreso</div>
-                        <div class="d-tiempo">Tiempo límite</div>
-                        <div class="d-comp">Mis compañeros</div>
+            <div style="width: 92%; margin: auto;">
+                <div style="text-align: left; color: #154A7D; padding-bottom: 2%; font-weight: 500; font-size: 22px; padding-right: 42.5%; padding-left: 4%;">Mis cursos</div>
+                <div>
+                    <div class="row" style="margin: auto;">
+                        {{{courseshtml}}}
                     </div>
-                    {{{courseshtml}}}
                 </div>
             </div>
             <div class="pt-5 pb-4">
                 <input type="button"
-                       style="background: #A8A9AD 0 0 no-repeat padding-box;border-radius: 4px;color: #FFFFFF;width: 20vh;height: 4vh;vertical-align: center;font-size: 1.5vh;line-height: 2px;" id="loadMore"
+                       style="background: #A8A9AD 0 0 no-repeat padding-box; border-radius: 4px; color: #FFFFFF; width: 20vh; height: 4vh; vertical-align: center; font-size: 1.5vh; line-height: 2px;" id="loadMore"
                        class="btn-sm"
                        value="Cargar más cursos"/>
             </div>
         </div>
+        <!-- samu pendiente -->
+        <!-- {{{seguimientoHtml}}} -->
     </div>
 </div>
 
@@ -177,7 +150,7 @@
         var total = $(".d-total").attr('data-value');
 
         $(".d-progress").each(function() {
-            var value = ($(this).attr('data-value') / total) * 100;
+            var value = $(this).attr('data-value');
             var left  = $(this).find('.d-progress-left .d-progress-bar');
             var right = $(this).find('.d-progress-right .d-progress-bar');
 
@@ -211,16 +184,17 @@
         }
 
         $(function () {
-            var cantidadRows = 6;
+            //cantidad cursos TOP
+            var cantidadRows = 10;
 
             if($(".d-course-row").length > cantidadRows) {
                 $("#loadMore").addClass('display');
             }
 
-            $(".d-course-row").slice(0, 6).addClass('display');
+            $(".d-course-row").slice(0, cantidadRows).addClass('display');
                 $("#loadMore").on('click', function (e) {
                     e.preventDefault();
-                    $(".d-course-row:hidden").slice(0, 6).addClass('display');
+                    $(".d-course-row:hidden").slice(0, cantidadRows).addClass('display');
                 if ($(".d-course-row:hidden").length == 0) {
                     $("#load").fadeOut('slow');
                     $("#loadMore").hide();
@@ -228,4 +202,57 @@
             });
         });
 
+        var items = $('.viewport .slider div'),
+            total = $('#totalPending').val(),
+            limit = 4,
+            index = 0,
+            multiplier = 0,
+            cardWidth = 314;
+
+        $('.next').click(function () {
+            var canMove = Number(total)+Number(multiplier) > limit && total >= limit;
+            if(canMove) {
+                multiplier -= 1;
+                widthMoved = cardWidth * multiplier;
+                $('.fa-chevron-right').removeClass('dd-fa-disabled');
+                $('.fa-chevron-left').removeClass('dd-fa-disabled');
+                cycle('next');
+                canMove = Number(total)+Number(multiplier) > limit && total >= limit;
+                if(!canMove) {
+                    $('.fa-chevron-right').addClass('dd-fa-disabled');
+                }
+            } else {
+                $('.fa-chevron-right').addClass('dd-fa-disabled');
+            }
+        });
+
+        $('.prev').click(function () {
+            var canMove = multiplier != 0 && total >= limit;
+            if(canMove) {
+                multiplier += 1;
+                newWidthMoved = cardWidth * multiplier;
+                $('.fa-chevron-right').removeClass('dd-fa-disabled');
+                $('.fa-chevron-left').removeClass('dd-fa-disabled');
+                cycle('prev');
+                canMove = multiplier != 0 && total >= limit;
+                if(!canMove) {
+                    $('.fa-chevron-left').addClass('dd-fa-disabled');
+                }
+            } else {
+                $('.fa-chevron-left').addClass('dd-fa-disabled');
+            }
+        });
+
+        function cycle(direction) {
+            item = $('.viewport .slider div.slide').slice(index, total);
+            if(direction == 'next') {
+                item.css({
+                "transform": "translateX("+widthMoved+"px)"
+            })
+            } else {
+                item.css({
+                "transform": "translateX("+newWidthMoved+"px)"
+            })
+            }
+        }
 {{/js}}

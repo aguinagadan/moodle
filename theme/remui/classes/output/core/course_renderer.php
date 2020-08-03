@@ -62,7 +62,7 @@ class course_renderer extends \core_course_renderer {
 		} elseif($percentage > 0) {
 			$div = '<div class="progress progress-square mb-0">
 									<div class="progress-bar bg-green-600-cc" style="width: ' . $percentage . '%; height: 100%;" role="progressbar">
-											<span>' . $percentage . '%' . '</span>
+											<span>' . round($percentage) . '%' . '</span>
 									</div>
 							</div>';
 		}
