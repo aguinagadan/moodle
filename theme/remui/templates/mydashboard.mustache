@@ -102,9 +102,9 @@
                {{{pendingCoursesHtml}}}
             </div>
         </div>
-        <div style="margin-top: 5%;margin-bottom: 5%;">
+        <div style="margin-top: 3%;">
             <div style="width: 92%; margin: auto;">
-                <div style="text-align: left; color: #154A7D; padding-bottom: 2%; font-weight: 500; font-size: 22px; padding-right: 42.5%; padding-left: 4%;">Mis cursos</div>
+                <div style="text-align: left; color: #154A7D; padding-bottom: 2%; font-weight: 500; font-size: 22px; padding-right: 42.5%; padding-left: 3%;">Mis cursos</div>
                 <div>
                     <div class="row" style="margin: auto;">
                         {{{courseshtml}}}
@@ -118,8 +118,7 @@
                        value="Cargar más cursos"/>
             </div>
         </div>
-        <!-- samu pendiente -->
-        <!-- {{{seguimientoHtml}}} -->
+        {{{seguimientoHtml}}}
     </div>
 </div>
 
@@ -146,6 +145,28 @@
         require(['theme_remui/loader'], function () {
         Breakpoints();
         });
+
+        $('#myModal').on('show.bs.modal', function (event) {
+            var myVal = $(event.relatedTarget).data('val');
+            $(this).find(".ss-message-title-1").text('MENSAJE PARA ' + myVal);
+        });
+
+        function addBreadcrumb($element) {
+            if(!$element.hasClass('clicked')) {
+                var $newThis = $element.clone();
+                $newThis.addClass('clicked');
+                $('.ss-breadcrumb:last').append('<div style="padding-left: 1%; padding-right: 1%;"> > </div>');
+            } else {
+                var $newThis = $element;
+            }
+
+            $newThis.css('opacity','1');
+            $newThis.nextAll('div').remove();
+            $newThis.removeClass('col-sm');
+            $('.ss-breadcrumb:last').append($newThis);
+            $newThis.text($newThis.text().toUpperCase());
+            $newThis.prevAll('div').css('opacity','0.5');
+        }
 
         var total = $(".d-total").attr('data-value');
 
@@ -207,7 +228,7 @@
             limit = 4,
             index = 0,
             multiplier = 0,
-            cardWidth = 314;
+            cardWidth = 17;
 
         $('.next').click(function () {
             var canMove = Number(total)+Number(multiplier) > limit && total >= limit;
@@ -247,12 +268,62 @@
             item = $('.viewport .slider div.slide').slice(index, total);
             if(direction == 'next') {
                 item.css({
-                "transform": "translateX("+widthMoved+"px)"
+                "transform": "translateX("+widthMoved+"vw)"
             })
             } else {
                 item.css({
-                "transform": "translateX("+newWidthMoved+"px)"
+                "transform": "translateX("+newWidthMoved+"vw)"
             })
             }
         }
+
+        $(document).on('click', '.main-clickable', function() {
+            $('.ss-container').hide();
+            $('.ss-main-container').show();
+            $(this).nextAll('div').remove();
+            $(this).css('opacity','1');
+        });
+
+        $(document).on('click', '.cat-clickable', function() {
+            var catId = $(this).attr('data-id');
+            var elementToShow = $('.ss-main-container-course[data-id='+catId+']')
+
+            $('.ss-container').hide();
+            elementToShow.show();
+            elementToShow.css('display','flex');
+            elementToShow.removeClass('hidden');
+
+            addBreadcrumb($(this));
+        });
+
+        function openDataSS(dataOpen, $this) {
+            var elementToShow = $('.' + dataOpen + '[course-id='+ $this.attr("course-id") +']' + '[zona-name="'+ $this.attr("zona-name") +'"]');
+
+            $('.ss-container').hide();
+            elementToShow.show();
+            elementToShow.css('display','flex');
+            elementToShow.removeClass('hidden');
+            addBreadcrumb($this);
+        }
+
+        $(document).on('click', '.element-clickable', function() {
+            openDataSS($(this).attr('data-open'), $(this));
+        });
+
+        $(document).on('click', '#myModalBtn', function() {
+            $.ajax({
+                type: "POST",
+                url: "email.php",
+                data: '',
+                success: function(){
+                    $('.success').fadeIn(1000);
+                }
+            });
+        });
+
+        $(document).on('click', '#modalXLS', function() {
+            var page = "excel.php";
+            window.location = page;
+        });
+
 {{/js}}
