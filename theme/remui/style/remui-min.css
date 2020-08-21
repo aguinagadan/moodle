@@ -209,6 +209,14 @@
     padding-right: 4%;
 }
 
+.dd-h3-courses-info {
+    height: 126px;
+    box-shadow: 2px 2px 4px #00000029;
+    border-radius: 4px 4px 0 0;
+    margin-bottom: 0;
+    padding-right: 4%;
+}
+
 .cc-h3-courses-info-dinamic {
     height: 160px !important;
 }
@@ -236,12 +244,11 @@
 
 .dd-courses-course-name {
     width: 100%;
-    height: 8vh;
+    height: 115px;
     padding: 2% 4% 0 7%;
     overflow: hidden;
     font-size: x-large;
     word-wrap: break-word;
-    white-space: nowrap;
 }
 
 .cc-courses-button {
@@ -256,6 +263,21 @@
 }
 
 .cc-courses-button a:hover{
+    color: white !important;
+}
+
+.dd-courses-button {
+    margin: 3% 3% 7% 7%;
+    background: #5CBDEB;
+    border-radius: 4px;
+    opacity: 1;
+    color: white;
+    padding: 2% 6% 2% 6%;
+    border: 0;
+    text-decoration: none !important;
+}
+
+.dd-courses-button a:hover{
     color: white !important;
 }
 
@@ -282,6 +304,10 @@
 
 .cc-ultimos-desc {
     height: 280px !important;
+}
+
+.dd-ultimos-desc {
+    height: 100% !important;
 }
 
 .cc-ultimos-cursos-container {
@@ -340,9 +366,9 @@
     width: 100%;
 }
 div.slide{
-    width: 314px;
-    min-width: 314px;
-    height: 360px;
+    width: 17vw;
+    min-width: 17vw;
+    height: 100%;
     -webkit-transform: translateX(0px);
     -moz-transform: translateX(0px);
     -ms-transform: translateX(0px);
@@ -371,24 +397,27 @@ div.slide{
 }
 
 .dd-category-box-secundary {
-    height: 347px;
-    width: 300px;
+    height: 100%;
+    width: 93%;
     position: relative;
     overflow: hidden;
     box-shadow: 2px 2px 4px #00000029;
 }
 
-.dd-category-box-secundary h3{
-    text-align: center;
-    height: 160px;
-    color: white;
-    font-weight: bold;
+.dd-category-box-secundary div{
     background-size: cover !important;
-    border-radius: 6px 6px 0 0 !important;
 }
 
 .dd-username-label {
     font-size: 6vh;
+}
+
+.ss-m-b-05 {
+    margin-bottom: 0.5rem !important;
+}
+
+.element-clickable {
+    font-size: 18px;
 }
 
 /* dashboard 2 end*/
@@ -407,8 +436,9 @@ div.slide{
     }
     .cc-courses-cat-name {color:#A3AFB7; font-size: 3vw !important;}
     .cc-courses-course-name {padding-left: 7%; font-size: 2vw !important; width: 100%; height: 30px; word-wrap: break-word;}
-    .dd-courses-course-name {padding-left: 7%; font-size: 2vw !important; width: 100%; height: 8vh; word-wrap: break-word; white-space: nowrap;}
+    .dd-courses-course-name {padding-left: 7%; font-size: 2vw !important; width: 100%; height: 12vh !important; word-wrap: break-word;}
     .cc-courses-button {font-size:8px!important;}
+    .dd-courses-button {font-size:8px!important;}
     .cc-category-box h3{
         text-align: center;
         width: 100% !important;
@@ -477,7 +507,6 @@ div.slide{
         display: inline-block !important;
     }
     .d-progress-bar-level-course {
-        width: 50vw !important;
         height: 8px !important;
         background: rgba(15, 74, 124, 0.34) !important;
     }
@@ -535,7 +564,6 @@ div.slide{
         display: inline-block !important;
     }
     .d-progress-bar-level-course {
-        width: 50vw !important;
         height: 8px !important;
         background: rgba(15, 74, 124, 0.34) !important;
     }
@@ -28497,8 +28525,8 @@ body {
 
 .d-progress-bar-level-course {
     width: 17vw;
-    height: 8px !important;
-    background: rgba(15, 74, 124, 0.34) !important;
+    height: 15px !important;
+    background: rgba(197, 209, 220, 0.34) !important;
 }
 
 .d-course-row {
@@ -28545,8 +28573,27 @@ body {
 
 .d-xp-bar-course {
     min-width: 0 !important;
-    background: rgba(15,74,124,1);
-    background-image: linear-gradient(to bottom,rgba(15,74,124,1),rgba(15,74,124,1)) !important;
+    background: rgba(137, 176, 99, 1);
+    background-image: linear-gradient(to bottom, rgba(137, 176, 99, 1), rgba(137, 176, 99, 1)) !important;
+    border-radius: 19px !important;
+    -webkit-animation: progressBar 0.5s ease-in-out;
+    -webkit-animation-fill-mode:both;
+    -moz-animation: progressBar 0.5s ease-in-out;
+    -moz-animation-fill-mode:both;
+}
+
+@-webkit-keyframes progressBar {
+    0% { width: 0; }
+    100% { width: 100%; }
+}
+
+@-moz-keyframes progressBar {
+    0% { width: 0; }
+    100% { width: 100%; }
+}
+
+.d-progress-bar-level-course {
+    border-radius: 19px !important;
 }
 
 .d-level-text {
