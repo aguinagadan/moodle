@@ -443,8 +443,8 @@ function getPersonalPorArea($courseId, $tipoPersonal, $area, $enrolledUsersArray
 			continue;
 		}
 		$returnHTML.= '<div zona-name="'. $tipoPersonal . $area .'" course-id="'. $courseId .'" class="ss-container ss-main-container-personal row hidden ss-m-b-05">
-											<div data-val="'.strtoupper($persona['nombre']).'" class="col-sm personal-clickable" style="cursor: pointer; font-size: 18px;" data-toggle="modal" data-target="#myModal">'. $persona['nombre'] .'</div>
-											<div data-val="'.strtoupper($persona['nombre']).'" class="col-xs" data-toggle="modal" data-target="#myModal" style="cursor: pointer;">
+											<div data-id="'. $persona['id'] . '" data-val="'.strtoupper($persona['nombre']).'" class="col-sm personal-clickable" style="cursor: pointer; font-size: 18px;" data-toggle="modal" data-target="#myModal">'. $persona['nombre'] .'</div>
+											<div data-id="'. $persona['id'] . '" data-val="'.strtoupper($persona['nombre']).'" class="col-xs" data-toggle="modal" data-target="#myModal" style="cursor: pointer;">
 													<img src="../theme/remui/pix/ic_email_24px.png">
 											</div>';
 		$progress = round(progress::get_course_progress_percentage($course, $persona['id']));
@@ -475,8 +475,9 @@ function getPersonal($courseId, $tipoPersonal, $division, $zona, $enrolledUsersA
 			continue;
 		}
 		$returnHTML.= '<div zona-name="'. $tipoPersonal . $division . $zona .'" course-id="'. $courseId .'" class="ss-container ss-main-container-personal row hidden ss-m-b-05">
-											<div data-val="'.strtoupper($persona['nombre']).'" class="col-sm personal-clickable" style="cursor: pointer; font-size: 18px;" data-toggle="modal" data-target="#myModal">'. $persona['nombre'] .'</div>
-											<div data-val="'.strtoupper($persona['nombre']).'" class="col-xs" data-toggle="modal" data-target="#myModal" style="cursor: pointer;">
+											<input class="personaIds" type="hidden" value="'.$persona['id'].'">
+											<div data-id="'. $persona['id'] . '" data-val="'.strtoupper($persona['nombre']).'" class="col-sm personal-clickable" style="cursor: pointer; font-size: 18px;" data-toggle="modal" data-target="#myModal">'. $persona['nombre'] .'</div>
+											<div data-id="'. $persona['id'] . '" data-val="'.strtoupper($persona['nombre']).'" class="col-xs logo-mail-clickable" data-toggle="modal" data-target="#myModal" style="cursor: pointer;">
 													<img src="../theme/remui/pix/ic_email_24px.png">
 											</div>';
 		$progress = round(progress::get_course_progress_percentage($course, $persona['id']));
@@ -502,9 +503,11 @@ function getTipoPersonalPorArea($courseId, $area, $enrolledUsersArray) {
 		if($tipoPers['area'] != $area) {
 			continue;
 		}
-		$returnHTML .= '<div zona-name="'. $area .'" course-id="'. $courseId .'" data-open="ss-main-container-personal" class="ss-container ss-main-container-tipo-personal row hidden ss-m-b-05">
-										<div zona-name="'. $tipoPers['tipo_personal'] . $area . '" course-id="'. $courseId .'" data-open="ss-main-container-personal" class="col-sm element-clickable" style="cursor: pointer;">'. $tipoPers['tipo_personal'] .'</div>';
-		$progress = getTipoPersonalPorAreaProgress($courseId, $area, $enrolledUsersArray);
+		$personaIds = getTipoPersonalPorAreaProgress($courseId, $area, $enrolledUsersArray)['ids'];
+		$returnHTML .= '<div zona-name="'. $area .'" course-id="'. $courseId .'" data-open="ss-main-container-personal" class="ss-container ss-main-container-tipo-personal row hidden ss-m-b-05">';
+		$returnHTML .= '<input class="personaIds" type="hidden" value="'. $personaIds .'">';
+		$returnHTML .= '<div zona-name="'. $tipoPers['tipo_personal'] . $area . '" course-id="'. $courseId .'" data-open="ss-main-container-personal" class="col-sm element-clickable" style="cursor: pointer;">'. $tipoPers['tipo_personal'] .'</div>';
+		$progress = getTipoPersonalPorAreaProgress($courseId, $area, $enrolledUsersArray)['progress'];
 		$returnHTML.= getProgressBarDetailSeguimientoHtml($progress);
 		$returnHTML .= '</div>';
 		$arrayTipoPersonal[] = $tipoPers['tipo_personal'];
@@ -532,10 +535,12 @@ function getTipoPersonalPorDivision($courseId, $division, $zona, $enrolledUsersA
 		if($tipoPers['division'] != $division || $tipoPers['zona'] != $zona) {
 			continue;
 		}
-		$returnHTML .= '<div zona-name="'. $division . $zona . '" course-id="'. $courseId .'" data-open="ss-main-container-personal" class="ss-container ss-main-container-tipo-personal row hidden ss-m-b-05">
-										<div zona-name="'. $tipoPers['tipo_personal'] . $division . $zona . '" course-id="'. $courseId .'" data-open="ss-main-container-personal" class="col-sm element-clickable" style="cursor: pointer;">'. $tipoPers['tipo_personal'] .'</div>';
+		$personaIds = getTipoPersonalPorDivisionProgress($courseId, $division, $zona, $enrolledUsersArray)['ids'];
+		$returnHTML .= '<div zona-name="'. $division . $zona . '" course-id="'. $courseId .'" data-open="ss-main-container-personal" class="ss-container ss-main-container-tipo-personal row hidden ss-m-b-05">';
+		$returnHTML .= '<input class="personaIds" type="hidden" value="'. $personaIds .'">';
+		$returnHTML .= '<div zona-name="'. $tipoPers['tipo_personal'] . $division . $zona . '" course-id="'. $courseId .'" data-open="ss-main-container-personal" class="col-sm element-clickable" style="cursor: pointer;">'. $tipoPers['tipo_personal'] .'</div>';
 
-		$progress = getTipoPersonalPorDivisionProgress($courseId, $division, $zona, $enrolledUsersArray);
+		$progress = getTipoPersonalPorDivisionProgress($courseId, $division, $zona, $enrolledUsersArray)['progress'];
 
 		$returnHTML.= getProgressBarDetailSeguimientoHtml($progress);
 		$returnHTML .= '</div>';
@@ -563,9 +568,11 @@ function getDivisionesPorZona($courseId, $zona, $enrolledUsersArray) {
 		if($division['zona'] != $zona) {
 			continue;
 		}
-		$returnHTML .= '<div zona-name="'. $zona .'" course-id="'. $courseId .'" data-open="ss-main-container-tipo-personal" class="ss-container ss-main-container-division row hidden ss-m-b-05">
-										<div zona-name="'. $division['division'] . $zona .'" course-id="'. $courseId .'" data-open="ss-main-container-tipo-personal" class="col-sm element-clickable" style="cursor: pointer;">'. $division['division'] .'</div>';
-		$progress = getDivisionesPorZonaProgress($courseId, $zona, $enrolledUsersArray);
+		$personaIds = getDivisionesPorZonaProgress($courseId, $zona, $enrolledUsersArray)['ids'];
+		$returnHTML .= '<div zona-name="'. $zona .'" course-id="'. $courseId .'" data-open="ss-main-container-tipo-personal" class="ss-container ss-main-container-division row hidden ss-m-b-05">';
+		$returnHTML .= '<input class="personaIds" type="hidden" value="'. $personaIds .'">';
+		$returnHTML .= '<div zona-name="'. $division['division'] . $zona .'" course-id="'. $courseId .'" data-open="ss-main-container-tipo-personal" class="col-sm element-clickable" style="cursor: pointer;">'. $division['division'] .'</div>';
+		$progress = getDivisionesPorZonaProgress($courseId, $zona, $enrolledUsersArray)['progress'];
 
 		$returnHTML.= getProgressBarDetailSeguimientoHtml($progress);
 		$returnHTML .= '</div>';
@@ -598,9 +605,11 @@ function getZonas($courseId) {
 		if(!in_array($zona, $zonasAll)) {
 			continue;
 		}
-		$returnHTML .= '<div zona-name="zona-default-zonas" course-id="'. $courseId .'" data-open="ss-main-container-division" class="ss-container ss-main-container-zonas-detail row hidden ss-m-b-05">
-										<div zona-name="'. $zona .'" course-id="'. $courseId .'" data-open="ss-main-container-division" class="col-sm element-clickable" style="cursor: pointer;">' . $zona . '</div>';
-		$progress = getZonasProgressById($courseId, $zona);
+		$personaIds = getZonasProgressById($courseId, $zona)['ids'];
+		$returnHTML .= '<div zona-name="zona-default-zonas" course-id="'. $courseId .'" data-open="ss-main-container-division" class="ss-container ss-main-container-zonas-detail row hidden ss-m-b-05">';
+		$returnHTML .= '<input class="personaIds" type="hidden" value="'. $personaIds .'">';
+		$returnHTML .= '<div zona-name="'. $zona .'" course-id="'. $courseId .'" data-open="ss-main-container-division" class="col-sm element-clickable" style="cursor: pointer;">' . $zona . '</div>';
+		$progress = getZonasProgressById($courseId, $zona)['progress'];
 		$returnHTML .= getProgressBarDetailSeguimientoHtml($progress);
 
 		$returnHTML .= '</div>';
@@ -623,9 +632,11 @@ function getAreasFuncionales($courseId) {
 	}
 
 	foreach($areasAll as $area) {
-		$returnHTML.= '<div zona-name="zona-default-areas" course-id="'. $courseId .'" data-open="ss-main-container-tipo-personal" class="ss-container ss-main-container-areas-detail row hidden ss-m-b-05">
-										<div zona-name="'. $area .'" course-id="'. $courseId .'" data-open="ss-main-container-tipo-personal" class="col-sm element-clickable" style="cursor: pointer;">'. $area .'</div>';
-		$progress = getAreaProgress($courseId, $area, $enrolledUsersArray);
+		$personaIds = getAreaProgress($courseId, $area, $enrolledUsersArray)['ids'];
+		$returnHTML.= '<div zona-name="zona-default-areas" course-id="'. $courseId .'" data-open="ss-main-container-tipo-personal" class="ss-container ss-main-container-areas-detail row hidden ss-m-b-05">';
+		$returnHTML .= '<input class="personaIds" type="hidden" value="'. $personaIds .'">';
+		$returnHTML .= '<div zona-name="'. $area .'" course-id="'. $courseId .'" data-open="ss-main-container-tipo-personal" class="col-sm element-clickable" style="cursor: pointer;">'. $area .'</div>';
+		$progress = getAreaProgress($courseId, $area, $enrolledUsersArray)['progress'];
 		$returnHTML.= getProgressBarDetailSeguimientoHtml($progress, $courseId);
 		$returnHTML.= '</div>';
 	}
@@ -641,21 +652,25 @@ function getSSSeguimientoDetails($courseId) {
 	$returnHTML = '';
 	$dataOpen = '';
 	$zona = '';
+	$personaIds = '';
 	$seguimientoDetails = array('Seguimiento por zonas', 'Seguimiento por área funcional');
 
 	foreach($seguimientoDetails as $seguimientoDetail) {
 		if($seguimientoDetail == 'Seguimiento por zonas') {
 			$dataOpen = 'ss-main-container-zonas-detail';
 			$zona = 'zona-default-zonas';
-			$progress = getSeguimientoDetailsZonaProgress($courseId);
+			$personaIds = getSeguimientoDetailsZonaProgress($courseId)['ids'];
+			$progress = getSeguimientoDetailsZonaProgress($courseId)['progress'];
 		} elseif($seguimientoDetail == 'Seguimiento por área funcional') {
 			$dataOpen = 'ss-main-container-areas-detail';
 			$zona = 'zona-default-areas';
-			$progress = getSeguimientoDetailsAreaProgress($courseId);
+			$personaIds = getSeguimientoDetailsAreaProgress($courseId)['ids'];
+			$progress = getSeguimientoDetailsAreaProgress($courseId)['progress'];
 		}
 
-		$returnHTML .=	'<div zona-name="zona-default" course-id="'. $courseId .'" data-open="'. $dataOpen .'" class="ss-container ss-main-container-seguimiento-detail row hidden ss-m-b-05">
-										<div zona-name="'. $zona .'" course-id="'. $courseId .'" data-open="'. $dataOpen .'"  class="col-sm element-clickable" style="cursor: pointer;">'. $seguimientoDetail .'</div>';
+		$returnHTML .=	'<div zona-name="zona-default" course-id="'. $courseId .'" data-open="'. $dataOpen .'" class="ss-container ss-main-container-seguimiento-detail row hidden ss-m-b-05">';
+		$returnHTML .= '<input class="personaIds" type="hidden" value="'. $personaIds .'">';
+		$returnHTML .= '<div zona-name="'. $zona .'" course-id="'. $courseId .'" data-open="'. $dataOpen .'"  class="col-sm element-clickable" style="cursor: pointer;">'. $seguimientoDetail .'</div>';
 
 		$returnHTML.= getProgressBarDetailSeguimientoHtml($progress, $courseId);
 		$returnHTML.= '</div>';
@@ -683,7 +698,7 @@ function getSSCoursesById($id) {
 			$returnHTML .= '<div data-id="'. $id .'" class="ss-container ss-main-container-course row hidden ss-m-b-05">';
 			$returnHTML .= '<div zona-name="zona-default" course-id="'. $course->id .'" data-open="ss-main-container-seguimiento-detail" data-id="'. $course->id .'" class="col-sm element-clickable" style="cursor: pointer;">'.$course->fullname.'</div>';
 
-			$progress = getCursosProgress($course->id);
+			$progress = getCursosProgress($course->id)['progress'];
 
 			$returnHTML .= '<div class="col-sm" style="max-width: 3.3%; color: #526069;">'. round($progress,0) .'%</div>';
 			$returnHTML .= '<div class="col-sm-7">'. getProgressBarDetailSeguimiento($progress) .'</div>';
@@ -740,7 +755,7 @@ function getSSCategories() {
 					<h5 class="modal-title">Llegará a su correo electrónico</h5>
 				</div>
 				<div class="modal-body">
-					<textarea class="form-control" style="height: 140px;"></textarea>
+					<textarea id="message-text" class="form-control" style="height: 140px;"></textarea>
 				</div>
 				<div class="modal-footer" style="padding: 0 3% 3% 0; border-top: 0;">
 					<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
@@ -763,11 +778,11 @@ function getSSCategories() {
 					<h5 class="modal-title">Llegará al correo de los usuarios que aún no terminan el curso.</h5>
 				</div>
 				<div class="modal-body">
-					<textarea class="form-control" style="height: 140px;"></textarea>
+					<textarea id="message-text-all" class="form-control" style="height: 140px;"></textarea>
 				</div>
 				<div class="modal-footer" style="padding: 0 3% 3% 0; border-top: 0;">
 					<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-					<button type="button" class="btn btn-info" data-dismiss="modal" style="color: white;">Enviar</button>
+					<button id="myModalGeneralBtn" type="button" class="btn btn-info" data-dismiss="modal" style="color: white;">Enviar</button>
 				</div>
 			</div>
 		</div>
@@ -778,6 +793,8 @@ function getSSCategories() {
 
 
 function getPersonalPorAreaProgress($courseId, $tipoPersonal, $area, $enrolledUsersArray) {
+	$ids = '';
+	$returnArr = array();
 	$personal = array();
 	$course = get_course($courseId);
 
@@ -798,18 +815,24 @@ function getPersonalPorAreaProgress($courseId, $tipoPersonal, $area, $enrolledUs
 		}
 		$count++;
 		$progress += round(progress::get_course_progress_percentage($course, $persona['id']));
+		$ids .= $persona['id'] . ',';
 	}
 
 	if($count == 0) {
 		return 0;
 	}
 
-	$progress = $progress/$count;
+	$returnArr['progress'] = $progress/$count;
+	$ids = rtrim($ids, ',');
+	$ids = implode(',', array_unique(explode(',', $ids)));
+	$returnArr['ids'] = $ids;
 
-	return $progress;
+	return $returnArr;
 }
 
 function getPersonalProgress($courseId, $tipoPersonal, $division, $zona, $enrolledUsersArray) {
+	$ids = '';
+	$returnArr = array();
 	$personal = array();
 	$course = get_course($courseId);
 
@@ -831,18 +854,23 @@ function getPersonalProgress($courseId, $tipoPersonal, $division, $zona, $enroll
 		}
 		$count++;
 		$progress += round(progress::get_course_progress_percentage($course, $persona['id']));
+		$ids .= $persona['id'] . ',';
 	}
 
 	if($count == 0) {
 		return 0;
 	}
 
-	$progress = $progress/$count;
+	$returnArr['progress'] = $progress/$count;
+	$ids = rtrim($ids, ',');
+	$ids = implode(',', array_unique(explode(',', $ids)));
+	$returnArr['ids'] = $ids;
 
-	return $progress;
+	return $returnArr;
 }
 
 function getTipoPersonalPorAreaProgress($courseId, $area, $enrolledUsersArray) {
+	$returnArr = array();
 	foreach($enrolledUsersArray as $key=>$eu) {
 		$tipoPersonal[$key]['tipo_personal'] = $eu->profile_field_personal;
 		$tipoPersonal[$key]['area'] = $eu->profile_field_area_funcional;
@@ -852,25 +880,31 @@ function getTipoPersonalPorAreaProgress($courseId, $area, $enrolledUsersArray) {
 
 	$count = 0;
 	$progress = 0;
+	$ids = '';
 
 	foreach($tipoPersonal as $tipoPers) {
 		if ($tipoPers['area'] != $area) {
 			continue;
 		}
 		$count++;
-		$progress += getPersonalPorAreaProgress($courseId, $tipoPers['tipo_personal'], $area, $enrolledUsersArray);
+		$progress += getPersonalPorAreaProgress($courseId, $tipoPers['tipo_personal'], $area, $enrolledUsersArray)['progress'];
+		$ids .= getPersonalPorAreaProgress($courseId, $tipoPers['tipo_personal'], $area, $enrolledUsersArray)['ids'] . ',';
 	}
 
 	if($count == 0) {
 		return 0;
 	}
 
-	$progress = $progress/$count;
+	$returnArr['progress'] = $progress/$count;
+	$ids = rtrim($ids, ',');
+	$ids = implode(',', array_unique(explode(',', $ids)));
+	$returnArr['ids'] = $ids;
 
-	return $progress;
+	return $returnArr;
 }
 
 function getAreaProgress($courseId, $area, $enrolledUsersArray) {
+	$returnArr = array();
 	foreach($enrolledUsersArray as $key=>$eu) {
 		$tipoPersonal[$key]['tipo_personal'] = $eu->profile_field_personal;
 		$tipoPersonal[$key]['area'] = $eu->profile_field_area_funcional;
@@ -878,25 +912,32 @@ function getAreaProgress($courseId, $area, $enrolledUsersArray) {
 
 	$count = 0;
 	$progress = 0;
+	$ids = '';
 
 	foreach($tipoPersonal as $tipoPers) {
 		if ($tipoPers['area'] != $area) {
 			continue;
 		}
 		$count++;
-		$progress += getTipoPersonalPorAreaProgress($courseId, $area, $enrolledUsersArray);
+		$progress += getTipoPersonalPorAreaProgress($courseId, $area, $enrolledUsersArray)['progress'];
+		$ids .= getTipoPersonalPorAreaProgress($courseId, $area, $enrolledUsersArray)['ids'];
 	}
 
 	if($count == 0) {
 		return 0;
 	}
 
-	$progress = $progress/$count;
+	$returnArr['progress'] = $progress/$count;
+	$ids = rtrim($ids, ',');
+	$ids = implode(',', array_unique(explode(',', $ids)));
+	$returnArr['ids'] = $ids;
 
-	return $progress;
+	return $returnArr;
 }
 
 function getTipoPersonalPorDivisionProgress($courseId, $division, $zona, $enrolledUsersArray) {
+	$returnArr = array();
+
 	foreach($enrolledUsersArray as $key=>$eu) {
 		$tipoPersonal[$key]['tipo_personal'] = $eu->profile_field_personal;
 		$tipoPersonal[$key]['division'] = $eu->profile_field_division;
@@ -907,25 +948,32 @@ function getTipoPersonalPorDivisionProgress($courseId, $division, $zona, $enroll
 
 	$count = 0;
 	$progress = 0;
+	$ids = '';
 
 	foreach($tipoPersonal as $tipoPers) {
 		if ($tipoPers['division'] != $division || $tipoPers['zona'] != $zona) {
 			continue;
 		}
 		$count++;
-		$progress += getPersonalProgress($courseId, $tipoPers['tipo_personal'], $division, $zona, $enrolledUsersArray);
+		$progress += getPersonalProgress($courseId, $tipoPers['tipo_personal'], $division, $zona, $enrolledUsersArray)['progress'];
+		$ids .= getPersonalProgress($courseId, $tipoPers['tipo_personal'], $division, $zona, $enrolledUsersArray)['ids'] . ',';
 	}
 
 	if($count == 0) {
 		return 0;
 	}
 
-	$progress = $progress/$count;
+	$ids = rtrim($ids, ',');
+	$ids = implode(',',array_unique(explode(',', $ids)));
 
-	return $progress;
+	$returnArr['progress'] = $progress/$count;
+	$returnArr['ids'] = $ids;
+
+	return $returnArr;
 }
 
 function getDivisionesPorZonaProgress($courseId, $zona, $enrolledUsersArray) {
+	$returnArr = array();
 	foreach($enrolledUsersArray as $key=>$eu) {
 		$divisiones[$key]['division'] = $eu->profile_field_division;
 		$divisiones[$key]['zona'] = $eu->profile_field_zona;
@@ -935,25 +983,32 @@ function getDivisionesPorZonaProgress($courseId, $zona, $enrolledUsersArray) {
 
 	$count = 0;
 	$progress = 0;
+	$ids = '';
 
 	foreach($divisiones as $division) {
 		if ($division['zona'] != $zona) {
 			continue;
 		}
 		$count++;
-		$progress += getTipoPersonalPorDivisionProgress($courseId, $division['division'], $zona, $enrolledUsersArray);
+		$progress += getTipoPersonalPorDivisionProgress($courseId, $division['division'], $zona, $enrolledUsersArray)['progress'];
+		$ids .= getTipoPersonalPorDivisionProgress($courseId, $division['division'], $zona, $enrolledUsersArray)['ids'] . ',';
 	}
 
 	if($count == 0) {
 		return 0;
 	}
 
-	$progress = $progress/$count;
+	$ids = rtrim($ids, ',');
+	$ids = implode(',',array_unique(explode(',', $ids)));
 
-	return $progress;
+	$returnArr['progress'] = $progress/$count;
+	$returnArr['ids'] = $ids;
+
+	return $returnArr;
 }
 
 function getZonasProgressById($courseId, $zonaExt) {
+	$returnArr = array();
 	$enrolledUsersArray = getUserAllDataByCourseId($courseId);
 
 	foreach($enrolledUsersArray as $eu) {
@@ -967,25 +1022,32 @@ function getZonasProgressById($courseId, $zonaExt) {
 
 	$count = 0;
 	$progress = 0;
+	$ids = '';
 
 	foreach($zonas as $zona) {
 		if($zonaExt != $zona) {
 			continue;
 		}
 		$count++;
-		$progress += getDivisionesPorZonaProgress($courseId, $zona, $enrolledUsersArray);
+		$progress += getDivisionesPorZonaProgress($courseId, $zona, $enrolledUsersArray)['progress'];
+		$ids .= getDivisionesPorZonaProgress($courseId, $zona, $enrolledUsersArray)['ids'] . ',';
 	}
 
 	if($count == 0) {
 		return 0;
 	}
 
-	$progress = $progress/$count;
+	$ids = rtrim($ids, ',');
+	$ids = implode(',',array_unique(explode(',', $ids)));
 
-	return $progress;
+	$returnArr['progress'] = $progress/$count;
+	$returnArr['ids'] = $ids;
+
+	return $returnArr;
 }
 
 function getSeguimientoDetailsZonaProgress($courseId) {
+	$returnArr = array();
 	$enrolledUsersArray = getUserAllDataByCourseId($courseId);
 
 	foreach($enrolledUsersArray as $eu) {
@@ -993,21 +1055,27 @@ function getSeguimientoDetailsZonaProgress($courseId) {
 	}
 
 	$progress = 0;
+	$ids = '';
 
 	foreach($zonas as $zona) {
-		$progress += getZonasProgressById($courseId, $zona);
+		$progress += getZonasProgressById($courseId, $zona)['progress'];
+		$ids .= getZonasProgressById($courseId, $zona)['ids'] . ',';
 	}
 
 	if(count($zonas) == 0) {
 		return 0;
 	}
+	$ids = rtrim($ids, ',');
+	$ids = implode(',',array_unique(explode(',', $ids)));
 
-	$progress = $progress/count($zonas);
+	$returnArr['progress'] = $progress/count($zonas);
+	$returnArr['ids'] = $ids;
 
-	return $progress;
+	return $returnArr;
 }
 
 function getSeguimientoDetailsAreaProgress($courseId) {
+	$returnArr = array();
 	$enrolledUsersArray = getUserAllDataByCourseId($courseId);
 
 	foreach($enrolledUsersArray as $key=>$eu) {
@@ -1015,34 +1083,43 @@ function getSeguimientoDetailsAreaProgress($courseId) {
 	}
 
 	$progress = 0;
+	$ids = '';
 
 	foreach($areas as $area) {
-		$progress += getAreaProgress($courseId, $area, $enrolledUsersArray);
+		$progress += getAreaProgress($courseId, $area, $enrolledUsersArray)['progress'];
+		$ids .= getAreaProgress($courseId, $area, $enrolledUsersArray)['ids'] . ',';
 	}
 
 	if(count($areas) == 0) {
 		return 0;
 	}
 
-	$progress = $progress/count($areas);
+	$ids = rtrim($ids, ',');
+	$ids = implode(',',array_unique(explode(',', $ids)));
 
-	return $progress;
+	$returnArr['progress'] = $progress/count($areas);
+	$returnArr['ids'] = $ids;
+
+	return $returnArr;
 }
 
 function getCursosProgress($courseId) {
+	$returnArr = array();
 	$seguimientoDetails = array('zonas','areas');
 
 	foreach($seguimientoDetails as $seguimientoDetail) {
 		if($seguimientoDetail == 'zonas') {
-			$progress += getSeguimientoDetailsZonaProgress($courseId);
+			$progress += getSeguimientoDetailsZonaProgress($courseId)['progress'];
 		} else {
-			$progress += getSeguimientoDetailsAreaProgress($courseId);
+			$progress += getSeguimientoDetailsAreaProgress($courseId)['progress'];
 		}
 	}
 
 	$progress = $progress/count($seguimientoDetails);
 
-	return $progress;
+	$returnArr['progress'] = $progress;
+
+	return $returnArr;
 }
 
 function getCategoryProgressById($idCat) {
@@ -1051,7 +1128,7 @@ function getCategoryProgressById($idCat) {
 	$progress = 0;
 
 	foreach($courses as $key=>$course) {
-		$progress += getCursosProgress($course->id);
+		$progress += getCursosProgress($course->id)['progress'];
 	}
 
 	$progress = $progress/count($courses);
@@ -1067,10 +1144,10 @@ border-radius: 4px;">
 				<div class="col-sm" style="text-align: left; font-weight: bold; color: #154A7D; font-size: 24px;">Seguimiento de finalización de cursos</div>
 				<div class="col-sm-1 pl-0">
 					<div class="row">
-						<div class="col-sm-1" style="cursor: pointer;" data-toggle="modal" data-target="#myModalGeneral">
-							<img src="../theme/remui/pix/ic_email_24px.png">
-						</div>
-						<div id="modalXLS" class="col-sm-1" style="cursor: pointer;">
+						<div class="col-sm carta-general" data-toggle="modal">
+							<img style="opacity: 0.5; cursor: auto;" src="../theme/remui/pix/ic_email_24px.png">
+						</div> 
+						<div id="modalXLS" class="col-sm" style="cursor: pointer;">
 							<img src="../theme/remui/pix/ic_get_app_24px.png">
 						</div>
 					</div>
