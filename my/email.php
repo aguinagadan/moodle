@@ -1,17 +1,34 @@
 <?php
-	ini_set( 'display_errors', 1 );
-	error_reporting( E_ALL );
+ini_set( 'display_errors', 1 );
+error_reporting( E_ALL );
 
-	$from = "samuel_ro4@hotmail.com";
-	$to = "samuel_ro4@hotmail.com";
+require_once('../config.php');
 
-	$subject = "Checking PHP mail";
-	$message = "PHP mail works just fine";
-	$headers = "From:" . $from;
+$message = $_POST['message'];
+//cambiar produccion - samuel
+$from = 'samuelro444@gmail.com';
+$subject = 'Correo de prueba para Seguimiento';
 
-	$success = mail($to, $subject, $message, $headers);
-	if (!$success) {
-		print_r(error_get_last()['message']);
+if($_POST['idUsersAll']) {
+	$userIds = explode( ',', $_POST['idUsersAll']);
+
+	foreach($userIds as $userId) {
+		$foruser = core_user::get_user($userId);
+		$emailTo = $foruser->email;
+		var_dump('email => ' . $emailTo);
+		var_dump('mensaje => ' . $message);
+		var_dump('de => '. $from);
+		var_dump('subject => ' . $subject);
+		//email_to_user($foruser, $from, $subject, $message);
 	}
+} else {
+	$foruser = core_user::get_user($_POST['idUser']);
 
-	echo "The email message was sent.";
+	$emailTo = $foruser->email;
+
+	var_dump('email => ' . $emailTo);
+	var_dump('mensaje => ' . $message);
+	var_dump('de => '. $from);
+	var_dump('subject => ' . $subject);
+	//email_to_user($foruser, $from, $subject, $message);
+}

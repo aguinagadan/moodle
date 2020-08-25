@@ -168,6 +168,17 @@
             $newThis.prevAll('div').css('opacity','0.5');
         }
 
+        function addIds() {
+            var Ids = '';
+            $('.carta-general').attr('ids', '');
+
+            $('.ss-container:visible').each(function(){
+                Ids = Ids + $(this).find('.personaIds').val() + ',';
+            });
+            Ids = Ids.replace(/,\s*$/, "");
+            $('.carta-general').attr('user-ids', Ids);
+        }
+
         var total = $(".d-total").attr('data-value');
 
         $(".d-progress").each(function() {
@@ -282,11 +293,18 @@
             $('.ss-main-container').show();
             $(this).nextAll('div').remove();
             $(this).css('opacity','1');
+            $('.carta-general').find('img').css('opacity', 0.5);
+            $('.carta-general').find('img').css('cursor', 'auto');
+            $('.carta-general').attr('data-target', '');
         });
 
         $(document).on('click', '.cat-clickable', function() {
             var catId = $(this).attr('data-id');
-            var elementToShow = $('.ss-main-container-course[data-id='+catId+']')
+            var elementToShow = $('.ss-main-container-course[data-id='+catId+']');
+
+            $('.carta-general').find('img').css('opacity', 0.5);
+            $('.carta-general').find('img').css('cursor', 'auto');
+            $('.carta-general').attr('data-target', '');
 
             $('.ss-container').hide();
             elementToShow.show();
@@ -299,22 +317,64 @@
         function openDataSS(dataOpen, $this) {
             var elementToShow = $('.' + dataOpen + '[course-id='+ $this.attr("course-id") +']' + '[zona-name="'+ $this.attr("zona-name") +'"]');
 
+            $('.carta-general').find('img').css('opacity', 0.5);
+            $('.carta-general').find('img').css('cursor', 'auto');
+            $('.carta-general').attr('data-target', '');
+
+            if(dataOpen == 'ss-main-container-seguimiento-detail') {
+                $('.carta-general').find('img').css('opacity', 1);
+                $('.carta-general').find('img').css('cursor', 'pointer');
+                $('.carta-general').attr('data-target', '#myModalGeneral');
+            }
+
             $('.ss-container').hide();
             elementToShow.show();
             elementToShow.css('display','flex');
             elementToShow.removeClass('hidden');
             addBreadcrumb($this);
+            addIds();
         }
 
         $(document).on('click', '.element-clickable', function() {
             openDataSS($(this).attr('data-open'), $(this));
         });
 
-        $(document).on('click', '#myModalBtn', function() {
+        $(document).on("click", '.personal-clickable, .logo-mail-clickable', function () {
+            var id = $(this).data('id');
+            $("#myModalBtn").attr('id-user', id);
+        });
+
+        $(document).on("click", '.carta-general', function () {
+            var ids = $(this).attr('user-ids');
+            $("#myModalGeneralBtn").attr('id-users-all', ids);
+        });
+
+        $(document).on('click', '#myModalGeneralBtn', function() {
+            var dataGeneral = {
+                idUsersAll: $(this).attr('id-users-all'),
+                message: $('#message-text-all').val()
+            };
+
             $.ajax({
                 type: "POST",
                 url: "email.php",
-                data: '',
+                data: dataGeneral,
+                success: function(){
+                    $('.success').fadeIn(1000);
+                }
+            });
+        });
+
+        $(document).on('click', '#myModalBtn', function() {
+            var data = {
+                idUser: $(this).attr('id-user'),
+                message: $('#message-text').val()
+            };
+
+            $.ajax({
+                type: "POST",
+                url: "email.php",
+                data: data,
                 success: function(){
                     $('.success').fadeIn(1000);
                 }
