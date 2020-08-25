@@ -34,6 +34,8 @@ use context_system;
 use html_writer;
 use core_text;
 
+global $CFG;
+
 require_once($CFG->dirroot . '/course/renderer.php');
 
 class course_renderer extends \core_course_renderer {
@@ -75,12 +77,10 @@ class course_renderer extends \core_course_renderer {
 	}
 
 	private function getChildCoursesHTML($coursecatArr) {
-
 		$html = '';
 
 		foreach($coursecatArr as $coursecat) {
 			$courses = $coursecat->get_courses();
-			$catId = $coursecat->id;
 
 			$html .= '<div class="cc-subcategory-title">
 								<div>'.$coursecat->name.'</div>
@@ -88,41 +88,37 @@ class course_renderer extends \core_course_renderer {
 							</div>';
 
 			if(empty($courses)) {
-				$html .= '<div><div style="text-align: center; font-size: large" class="cc-block-container">Aún no existen cursos para esta categoría</div></div>';
+				$html .= '<div><div style="text-align: center; font-size: large" class="cc-category-container">Aún no existen cursos para esta categoría</div></div>';
 			} elseif (!empty($courses)) {
 				$html .= '<div><div class="row ml-0">';
 
-				$current = 0;
-				$rowCount = 0;
-				$countForColor = 0;
-				$groupedNumber = 4;
+			$current = 0;
+			$rowCount = 0;
+			$countForColor = 0;
 
-				foreach($courses as $c) {
-					$countForColor++;
-					$h3Height = '';
+			foreach($courses as $c) {
+				$countForColor++;
+				$h3Height = '';
 
-					if($this->progressBarHTML($c) == '') {
-						$h3Height = 'height: 174px !important;';
-					}
-
-					$html .= '<div id="cc-block-container" class="cc-block-container-min">
-													<div class="cc-category-div-box-dinamic" data-categoryid="1" data-depth="1" data-showcourses="5" data-type="0">
-														<div class="cc-courses-info">
-																	<h3 class="cc-h3-courses-info cc-h3-courses-info-dinamic" style="background: url('. \theme_remui\utility::get_course_image($c, 1) .'); background-size: cover;'.$h3Height.'"></h3>
-																	'. $this->progressBarHTML($c) .' 
-																	<div class="cc-courses-div-container" style="background-color: white;">
-																		<div class="cc-courses-cat-name">'. 'Lanzamiento: ' . $this->convertDateToSpanish($c->startdate) .'</div>
-																		<div class="cc-courses-course-name">'. $c->fullname .'</div>
-																		<a class="cc-courses-button" type="button" href="'. new moodle_url("/course/view.php",array("id" => $c->id)). '">Acceder al curso</a>
-																	</div>
-														</div>
-													</div>
-												</div>';
-					$rowCount++;
-					$current++;
+				if($this->progressBarHTML($c) == '') {
+					$h3Height = 'height: 174px !important;';
 				}
 
-				$html .= '</div></div>';
+				$html .= '<div class="cc-course-container-min">
+												<div class="cc-course-div-box-dinamic" data-categoryid="1" data-depth="1" data-showcourses="5" data-type="0">
+														<div class="cc-courses-image-container" style="background: url('. \theme_remui\utility::get_course_image($c, 1) .'); background-size: cover;'.$h3Height.'"></div>
+														'. $this->progressBarHTML($c) .' 
+														<div class="cc-courses-detail-container cc-height-200" style="background-color: white;">
+															<div class="cc-courses-cat-name">'. 'Lanzamiento: ' . $this->convertDateToSpanish($c->startdate) .'</div>
+															<div class="cc-courses-course-name">'. $c->fullname .'</div>
+															<a class="cc-courses-button" type="button" href="'. new moodle_url("/course/view.php",array("id" => $c->id)). '">Acceder al curso</a>
+														</div>
+												</div>
+											</div>';
+				$rowCount++;
+				$current++;
+			}
+			$html .= '</div></div>';
 			}
 		}
 		return $html;
@@ -130,9 +126,8 @@ class course_renderer extends \core_course_renderer {
 
 	private function getCoursesHTML($coursecat) {
 		$courses = $coursecat->get_courses();
-		$catId = $coursecat->id;
-
 		$html = '';
+
 		if (!empty($courses)) {
 			$current = 0;
 			$rowCount = 0;
@@ -140,24 +135,21 @@ class course_renderer extends \core_course_renderer {
 
 			foreach($courses as $c) {
 				$countForColor++;
-
 				$h3Height = '';
 
 				if($this->progressBarHTML($c) == '') {
 					$h3Height = 'height: 174px !important;';
 				}
 
-				$html .= '<div id="cc-block-container" class="cc-block-container-min">
-													<div class="cc-category-div-box-dinamic" data-categoryid="1" data-depth="1" data-showcourses="5" data-type="0">
-														<div class="cc-courses-info">
-																	<h3 class="cc-h3-courses-info cc-h3-courses-info-dinamic" style="background: url('. \theme_remui\utility::get_course_image($c, 1) .'); background-size: cover;'.$h3Height.'"></h3>
-																	'. $this->progressBarHTML($c) .' 
-																	<div class="cc-courses-div-container" style="background-color: white;">
-																		<div class="cc-courses-cat-name">'. 'Lanzamiento: ' . $this->convertDateToSpanish($c->startdate) .'</div>
-																		<div class="cc-courses-course-name">'. $c->fullname .'</div>
-																		<a class="cc-courses-button" type="button" href="'. new moodle_url("/course/view.php",array("id" => $c->id)). '">Acceder al curso</a>
-																	</div>
-														</div>
+				$html .= '<div class="cc-course-container-min">
+													<div class="cc-course-div-box-dinamic" data-categoryid="1" data-depth="1" data-showcourses="5" data-type="0">
+															<div class="cc-courses-image-container" style="background: url('. \theme_remui\utility::get_course_image($c, 1) .'); background-size: cover;'.$h3Height.'"></div>
+															'. $this->progressBarHTML($c) .' 
+															<div class="cc-courses-detail-container cc-height-200" style="background-color: white;">
+																<div class="cc-courses-cat-name">'. 'Lanzamiento: ' . $this->convertDateToSpanish($c->startdate) .'</div>
+																<div class="cc-courses-course-name">'. $c->fullname .'</div>
+																<a class="cc-courses-button" type="button" href="'. new moodle_url("/course/view.php",array("id" => $c->id)). '">Acceder al curso</a>
+															</div>
 													</div>
 												</div>';
 				$rowCount++;
@@ -230,7 +222,6 @@ class course_renderer extends \core_course_renderer {
 
 			}
 		}
-
 		return $output;
 	}
 
@@ -330,7 +321,7 @@ class course_renderer extends \core_course_renderer {
 			'viewmoreurl' => new moodle_url('/course/index.php',
 				array('browse' => 'categories', 'page' => 1))
 		))->
-		set_attributes(array('class' => 'frontpage-category-names cc-category-container'));
+		set_attributes(array('class' => 'frontpage-category-names'));
 		return $this->coursecat_tree($chelper, $tree);
 	}
 
@@ -344,58 +335,53 @@ class course_renderer extends \core_course_renderer {
 			array('recursive' => true, 'coursecontacts' => true, 'sort' => array('idnumber' => 1)));
 
 		if($all) {
-			$backgroundColor = "white";
 			$titulo = 'Todos nuestros cursos';
 			$offset = count($allcourses);
 			$divClass = "cc-ultimos-cursos-container-all";
 			$divClassList = "cc-all-cursos-list";
+			$width = "cc-all-cursos-block";
+			$extraClasses = 'cc-height-200';
 		} else {
-			$backgroundColor = "#F5F5F5";
 			$titulo = 'Nuestros últimos cursos';
 			$offset = 3;
 			$divClass = "cc-ultimos-cursos-container";
 			$divClassList = "cc-ultimos-cursos-list";
+			$width = "col-sm";
+			$extraClasses = '';
 		}
 
 		$allcourses = array_slice($allcourses, 0, $offset);
 
 		$content =
-			'<div class="cc-main-ultimos-container" style="background-color: '.$backgroundColor.';">
-				<div class="'.$divClass.'">
+			'<div class="'.$divClass.'">
 						<div>
 							<h2 class="cc-big-header">'.$titulo.'</h2>
 						</div>
-						<div class="'.$divClassList.' row">';
+						<div class="'.$divClassList.'">';
 
-		$current = 0;
 		$rowCount = 0;
 		$countForColor = 0;
 
 		foreach($allcourses as $key=>$courseElement) {
 			$countForColor++;
 
-			$newClass = '';
-
-			if(!$all) {
-				if($key == 0) {
-					$newClass = 'cc-adjust-margin';
-				}
+			if($rowCount == 0 && $all) {
+				$content .=	'<div class="row">';
 			}
 
-			$content .=	'<div class="cc-courses-info '. $newClass .'">
-										<div class="cc-category-box cc-category-box-secundary">
-										<h3 class="cc-h3-courses-info cc-ultimos-image" style="background: url('. \theme_remui\utility::get_course_image($courseElement, 1) .');"></h3>
+			$content .=	'<div class="'. $width .'">
+										<div class="cc-courses-image-container" style="background: url('. \theme_remui\utility::get_course_image($courseElement, 1) .');"></div>
 										'. $this->progressBarHTML($courseElement) .'
-										<div class="cc-courses-div-container cc-ultimos-desc">
+										<div class="cc-courses-detail-container '. $extraClasses .'">
 											<div class="cc-courses-cat-name">'. 'Lanzamiento: ' . $this->convertDateToSpanish($courseElement->startdate) .'</div>
 											<div class="cc-courses-course-name">'. $courseElement->fullname .'</div>
-											<a class="cc-courses-button" type="button" href="'. new moodle_url("/course/view.php",array("id" => $courseElement->id)). '">Acceder al curso</a>
-				</div>
-				</div>
-			</div>';
+											<a class="cc-courses-button" type="button" href="'. new moodle_url("/course/view.php",array("id" => $courseElement->id)). '">Acceder al curso</a></div></div>';
 
 			$rowCount++;
-			$current++;
+
+			if($rowCount%3 == 0 && $all) {
+				$content .=	'</div><div class="row">';
+			}
 		}
 
 		$content .= '</div>';
@@ -407,8 +393,7 @@ class course_renderer extends \core_course_renderer {
 				</div>';
 		} else {
 			$content .=
-				'</div>
-				<div class="cc-ultimos-cursos-button-div">
+				'<div class="cc-ultimos-cursos-button-div">
 					<a class="cc-ultimos-cursos-button" type="button" href="' . new moodle_url("/course") . '">Ver todos los cursos</a>
 				</div>';
 		}
@@ -475,7 +460,7 @@ class course_renderer extends \core_course_renderer {
 		}
 
 		// display list of subcategories
-		$content = html_writer::start_tag('div', array('class' => 'subcategories cc-subcategories'));
+		$content = html_writer::start_tag('div', array('class' => 'subcategories'));
 
 		if (!empty($pagingbar)) {
 			$content .= $pagingbar;
@@ -488,10 +473,8 @@ class course_renderer extends \core_course_renderer {
 		$countForColor = 0;
 		$groupedNumber = 3;
 		$boxColor = "blue";
-		$tableNumber = 1;
 
 		$content .= '<div class="moved-background"></div>';
-
 		$content .= '<div class="cc-main-table-container pr-0 pl-0 w-100"><div style="width: 65%;margin: 0 auto;">';
 		$coursesDivs = '';
 
@@ -505,7 +488,7 @@ class course_renderer extends \core_course_renderer {
 			} else if($countForColor === 3) {
 				$boxColor = "green";
 			}
-			$content .= '<div id="cc-block-container" category-id="'.$key.'" class="col-sm cc-block-container" style="display:inline-block; width: 400px; vertical-align:top;">';
+			$content .= '<div category-id="'.$key.'" class="col-sm cc-category-container">';
 
 			$content .= $this->coursecat_category($chelper, $subcategory, $depth + 1, $boxColor, $key);
 			$content .= '</div>';
@@ -518,7 +501,7 @@ class course_renderer extends \core_course_renderer {
 
 		foreach ($subcategories as $key=>$subcategory) {
 			if(count($subcategory->get_courses()) > 0) {
-				$coursesDivs .= '<div class="cc-courses-div-detail row cc-ml-courses" category-id="'.$key.'">'.$this->getCoursesHTML($subcategory).'</div>';
+				$coursesDivs .= '<div class="cc-courses-div-detail row" category-id="'.$key.'">'.$this->getCoursesHTML($subcategory).'</div>';
 			}
 		}
 
@@ -590,9 +573,9 @@ class course_renderer extends \core_course_renderer {
 
 
 	protected function coursecat_category(coursecat_helper $chelper, $coursecat, $depth, $boxColor="blue", $key=0) {
-
 		//Get course image
 		$courseImage = $this->getRandomImage($coursecat->get_courses());
+		$content = '';
 
 		// open category tag
 		$classes = array('category');
@@ -629,11 +612,11 @@ class course_renderer extends \core_course_renderer {
 			'data-showcourses' => $chelper->get_show_courses(),
 			'data-type' => self::COURSECAT_TYPE_CATEGORY));
 
-		// category name
+		// Category name
 		$categorynameText = $coursecat->get_formatted_name();
-		$categorynameElement = '<div class="cc-category-background cc-category-background-color-'.$boxColor.'">';
+		$categorynameElement = '<div class="cc-category-background-color-'.$boxColor.'">';
 		$categorynameElement .= '<div class="cc-category-label-container">';
-		$categorynameElement .= html_writer::tag('div', $categorynameText, array('class' => 'cc-categoryname'));
+		$categorynameElement .= html_writer::tag('div', $categorynameText, array('class' => 'cc-category-name'));
 
 		if ($chelper->get_show_courses() == self::COURSECAT_SHOW_COURSES_COUNT) {
 			$coursescount = $coursecat->get_courses_count();
@@ -642,28 +625,16 @@ class course_renderer extends \core_course_renderer {
 				$coursesLabel = ' CURSO';
 			}
 			$categorynameElement .= html_writer::tag('span', $coursescount.$coursesLabel,
-				array('title' => get_string('numberofcourses'), 'class' => 'numberofcourse cc-numberofcourse'));
+				array('title' => get_string('numberofcourses'), 'class' => 'cc-number-of-courses'));
 			$categorynameElement .= '</div></div>';
 		}
-
-		$content .= html_writer::start_tag('div', array('class' => 'info cc-main-category'));
-
-		$content .= html_writer::start_tag('a', array('class' => 'cc-category-box', 'style' => 'cursor:pointer;'));
 
 		$customStyle = 'background-color: #76879d;';
 		if($courseImage != '') {
 			$customStyle = 'background:url('.$courseImage.');';
 		}
 
-		$content .= html_writer::tag(($depth > 1) ? 'h4' : 'h3', $categorynameElement, array('style'=>$customStyle));
-
-		$content .= html_writer::end_tag('a');
-
-		$content .= html_writer::end_tag('div'); // .info
-
-		// add category content to the output
-		$content .= html_writer::tag('div', $categorycontent, array('class' => 'content'));
-
+		$content .= html_writer::tag('div', $categorynameElement, array('style'=>$customStyle, 'class' => 'cc-category-image'));
 		$content .= html_writer::end_tag('div'); // .category
 
 		// Return the course category tree HTML
@@ -714,23 +685,27 @@ class course_renderer extends \core_course_renderer {
 			$current = 0;
 			$rowCount = 0;
 			$countForColor = 0;
-			$groupedNumber = 3;
+			$courseslist .= '<div class="cc-all-cursos-list">';
 
-			$courseslist .= '<div class="cc-all-cursos-list row">';
-
-			foreach($courses as $courseElement) {
+			foreach($courses as $key=>$courseElement) {
 				$countForColor++;
-				$courseslist .=	'<div class="cc-courses-info cc-search-result-div">
-										<div class="cc-category-box cc-category-box-secundary">
-										<h3 class="cc-h3-courses-info cc-ultimos-image" style="background: url('. \theme_remui\utility::get_course_image($courseElement, 1) .');"></h3>
-											<div class="cc-courses-div-container cc-ultimos-desc">
+				if($rowCount == 0) {
+					$courseslist .=	'<div class="row">';
+				}
+				$courseslist .=	'<div class="cc-all-cursos-block">
+										<div class="cc-courses-image-container" style="background: url('. \theme_remui\utility::get_course_image($courseElement, 1) .');"></div>
+											<div class="cc-courses-detail-container">
 											<div class="cc-courses-cat-name">'. 'Lanzamiento: ' . $this->convertDateToSpanish($courseElement->startdate) .'</div>
 												<div class="cc-courses-course-name">'. $courseElement->fullname .'</div>
 												<a class="cc-courses-button" type="button" href="'. new moodle_url("/course/view.php",array("id" => $courseElement->id)). '">Acceder al curso</a>
 											</div>
-										</div>
 									</div>';
 				$rowCount++;
+				if($rowCount%3 == 0 && $rowCount<count($courses)) {
+					$courseslist .=	'</div><div class="row">';
+				} else if($rowCount >= count($courses)) {
+					$courseslist .=	'</div>';
+				}
 				$current++;
 			}
 			$courseslist .= '</div>';
@@ -755,7 +730,7 @@ class course_renderer extends \core_course_renderer {
 					$curso = 'cursos';
 				}
 
-				$content .= '<div class="mb-35 offset-17-2">Se '. $encontro . ' ' .$totalcount . ' '. $curso . ' con la palabra "' . $searchcriteria['search'] . '"</div>';
+				$content .= '<div class="cc-search-label-info">Se '. $encontro . ' ' .$totalcount . ' '. $curso . ' con la palabra "' . $searchcriteria['search'] . '"</div>';
 				$content .= $courseslist;
 				$content .=
 					'<div class="cc-ultimos-cursos-button-div">
@@ -774,7 +749,7 @@ class course_renderer extends \core_course_renderer {
 
 		}
 		else {
-			// just print search form
+// 			just print search form
 //			$content .= $this->box_start('generalbox mdl-align');
 //			$content .= $this->course_search_form();
 //			$content .= $this->box_end();

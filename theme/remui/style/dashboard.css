@@ -1,0 +1,120 @@
+.dd-h3-courses-info {
+    height: 126px;
+    box-shadow: 2px 2px 4px #00000029;
+    border-radius: 4px 4px 0 0;
+    margin-bottom: 0;
+    padding-right: 4%;
+}
+.dd-courses-course-name {
+    width: 100%;
+    height: 115px;
+    padding: 2% 4% 0 7%;
+    overflow: hidden;
+    font-size: x-large;
+    word-wrap: break-word;
+}
+.dd-courses-button {
+    margin: 3% 3% 7% 7%;
+    background: #5CBDEB;
+    border-radius: 4px;
+    opacity: 1;
+    color: white;
+    padding: 2% 6% 2% 6%;
+    border: 0;
+    text-decoration: none !important;
+}
+.dd-courses-button a:hover{
+    color: white !important;
+}
+.dd-ultimos-desc {
+    height: 100% !important;
+}
+.viewport{
+    margin: auto;
+    overflow: hidden;
+    height: 100%;
+    width: 90.5%;
+}
+.slider{
+    display: flex;
+    height: 100%;
+    width: 100%;
+}
+div.slide{
+    width: 17vw;
+    min-width: 17vw;
+    height: 100%;
+    -webkit-transform: translateX(0px);
+    -moz-transform: translateX(0px);
+    -ms-transform: translateX(0px);
+    -o-transform: translateX(0px);
+    transform: translateX(0px);
+    transition: all 1s ease;
+}
+.dd-fa-disabled {
+    opacity: 0.5;
+}
+.dd-image-card {
+    border-radius: 4px;
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+.dd-line-height {
+    line-height: 2vw;
+}
+.dd-line-height-name {
+    line-height: 2vw;
+}
+.dd-category-box-secundary {
+    height: 100%;
+    width: 93%;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 2px 2px 4px #00000029;
+}
+.dd-category-box-secundary div{
+    background-size: cover !important;
+}
+.dd-username-label {
+    font-size: 6vh;
+}
+.ss-m-b-05 {
+    margin-bottom: 0.5rem !important;
+}
+.element-clickable {
+    font-size: 18px;
+}
+
+/* media queries */
+@media only screen and (max-device-width: 768px) {
+    .dd-courses-course-name {padding-left: 7%; font-size: 2vw !important; width: 100%; height: 12vh !important; word-wrap: break-word;}
+    .dd-courses-button {font-size:8px!important;}
+    .dd-line-height {line-height: 5vw !important;}
+    .dd-line-height-name {line-height: 9vw !important;}
+    .dd-username-label {font-size: 3vh;}
+    .d-progress-bar-level {width: 100% !important;}
+    .d-course-detail-row-2 {width: 100% !important; padding: 0.5% 0.5% 0.5% 0 !important;}
+    .d-course-detail-row-3 {width: 100% !important; padding-left: 5% !important;}
+    .d-course-detail-row-3-complete {width: 50vw !important; display: inline-block !important;}
+    .d-progress-bar-level-course {height: 8px !important; background: rgba(15, 74, 124, 0.34) !important;}
+    .d-progreso {display: none !important;}
+    .d-tiempo {display: none !important;}
+    .d-comp {display: none !important;}
+    .d-progreso-res {color: #154a7d !important; display: flex !important;}
+    .d-tiempo-res {color: #154a7d !important; display: flex !important;}
+    .d-comp-res {color: #154a7d !important; display: flex !important;}
+}
+@media only screen and (max-device-width: 1829px) {
+    .d-progress-bar-level {width: 100% !important;}
+    .d-course-detail-row-2 {width: 100% !important;padding: 0.5% 0.5% 0.5% 0 !important;}
+    .d-course-detail-row-3 {width: 100% !important;padding-left: 5% !important;}
+    .d-course-detail-row-3-complete {width: 50vw !important;display: inline-block !important;}
+    .d-progress-bar-level-course {height: 8px !important;background: rgba(15, 74, 124, 0.34) !important;}
+    .d-progreso {display: none !important;}
+    .d-tiempo {display: none !important;}
+    .d-comp {display: none !important;}
+    .d-progreso-res {color: #154a7d !important;display: flex !important;}
+    .d-tiempo-res {color: #154a7d !important;display: flex !important;}
+    .d-comp-res {color: #154a7d !important;display: flex !important;}
+}
