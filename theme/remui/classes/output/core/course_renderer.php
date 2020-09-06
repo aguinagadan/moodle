@@ -51,7 +51,7 @@ class course_renderer extends \core_course_renderer {
 
 	private function progressBarHTML($course) {
 		global $USER;
-		$div = '';
+		$div = '<div style="background-color: white !important; height: 1rem; box-shadow: 0px 4px 4px rgba(0,0,0,.16);"></div>';
 
 		$percentage = progress::get_course_progress_percentage($course, $USER->id);
 
@@ -68,6 +68,7 @@ class course_renderer extends \core_course_renderer {
 									</div>
 							</div>';
 		}
+
 		return $div;
 	}
 
@@ -98,15 +99,10 @@ class course_renderer extends \core_course_renderer {
 
 			foreach($courses as $c) {
 				$countForColor++;
-				$h3Height = '';
-
-				if($this->progressBarHTML($c) == '') {
-					$h3Height = 'height: 174px !important;';
-				}
 
 				$html .= '<div class="cc-course-container-min">
 												<div class="cc-course-div-box-dinamic" data-categoryid="1" data-depth="1" data-showcourses="5" data-type="0">
-														<div class="cc-courses-image-container" style="background: url('. \theme_remui\utility::get_course_image($c, 1) .'); background-size: cover;'.$h3Height.'"></div>
+														<div class="cc-courses-image-container" style="background: url('. \theme_remui\utility::get_course_image($c, 1) .'); background-size: cover;"></div>
 														'. $this->progressBarHTML($c) .' 
 														<div class="cc-courses-detail-container cc-height-200" style="background-color: white;">
 															<div class="cc-courses-cat-name">'. 'Lanzamiento: ' . $this->convertDateToSpanish($c->startdate) .'</div>
@@ -135,15 +131,10 @@ class course_renderer extends \core_course_renderer {
 
 			foreach($courses as $c) {
 				$countForColor++;
-				$h3Height = '';
-
-				if($this->progressBarHTML($c) == '') {
-					$h3Height = 'height: 174px !important;';
-				}
 
 				$html .= '<div class="cc-course-container-min">
 													<div class="cc-course-div-box-dinamic" data-categoryid="1" data-depth="1" data-showcourses="5" data-type="0">
-															<div class="cc-courses-image-container" style="background: url('. \theme_remui\utility::get_course_image($c, 1) .'); background-size: cover;'.$h3Height.'"></div>
+															<div class="cc-courses-image-container" style="background: url('. \theme_remui\utility::get_course_image($c, 1) .'); background-size: cover;"></div>
 															'. $this->progressBarHTML($c) .' 
 															<div class="cc-courses-detail-container cc-height-200" style="background-color: white;">
 																<div class="cc-courses-cat-name">'. 'Lanzamiento: ' . $this->convertDateToSpanish($c->startdate) .'</div>

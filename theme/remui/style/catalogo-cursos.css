@@ -129,14 +129,14 @@
     margin-bottom: 0;
     padding-right: 4%;
     border-radius: 4px 4px 0 0;
-    box-shadow: 2px 2px 4px #00000029;
+    box-shadow: 0 4px 4px #00000029;
     background-size: cover !important;
 }
 .cc-courses-detail-container {
     height: 280px;
     background-color: white;
     text-align: left;
-    box-shadow: 2px 2px 4px #00000029;
+    box-shadow: 0 4px 4px #00000029;
     border-radius:0 0 4px 4px;
 }
 .cc-height-200 {
@@ -200,6 +200,10 @@
 }
 .progress {
     background-color: #FF644C !important;
+}
+
+.progress-square {
+    border-radius: 0 !important;
 }
 
 /* ultimos cursos */
