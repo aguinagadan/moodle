@@ -211,9 +211,9 @@ function getPendingCoursesHtml($courses) {
 		}
 
 		$content = '<div class="cc-courses-info">
-										<div class="cc-category-box dd-category-box-secundary">
+										<div class="dd-category-box-secundary">
 										<div class="dd-h3-courses-info" style="background: url('. \theme_remui\utility::get_course_image($c) .');"></div>
-										<div class="cc-courses-div-container dd-ultimos-desc"> '. progressBarHTML($c) .'
+										<div class="cc-courses-detail-container dd-ultimos-desc"> '. progressBarHTML($c) .'
 											<div class="text-left" style="font-size: 12px; color: #A3AFB7; padding: 2% 4% 0 7%; height: 35px;">'. getCategoryById($c->id)->name .'</div>
 											<div class="dd-courses-course-name">'. $c->fullname .'</div>
 											<a class="dd-courses-button" type="button" href="'. new moodle_url("/course/view.php",array("id" => $c->id)). '">Acceder al curso</a>

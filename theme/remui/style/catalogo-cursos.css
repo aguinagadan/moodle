@@ -1,0 +1,274 @@
+/* header */
+.cc-search-button {
+    font-size: 1.5375rem !important;
+}
+.cc-fa-search {
+    color: white !important;
+}
+.cc-search-box {
+    float: left;
+    background-color: #78a4b6 !important;
+    color: black !important;
+    opacity: 0.5 !important;
+    border: 0 !important;
+}
+
+.cc-search-box::placeholder {
+    color: white !important;
+}
+
+.cc-search-result-div {
+    padding-top: 3% !important;
+    float: none;
+}
+.offset-17-2 {
+    margin-left: 17.2%;
+}
+
+/* titulo */
+.cc-category-header h2{
+    text-align: center;
+    letter-spacing: 0;
+    padding: 1% 0 1% 0;
+    font-weight: 500;
+    font-size: 45px;
+    color: #154A7D;
+    opacity: 1;
+}
+
+/* lista de categorias */
+.cc-main-table-container {
+    padding: 2%;
+    margin: 0 auto;
+    width: 100%;
+    text-align: center;
+    overflow: hidden;
+}
+.cc-category-container {
+    display:inline-block;
+    width: 400px;
+    vertical-align:top;
+}
+.cc-category-div-box {
+    height: 230px;
+    padding: 0 0 4% 0;
+    border-radius: 6px 6px 0 0;
+}
+.cc-category-image {
+    height: 100%;
+    border-radius: 6px;
+    display: flex;
+    cursor: pointer;
+    background-size: cover !important;
+}
+.cc-category-background-color-blue {
+    background-color: rgba(24, 74, 125, 0.75);
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 6px;
+}
+.cc-category-background-color-skyblue {
+    background-color: rgba(92, 189, 235, 0.75);
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 6px;
+}
+.cc-category-background-color-green {
+    background-color: rgba(118, 161, 64, 0.75);
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 6px;
+}
+.cc-category-name {
+    font-weight: bold;
+    font-size: x-large;
+    text-shadow: 0 1px 3px #00000059;
+    overflow: hidden;
+    color: white;
+    opacity: 1;
+}
+.cc-shrink-category {
+    transform: scale(0.8);
+}
+.cc-number-of-courses {
+    font-size: .921rem !important;
+    color: white;
+}
+.moved-background {
+    background-color: transparent;
+    position: absolute;
+    border-radius: 6px 6px 0 0 !important;
+}
+
+/* lista de cursos */
+
+/* dinamico */
+.cc-courses-div {
+    width: 100vw !important;
+    margin-left: calc(-1 * ((100vw - 100%) / 2)) !important;
+    margin-bottom: 1%;
+}
+.cc-courses-div-detail {
+    width: 65%;
+    padding: 20px;
+    margin-left: 2.5%;
+}
+.cc-course-div-box-dinamic {
+    width: 288px;
+    padding: 0 3% 5% 0;
+    border-radius: 6px 6px 0 0;
+}
+.cc-courses-image-container {
+    height: 208px;
+    margin-bottom: 0;
+    padding-right: 4%;
+    border-radius: 4px 4px 0 0;
+    box-shadow: 2px 2px 4px #00000029;
+    background-size: cover !important;
+}
+.cc-courses-detail-container {
+    height: 280px;
+    background-color: white;
+    text-align: left;
+    box-shadow: 2px 2px 4px #00000029;
+    border-radius:0 0 4px 4px;
+}
+.cc-height-200 {
+    height: 200px !important;
+}
+.cc-courses-cat-name {
+    padding: 7% 4% 0 7%;
+    color:#A3AFB7;
+    word-wrap: break-word;
+}
+.cc-courses-course-name {
+    width: 100%;
+    height: 45%;
+    padding: 2% 4% 0 7%;
+    overflow: hidden;
+    font-size: x-large;
+    word-wrap: break-word;
+}
+.cc-courses-button {
+    margin: 3% 3% 3% 7%;
+    background: #5CBDEB;
+    border-radius: 4px;
+    opacity: 1;
+    color: white;
+    padding: 2% 6% 2% 6%;
+    border: 0;
+    text-decoration: none !important;
+}
+.cc-courses-button a:hover{
+    color: white !important;
+}
+.cc-subcategory-title {
+    text-align: left;
+    width: 60%;
+    margin-left: 1%;
+    font-size: xx-large;
+    color: #154A7D;
+    font-weight: 600;
+}
+.cc-courses-info {
+    margin-right: 2%;
+    margin-bottom: 2%;
+}
+.bg-green-600-cc {
+    background-color:  #76A140 !important;
+    opacity: 1;
+}
+
+.bg-red-600-cc {
+    background-color:  #FF2300 !important;
+    opacity: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    -webkit-transition: width .6s ease;
+    -o-transition: width .6s ease;
+    transition: width .6s ease;
+}
+.progress {
+    background-color: #FF644C !important;
+}
+
+/* ultimos cursos */
+.cc-ultimos-cursos-list {
+    display: flex;
+    width: 65%;
+    margin: auto !important;
+}
+.cc-ultimos-cursos-container {
+    background-color: #F5F5F5;
+    width: 100%;
+    margin: auto;
+}
+.cc-ultimos-cursos-button-div {
+    text-align: center;
+    padding: 2%;
+}
+.cc-ultimos-cursos-button {
+    background: #A8A9AD 0 0 no-repeat padding-box;
+    border-radius: 4px;
+    opacity: 1;
+    border: 0;
+    width: 154px;
+    height: 35px;
+    color: #ffffff !important;
+    padding: 8px;
+}
+/* ultimos cursos end */
+
+/* todos los cursos */
+.cc-all-cursos-list {
+    height: 75%;
+    width: 63%;
+    margin: auto !important;
+}
+.cc-all-cursos-block {
+    width: 370px;
+    padding-bottom: 2%;
+    margin-right: 2%;
+}
+
+.cc-big-header {
+    text-align: center;
+    letter-spacing: 0;
+    padding: 1% 0 1% 0;
+    font-weight: 500;
+    font-size: 45px;
+    color: #154a7d;
+    opacity: 1;
+}
+
+.cc-search-label-info {
+    width: 63%;
+    margin: auto;
+    padding-bottom: 1%;
+}
+
+/* todos los cursos end */
+
+/* media queries */
+@media only screen and (max-device-width: 768px) {
+    .cc-ultimos-cursos-list {width: 89% !important;margin: auto;}
+    .cc-courses-cat-name {color:#A3AFB7; font-size: 15px !important;}
+    .cc-courses-course-name {padding-left: 7%; font-size: 20px !important; width: 100%; height: 45%; word-wrap: break-word;}
+    .cc-courses-button {font-size: 14px!important;}
+    .cc-category-div-box {width: 66% !important;margin: auto;}
+    .cc-search-box {width: 55vw !important; float: left; background-color: #78a4b6 !important; color: black !important; opacity: 0.5 !important; border: 0 !important;}
+    .cc-category-container {width: 100% !important;}
+    .cc-course-div-box-dinamic {width: 93% !important;}
+    .cc-course-container-min {margin: auto;}
+    .cc-all-cursos-block {margin: auto !important;}
+}
