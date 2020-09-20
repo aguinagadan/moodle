@@ -50,9 +50,13 @@ function getADToken() {
 	$responseData = execCurl($data);
 	return $responseData['access_token'];
 }
-function getADUsers() {
+function getADUsers($key, $skipToken='') {
+	if($key>0) {
+		$skipToken = '&$skiptoken='.$skipToken;
+	}
+
 	$data = array(
-		'url' => 'https://graph.windows.net/b7e26f48-2292-4a14-a355-1aeb8489ae3d/users?api-version=1.6',
+		'url' => 'https://graph.windows.net/b7e26f48-2292-4a14-a355-1aeb8489ae3d/users?api-version=1.6'.$skipToken,
 		'httpMethod' => 'GET',
 		'httpHeader' => array("Authorization: ". getADToken())
 	);
@@ -62,12 +66,15 @@ function getADUsers() {
 function createUser($userElement) {
 	global $DB;
 
+	$mail = !empty($userElement['mail']) ? $userElement['mail'] : $userElement['otherMails'][0];
+	$username = !empty($mail) ? $mail : $userElement['extension_f356ba22a23b4c2fb35162e63d13246c_userDocumentNumber'];
+
 	$user             = new StdClass();
 	$user->auth       = 'manual';
 	$user->confirmed  = 1;
 	$user->mnethostid = 1;
-	$user->email      = $userElement['mail'];
-	$user->username   = $userElement['mail'];
+	$user->email      = !empty($mail) ? $mail : 'mailtest@test.com';
+	$user->username   = $username;
 	$user->password   = md5($userElement['extension_f356ba22a23b4c2fb35162e63d13246c_userUOCode']);
 	$user->lastname   = $userElement['surname'];
 	$user->firstname  = $userElement['givenName'];
@@ -80,18 +87,46 @@ function createUser($userElement) {
 
 	$userCreatedObj->profile_field_DNI = $documentNumber;
 	$userCreatedObj->profile_field_codigo = $employeeCode;
-	profile_save_data($userCreatedObj);
-
+	//profile_save_data($userCreatedObj);
 }
 
 global $DB;
 
-$users = getADUsers()['value'];
-$usersFiltered = array();
+$key = 0;
+$skipToken = '';
+$usersValues = array();
+$allUsers = array();
 
-foreach($users as $user) {
-	$userObj = $DB->get_record('user', array('email' => $user['mail']));
-	if(!empty($userObj) || !isset($user['extension_f356ba22a23b4c2fb35162e63d13246c_userUOCode'])) {
+while(true) {
+	if($key>1 && $skipToken=='') {
+		break;
+	}
+	$allUsers[] = getADUsers($key, $skipToken);
+	$needle = '$skiptoken=';
+	$skipToken = substr($allUsers[$key]['odata.nextLink'], strpos($allUsers[$key]['odata.nextLink'], $needle) + strlen($needle));
+	$key++;
+}
+
+$count = 0;
+
+foreach($allUsers as $allUser) {
+	foreach($allUser['value'] as $key=>$val) {
+		$usersValues[$count] = $val;
+		$count++;
+	}
+}
+
+$usersValues = array_slice($usersValues,0,10);
+
+foreach($usersValues as $key=>$user) {
+	//consultar: filtrando si mail existe (?)
+	$sqlDNI = "SELECT ud.userid
+        	FROM {user_info_data} ud
+       		WHERE ud.fieldid = 1 AND ud.data = :dni";
+       $params = array('dni' => $user['extension_f356ba22a23b4c2fb35162e63d13246c_userDocumentNumber']);
+	 $userId = $DB->get_field_sql($sqlDNI, $params);
+
+	if(!empty($userId) || empty($user['extension_f356ba22a23b4c2fb35162e63d13246c_userUOCode'])) {
 		continue;
 	}
 	createUser($user);
